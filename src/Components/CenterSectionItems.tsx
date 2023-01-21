@@ -1,7 +1,11 @@
 import React from "react";
 import CenterSectionCard from "./CenterSectionCard";
 
-const CenterSectionItems = () => {
+type props = {
+  title: string;
+};
+
+const CenterSectionItems = ({ title }: props) => {
   return (
     <div>
       <div
@@ -12,7 +16,7 @@ const CenterSectionItems = () => {
         }}
       >
         <p style={{ color: "white", fontSize: "24px", fontWeight: "900" }}>
-          Spotify original & exclusive shows
+          {title}
         </p>
         <p
           style={{
@@ -25,7 +29,14 @@ const CenterSectionItems = () => {
           SHOW ALL
         </p>
       </div>
-      <div>
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <CenterSectionCard />
+        <CenterSectionCard />
+        <CenterSectionCard />
+        <CenterSectionCard />
+        <CenterSectionCard />
+        <CenterSectionCard />
+        <CenterSectionCard />
         <CenterSectionCard />
       </div>
     </div>

@@ -1,3 +1,19 @@
 .main {
   display: flex;
+  height: "100vh";
+}
+.song__Card {
+  background: linear-gradient(
+    145deg,
+    rgba(20, 14, 14, 1) 81%,
+    rgba(28, 28, 28, 1) 100%,
+    rgba(28, 28, 28, 0.9108018207282913) 100%,
+    rgba(46, 48, 48, 1) 100%,
+    rgba(255, 255, 255, 0.9836309523809523) 100%
+  );
+  padding: 17px;
+  width: 11%;
+  height: 26vh;
+  border-radius: 9px;
+  margin-bottom: 12px;
 }

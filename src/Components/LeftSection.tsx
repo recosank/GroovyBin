@@ -18,7 +18,7 @@ const LeftSection = () => {
   return (
     <div
       style={{
-        minHeight: "100vh",
+        height: "100vh",
         color: "white",
         border: "0px solid white",
         width: "15%",
@@ -75,7 +75,13 @@ const LeftSection = () => {
           }}
         />
       </LeftSectionItems>
-      <div style={{ marginTop: "25px" }}>
+      <div
+        style={{
+          marginTop: "25px",
+          paddingBottom: "12px",
+          borderBottom: "0.5px solid #453e3e",
+        }}
+      >
         <LeftSectionItems title="Create Playlist">
           <div
             style={{
@@ -97,7 +103,7 @@ const LeftSection = () => {
         <LeftSectionItems title="Liked Songs">
           <div
             style={{
-              backgroundColor: "blue",
+              background: `linear-gradient(145deg, rgba(95,73,218,1) 28%, rgba(133,120,194,1) 49%, rgba(154,142,180,1) 55%, rgba(121,149,181,0.9108018207282913) 73%, rgba(182,166,215,1) 84%, rgba(118,44,209,1) 100%, rgba(46,48,48,1) 100%, rgba(255,255,255,0.9836309523809523) 100%)`,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
