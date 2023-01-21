@@ -3,7 +3,13 @@ import { MdOutlineArrowBackIos } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { RiArrowDownSFill } from "react-icons/ri";
 import { TfiUser } from "react-icons/tfi";
-const Navbar = () => {
+import { FiSearch } from "react-icons/fi";
+
+type props = {
+  source: string;
+};
+
+const Navbar = ({ source }: props) => {
   return (
     <div style={{ position: "fixed", width: "84%", zIndex: "20" }}>
       <div
@@ -16,6 +22,8 @@ const Navbar = () => {
         <div
           style={{
             display: "flex",
+
+            width: "28%",
           }}
         >
           <div
@@ -25,7 +33,8 @@ const Navbar = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              padding: "7px 7px",
+              height: "0px",
+              padding: "17px 8px",
               marginRight: "14px",
             }}
           >
@@ -40,13 +49,49 @@ const Navbar = () => {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: "100px",
-              padding: "7px 7px",
+              height: "0px",
+              padding: "17px 8px",
             }}
           >
             <MdOutlineArrowForwardIos
               style={{ color: "white", fontSize: "19px", fontWeight: "200" }}
             />
           </div>
+          {source === "search" && (
+            <div
+              style={{
+                width: "100%",
+                backgroundColor: "white",
+                borderRadius: "20px",
+                display: "flex",
+                justifyContent: "start",
+                alignItems: "center",
+                padding: "6px",
+                marginLeft: "20px",
+              }}
+            >
+              <FiSearch
+                style={{
+                  fontSize: "29px",
+                  fontWeight: "900",
+                  color: "black",
+                  marginLeft: "4px",
+                  marginRight: "18px",
+                }}
+              />
+              <input
+                placeholder="What do you want to listen to?"
+                type="text"
+                style={{
+                  border: "none",
+                  width: "100%",
+                  outline: "none",
+                  textTransform: "none",
+                  textDecoration: "none",
+                }}
+              />
+            </div>
+          )}
         </div>
         <div style={{ display: "flex" }}>
           <button

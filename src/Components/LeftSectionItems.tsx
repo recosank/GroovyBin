@@ -1,11 +1,13 @@
+import Link from "next/link";
 import React from "react";
 
 type props = {
   title: string;
   children: React.ReactNode;
+  link: string;
 };
 
-const LeftSectionItems = ({ title, children }: props) => {
+const LeftSectionItems = ({ title, children, link }: props) => {
   return (
     <div
       style={{
@@ -24,7 +26,7 @@ const LeftSectionItems = ({ title, children }: props) => {
           cursor: "pointer",
         }}
       >
-        {title}
+        <Link href={link}>{title}</Link>
       </p>
     </div>
   );

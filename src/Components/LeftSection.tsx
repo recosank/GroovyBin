@@ -52,10 +52,10 @@ const LeftSection = () => {
           Spotify
         </p>
       </div>
-      <LeftSectionItems title="Home">
+      <LeftSectionItems title="Home" link="/">
         <GrHomeRounded style={iconStyle} />
       </LeftSectionItems>
-      <LeftSectionItems title="Search">
+      <LeftSectionItems title="Search" link="search">
         <FiSearch
           style={{
             borderRadius: "00px",
@@ -65,7 +65,7 @@ const LeftSection = () => {
           }}
         />
       </LeftSectionItems>
-      <LeftSectionItems title="Your Library">
+      <LeftSectionItems title="Your Library" link="collection/playlists">
         <VscLibrary
           style={{
             fill: "lightGray",
@@ -82,7 +82,7 @@ const LeftSection = () => {
           borderBottom: "0.5px solid #453e3e",
         }}
       >
-        <LeftSectionItems title="Create Playlist">
+        <LeftSectionItems title="Create Playlist" link="collection/playlists">
           <div
             style={{
               backgroundColor: "lightgray",
@@ -100,7 +100,7 @@ const LeftSection = () => {
             />
           </div>
         </LeftSectionItems>
-        <LeftSectionItems title="Liked Songs">
+        <LeftSectionItems title="Liked Songs" link="collection/playlists">
           <div
             style={{
               background: `linear-gradient(145deg, rgba(95,73,218,1) 28%, rgba(133,120,194,1) 49%, rgba(154,142,180,1) 55%, rgba(121,149,181,0.9108018207282913) 73%, rgba(182,166,215,1) 84%, rgba(118,44,209,1) 100%, rgba(46,48,48,1) 100%, rgba(255,255,255,0.9836309523809523) 100%)`,

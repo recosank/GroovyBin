@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import korn from "../../public/assests/images/korn.jpg";
 import styles from "../../styles/Home.module.css";
+
 const CenterSectionCard = () => {
   return (
     <div className={styles.song__Card}>
