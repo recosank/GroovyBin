@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import CenterSection from "../src/Components/CenterSection";
+import LeftSection from "../src/Components/LeftSection";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -12,7 +14,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>spotify</main>
+      <main className={styles.main}>
+        <LeftSection />
+        <CenterSection />
+      </main>
     </div>
   );
 };
