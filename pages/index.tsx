@@ -1,11 +1,25 @@
 import type { NextPage } from "next";
+import { useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import CenterSection from "../src/Components/CenterSection";
 import LeftSection from "../src/Components/LeftSection";
 import styles from "../styles/Home.module.css";
+import axios from "axios";
 
 const Home: NextPage = () => {
+  const reqq = () =>
+    axios
+      .get("http://localhost:3000/api/hello")
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("tkn", JSON.stringify(res));
+      })
+      .catch((err) => console.log(err));
+  useEffect(() => {
+    // reqq();
+  }, []);
+
   return (
     <div className={styles.container}>
       <Head>
