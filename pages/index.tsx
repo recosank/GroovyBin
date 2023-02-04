@@ -39,7 +39,7 @@ const Home: NextPage = (props: any) => {
               response_type: "code",
               client_id: clientId,
               state: "asdfasdfa4asfsdvragadasdtasetatasadfasdfs",
-              redirect_uri: "http://localhost:3000",
+              redirect_uri: "https://groovy-bin.vercel.app/",
             })
         );
     }

@@ -6,7 +6,7 @@ import styles from "../../styles/Home.module.css";
 const CenterSectionCard = ({ val, type }: any) => {
   const routeer = useRouter();
   let handleClick: (e: any) => void = (e) => {
-    routeer.push(`http://localhost:3000/playlist/${val.id}`);
+    routeer.push(`https://groovy-bin.vercel.app/playlist/${val.id}`);
   };
 
   return (
