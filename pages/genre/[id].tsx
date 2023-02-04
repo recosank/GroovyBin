@@ -35,7 +35,7 @@ const genreSelection = ({ PlaylistIN }: any) => {
             }}
           >
             {PlaylistIN.items.map((val: any, key: any) => (
-              <CenterSectionCard val={val} type="playlist" />
+              <CenterSectionCard val={val} key={key} type="playlist" />
             ))}
           </div>
         </div>
