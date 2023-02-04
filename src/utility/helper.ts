@@ -10,7 +10,7 @@ export const getToken = async (code: string | string[]) => {
     "https://accounts.spotify.com/api/token",
     {
       code: `${code}`,
-      redirect_uri: "http://localhost:3000",
+      redirect_uri: "https://groovy-bin.vercel.app/",
       grant_type: "authorization_code",
     },
     {
