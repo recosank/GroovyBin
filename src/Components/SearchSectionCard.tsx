@@ -1,15 +1,19 @@
 import Image from "next/image";
 import React from "react";
-import korn from "../../public/assests/images/korn.jpg";
+import { useRouter } from "next/router";
 
-const SearchSectionCard = () => {
+const SearchSectionCard = ({ data }: any) => {
+  let router = useRouter();
+  console.log(data);
+
   return (
     <div
       style={{
         width: "90%",
-        height: "24vh",
+        height: "20vh",
         borderRadius: "9px",
       }}
+      onClick={() => router.push(`http://localhost:3000/genre/${data.id}`)}
     >
       <div
         style={{
@@ -20,7 +24,7 @@ const SearchSectionCard = () => {
         }}
       >
         <Image
-          src={korn}
+          src={data.icons[0].url}
           alt="korn album"
           fill
           style={{
@@ -28,17 +32,19 @@ const SearchSectionCard = () => {
           }}
         />
         <p
+          className="2xl:text-xl lg:text-lg md:text-sm"
           style={{
             position: "absolute",
             color: "white",
-            fontSize: "22px",
             padding: "0px",
             fontWeight: "800",
             margin: "20px 0px 12px 19px",
             letterSpacing: "0.5px",
           }}
         >
-          Punk
+          {data.name.length > 9 ? `${data.name.slice(0, 9)}-` : data.name}{" "}
+          <br />
+          {data.name.length > 9 && `-${data.name.slice(9, data.name.length)}`}
         </p>
       </div>
     </div>

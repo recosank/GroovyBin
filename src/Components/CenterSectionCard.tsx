@@ -1,21 +1,27 @@
 import Image from "next/image";
 import React from "react";
-import korn from "../../public/assests/images/korn.jpg";
+import { useRouter } from "next/router";
 import styles from "../../styles/Home.module.css";
 
-const CenterSectionCard = () => {
+const CenterSectionCard = ({ val, type }: any) => {
+  const routeer = useRouter();
+  let handleClick: (e: any) => void = (e) => {
+    routeer.push(`http://localhost:3000/playlist/${val.id}`);
+  };
+
   return (
-    <div className={styles.song__Card}>
+    <div className={styles.song__Card} onClick={handleClick}>
       <div
         style={{
           position: "relative",
-          width: "100%",
+          width: "150px",
           height: "67%",
+
           borderRadius: "9px",
         }}
       >
         <Image
-          src={korn}
+          src={val.images[0].url}
           alt="korn album"
           fill
           style={{
@@ -26,24 +32,26 @@ const CenterSectionCard = () => {
       <p
         style={{
           color: "white",
-          fontSize: "15px",
+          fontSize: "14px",
           padding: "0px",
           fontWeight: "800",
           margin: "20px 0px 12px 0px",
           letterSpacing: "0.5px",
         }}
       >
-        Thoughtless
+        {val.name.slice(0, 18)}
       </p>
       <p
         style={{
           color: "lightgray",
-          fontSize: "12px",
+          fontSize: "11px",
           margin: "0px",
+          lineHeight: "17px",
           padding: "0px",
+          paddingBottom: "12px",
         }}
       >
-        KORN
+        {type ? val.description.slice(0, 40) : val.type.toUpperCase()}
       </p>
     </div>
   );

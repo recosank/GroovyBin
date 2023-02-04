@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
 import axios from "axios";
-import Cookies from "cookies";
+import axiosClient from "../../src/axiosInterceptor";
 
 type Data = {
   name: string;
@@ -12,41 +12,26 @@ export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const clientId: string = "d6d53426faf846c6abd5ee373086a7d9";
   const clientSecret: string = "0cf34294b189487aa01d0665841697d2";
   let scopes = "user-read-private user-read-email";
+  //let state = "aaaaaaaaaaaaaaaa";
 
-  console.log("chk chk", req.cookies);
-  const result = await axios.post(
-    "https://accounts.spotify.com/api/token",
-    {
-      code: "AQD1BMS9FgW_jPrImmlxniKOmr6d-vCsXoyag0A5n8jCGBOdmlE6Kf0Mn6FMLE2lktss_OpG_lc_x1LDaGQ3E3VwUpmFsl1LQ_aCO2woB_S_HP4maBCUTUoZhaquY0LQTefyQojHqGhYt0TI8lP28-Eq8OQNTBCxoQ",
-      redirect_uri: "http://localhost:3000",
-      grant_type: "authorization_code",
-    },
-    {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization:
-          "Basic " +
-          Buffer.from(clientId + ":" + clientSecret).toString("base64"),
-      },
-    }
-  );
-  console.log("rels", result);
-  const data = await result.data;
-  const cookieInst = Cookies(req, res);
-  cookieInst.set("access_tkn", data.access_token);
-  cookieInst.set("refresh_tkn", data.refresh_token);
-  res.status(200).json(data);
-  // res.setHeader("Access-Control-Allow-Credentials", "true");
-  // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  // res.redirect(
-  //   "https://accounts.spotify.com/authorize?" +
-  //     querystring.stringify({
-  //       response_type: "code",
-  //       client_id: clientId,
-  //       state: "asdfasdfa4asfsdvragadasdtasetatasadfasdfs",
-  //       redirect_uri: "http://localhost:3000",
-  //     })
-  // );
+  const result = await axiosClient
+    .get(
+      "v1/recommendations/available-genre-seeds",
+
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization:
+            "Bearer BQAHryH4nxHIrKtHi9EhA5V0dZRGvwFbsxU_7gkH0Jxz192RTijMNlz8hD7td32i9C2_-0V2R1DqtCF4NsKM60DMpDXR1wufQgoJag_g-gv4KVNJ9mROUFpj-E7hUu4_xEmRJy5MXs51-adwO1C7OPNMYokY1Uj-pR5s4kIQ2MrXUFsc48MD1R8R9mMu28hgB27rAIA ",
+        },
+      }
+    )
+    .then((res) => console.log("ress", res))
+    .catch((err) => console.log(err));
+
+  //   const data = "s";
+  //   res.status(200).json(data);
 };
 
 // const APIController = (function () {

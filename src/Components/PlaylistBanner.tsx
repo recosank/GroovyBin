@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import korn from "../../public/assests/images/korn.jpg";
+
 import { SiSpotify } from "react-icons/si";
 
-const PlaylistBanner = () => {
+const PlaylistBanner = ({ data, descp }: any) => {
   return (
     <div
       style={{
@@ -14,7 +14,7 @@ const PlaylistBanner = () => {
       }}
     >
       <div style={{ position: "relative", width: "15%", height: "100%" }}>
-        <Image src={korn} fill alt="korn album" />
+        <Image src={data} fill alt="korn album" />
       </div>
       <div
         style={{
@@ -22,10 +22,8 @@ const PlaylistBanner = () => {
         }}
       >
         <p style={{ margin: "0px", padding: "0px" }}>PLAYLIST</p>
-        <h1 style={{ margin: "0px", padding: "0px" }}>This Is Anti-Flag</h1>
-        <p style={{ margin: "0px", padding: "0px" }}>
-          This is Anti-Flag. The essential tracks, all in one playlist.
-        </p>
+        <h1 style={{ margin: "0px", padding: "0px" }}>{descp.name}</h1>
+        <p style={{ margin: "0px", padding: "0px" }}>{descp.description}</p>
         <div style={{ display: "flex", alignItems: "center" }}>
           <SiSpotify
             style={{

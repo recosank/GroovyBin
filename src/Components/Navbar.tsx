@@ -1,4 +1,5 @@
 import React from "react";
+
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { RiArrowDownSFill } from "react-icons/ri";
@@ -11,19 +12,31 @@ type props = {
 
 const Navbar = ({ source }: props) => {
   return (
-    <div style={{ position: "fixed", width: "84%", zIndex: "20" }}>
+    <div
+      className="2xl:w-5/6 xl:w-4/5 lg:w-9/12 md:w-2/3 sm:w-3/5 hidden sm:block"
+      style={{
+        position: "fixed",
+        border: "0px solid white",
+        zIndex: "20",
+      }}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          border: "0px solid white",
         }}
       >
         <div
+          className={`${
+            source === "search"
+              ? "2xl:w-1/3 xl:w-2/5 lg:w-2/4 md:w-3/5 sm:w-4/4"
+              : "w-1/3"
+          } `}
           style={{
             display: "flex",
-
-            width: "28%",
+            border: "0px solid white",
           }}
         >
           <div
@@ -93,57 +106,59 @@ const Navbar = ({ source }: props) => {
             </div>
           )}
         </div>
-        <div style={{ display: "flex" }}>
-          <button
-            style={{
-              padding: "7px 15px",
-              fontSize: "13px",
-              backgroundColor: "transparent",
-              borderRadius: "20px",
-              marginRight: "12px",
-              border: "0.4px solid gray",
-              outline: "none",
-              color: "white",
-              fontWeight: "700",
-            }}
-          >
-            Upgrade
-          </button>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "black",
-              borderRadius: "20px",
-            }}
-          >
+        {source !== "search" && (
+          <div style={{ display: "flex" }}>
+            <button
+              style={{
+                padding: "7px 15px",
+                fontSize: "13px",
+                backgroundColor: "transparent",
+                borderRadius: "20px",
+                marginRight: "12px",
+                border: "0.4px solid gray",
+                outline: "none",
+                color: "white",
+                fontWeight: "700",
+              }}
+            >
+              Upgrade
+            </button>
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "gray",
-                borderRadius: "100px",
-                padding: "6px",
+                backgroundColor: "black",
+                borderRadius: "20px",
               }}
             >
-              <TfiUser style={{ color: "white" }} />
-            </div>
-            <p
-              style={{
-                margin: "0px 7px",
-                color: "white",
-                fontSize: "13px",
-                fontWeight: "600",
-              }}
-            >
-              Reco
-            </p>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "gray",
+                  borderRadius: "100px",
+                  padding: "6px",
+                }}
+              >
+                <TfiUser style={{ color: "white" }} />
+              </div>
+              <p
+                style={{
+                  margin: "0px 7px",
+                  color: "white",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                }}
+              >
+                Reco
+              </p>
 
-            <RiArrowDownSFill style={{ color: "white", fontSize: "24px" }} />
+              <RiArrowDownSFill style={{ color: "white", fontSize: "24px" }} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

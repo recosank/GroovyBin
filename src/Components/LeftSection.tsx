@@ -1,11 +1,12 @@
 import React from "react";
+import LeftSectionItems from "./LeftSectionItems";
+
 import { SiSpotify } from "react-icons/si";
 import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
 import { VscLibrary } from "react-icons/vsc";
 import { GrFormAdd } from "react-icons/gr";
 import { FaHeart } from "react-icons/fa";
-import LeftSectionItems from "./LeftSectionItems";
 
 let iconStyle = {
   fill: "lightgray",
@@ -17,36 +18,36 @@ let iconStyle = {
 const LeftSection = () => {
   return (
     <div
+      className="pl-7 pt-7 2xl:w-1/6 xl:w-1/5 lg:w-3/12 md:w-4/12 sm:w-2/5 hidden sm:block"
       style={{
         height: "100vh",
         color: "white",
         border: "0px solid white",
-        width: "15%",
-        padding: "10px 26px",
+
         backgroundColor: "black",
       }}
     >
       <div
+        className="mb-7"
         style={{
           display: "flex",
           justifyContent: "start",
           alignItems: "center",
-          marginBottom: "15px",
         }}
       >
         <SiSpotify
           style={{
             color: "black",
             fill: "white",
-            fontSize: "42px",
+            fontSize: "39px",
             marginRight: "5px",
           }}
         />
         <p
+          className="lg:text-2xl sm:text-xl"
           style={{
             letterSpacing: "0.3px",
             fontWeight: "600",
-            fontSize: "23px",
           }}
         >
           Spotify
@@ -55,7 +56,7 @@ const LeftSection = () => {
       <LeftSectionItems title="Home" link="/">
         <GrHomeRounded style={iconStyle} />
       </LeftSectionItems>
-      <LeftSectionItems title="Search" link="search">
+      <LeftSectionItems title="Search" link="/search">
         <FiSearch
           style={{
             borderRadius: "00px",
@@ -65,7 +66,7 @@ const LeftSection = () => {
           }}
         />
       </LeftSectionItems>
-      <LeftSectionItems title="Your Library" link="collection/playlists">
+      <LeftSectionItems title="Your Library" link="/collection/playlists">
         <VscLibrary
           style={{
             fill: "lightGray",

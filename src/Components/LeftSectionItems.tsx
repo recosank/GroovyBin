@@ -10,19 +10,20 @@ type props = {
 const LeftSectionItems = ({ title, children, link }: props) => {
   return (
     <div
+      className="mb-4"
       style={{
         display: "flex",
         alignItems: "center",
-        marginBottom: "0px",
       }}
     >
       {children}
       <p
+        className="lg:text-sm sm:text-xs text-xs"
         style={{
           letterSpacing: "0.3px",
           fontWeight: "600",
           color: "lightgray",
-          fontSize: "14px",
+
           cursor: "pointer",
         }}
       >
