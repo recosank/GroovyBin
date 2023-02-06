@@ -6,7 +6,8 @@ import styles from "../../styles/Home.module.css";
 const CenterSectionCard = ({ val, type }: any) => {
   const routeer = useRouter();
   let handleClick: (e: any) => void = (e) => {
-    routeer.push(`https://groovy-bin.vercel.app/playlist/${val.id}`);
+    e.preventDefault();
+    routeer.push(`http://localhost:3000/playlist/${val.id}`);
   };
 
   return (
@@ -15,8 +16,7 @@ const CenterSectionCard = ({ val, type }: any) => {
         style={{
           position: "relative",
           width: "150px",
-          height: "67%",
-
+          height: "57%",
           borderRadius: "9px",
         }}
       >
@@ -51,7 +51,9 @@ const CenterSectionCard = ({ val, type }: any) => {
           paddingBottom: "12px",
         }}
       >
-        {type ? val.description.slice(0, 40) : val.type.toUpperCase()}
+        {val.description
+          ? `${val.description.slice(0, 40)}...`
+          : val.type.toUpperCase()}
       </p>
     </div>
   );

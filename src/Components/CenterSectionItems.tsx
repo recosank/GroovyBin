@@ -1,5 +1,6 @@
 import React from "react";
 import CenterSectionCard from "./CenterSectionCard";
+import { useRouter } from "next/router";
 
 type props = {
   title: string;
@@ -7,6 +8,7 @@ type props = {
 };
 
 const CenterSectionItems = ({ title, data }: props) => {
+  const router = useRouter();
   console.log(data);
   return (
     <div>
@@ -15,7 +17,7 @@ const CenterSectionItems = ({ title, data }: props) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginTop: "80px",
+          marginTop: "30px",
           marginBottom: "10px",
         }}
       >
@@ -23,6 +25,9 @@ const CenterSectionItems = ({ title, data }: props) => {
           {title}
         </p>
         <p
+          onClick={() =>
+            router.push(`http://localhost:3000/section/${data.href}`)
+          }
           style={{
             color: "lightgray",
             fontSize: "13px",
@@ -38,26 +43,23 @@ const CenterSectionItems = ({ title, data }: props) => {
           display: "flex",
           scrollBehavior: "smooth",
           overflow: "hidden",
-
           width: "100%",
-          height: "30vh",
-          // rowGap: "20px",
-          // columnGap: "20px",
-          // grid: "auto / 11% 11% 11% 11% 11% 11% 11% 11% ",
+          height: "260px",
         }}
       >
         <div
+          // className="grid grid-rows-1 2xl:grid-cols-8 gap-x-4"
           style={{
             width: "100%",
             height: "100%",
-            paddingBottom: "20px",
+            paddingBottom: "30px",
             overflowX: "scroll",
             boxSizing: "content-box",
             overflowY: "hidden",
             display: "flex",
           }}
         >
-          {data.map((val: any, ind: number) => {
+          {data.items.map((val: any, ind: number) => {
             return <CenterSectionCard key={ind} val={val} />;
           })}
         </div>

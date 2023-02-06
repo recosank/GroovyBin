@@ -14,7 +14,31 @@
   padding: 17px;
   width: 100%;
   margin-right: 20px;
-  min-height: 28vh;
+  height: 300px;
   border-radius: 9px;
   margin-bottom: 12px;
+}
+
+.leftSection__item {
+  display: flex;
+  color: var(--left-text-color);
+  align-items: center;
+}
+
+.leftSection__item:hover {
+  color: white;
+}
+.leftSection__icon {
+  font-size: 24px;
+  /* color: var(--left-text-color); */
+}
+
+.leftSection__icon:hover {
+  /* --left-text-color: white; */
+}
+.leftSection__text {
+  /* color: var(--left-text-color); */
+}
+.leftSection__text:hover {
+  /* --left-text-color: white; */
 }

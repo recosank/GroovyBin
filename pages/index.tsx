@@ -7,21 +7,22 @@ import type {
 } from "next";
 import { useEffect } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 
 import Cookies from "cookies";
 import querystring from "querystring";
 import axios from "axios";
 
-import CenterSection from "../src/Components/CenterSection";
-import LeftSection from "../src/Components/LeftSection";
+import {
+  getSpotifyFeaturedPlaylist,
+  getSpotifyNewRelease,
+  getSpotifyCategoryPlaylist,
+} from "../src/routes/apiFunctions";
 import CenterSectionItems from "../src/Components/CenterSectionItems";
 import GroovyLayout from "../src/Layout/GroovyLayout";
 import axiosClient from "../src/axiosInterceptor";
 import styles from "../styles/Home.module.css";
 
-import { BsCheckLg } from "react-icons/bs";
 import { getToken } from "../src/utility/helper";
 
 const clientId: string = "d6d53426faf846c6abd5ee373086a7d9";
@@ -30,6 +31,12 @@ let scopes = "user-read-private user-read-email";
 
 const Home: NextPage = (props: any) => {
   const router = useRouter();
+
+  if (!props.navigate) {
+    props.Albums.href = "new-releases";
+    props.Playlists.href = "featured - playlists";
+  }
+
   useEffect(() => {
     {
       props.navigate &&
@@ -39,7 +46,7 @@ const Home: NextPage = (props: any) => {
               response_type: "code",
               client_id: clientId,
               state: "asdfasdfa4asfsdvragadasdtasetatasadfasdfs",
-              redirect_uri: "https://groovy-bin.vercel.app/",
+              redirect_uri: "http://localhost:3000",
             })
         );
     }
@@ -54,23 +61,16 @@ const Home: NextPage = (props: any) => {
       </Head>
       {!props.navigate && (
         <GroovyLayout source="/">
-          {/* <CenterSectionItems
-          title="Spotify original & exclusive shows"
-          data={dat}
-        />
-        <CenterSectionItems title="Trending now" data={dat} /> */}
+          <CenterSectionItems title="Try something else" data={props.Albums} />
           <CenterSectionItems
-            title="Try something else"
-            data={props.Albums.items}
+            title="Featured Playlists"
+            data={props.Playlists}
           />
-          <CenterSectionItems
-            title="Featured Charts"
-            data={props.Playlists.items}
-          />
-          {/* <CenterSectionItems title="Shows to try" data={Catogaries.items} /> */}
+          <CenterSectionItems title="Trending now" data={props.TopList} />
+          <CenterSectionItems title="K-Pop" data={props.KPop} />
+          <CenterSectionItems title="Folk & Acoustic" data={props.Folk} />
         </GroovyLayout>
       )}
-      );
     </div>
   );
 };
@@ -79,60 +79,42 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookieInst = Cookies(context.req, context.res);
-  console.log("param", context.query?.code);
   const acs_tkn = cookieInst.get("access_tkn");
-  console.log("param", acs_tkn);
+
   if (acs_tkn == undefined && context.query.code == undefined) {
-    console.log("in if");
     return {
       props: {
         navigate: true,
       },
     };
   }
+
   if (acs_tkn == undefined && context.query.code) {
-    console.log("data in if");
     const tokens = await getToken(context.query?.code);
     cookieInst.set("access_tkn", tokens.access_token);
     cookieInst.set("refresh_tkn", tokens.refresh_token);
-    console.log("data in if", tokens);
 
-    //@ts-ignore
-    const getNewRelease = await axiosClient({
-      method: "get",
-      url:
-        "/v1/browse/new-releases?" +
-        querystring.stringify({
-          country: "IN",
-          limit: 8,
-        }),
-      extraParams: {
-        aToken: tokens.access_token,
-      },
-      withCredentials: true,
+    const GetNewReleaseAlbums = await getSpotifyNewRelease({
+      tokens: tokens.access_token,
+      cook: cookieInst,
+      limit: 9,
     });
-    console.log("data in ssr", getNewRelease);
 
-    //@ts-ignore
-    let getFeaturedPlaylist = await axiosClient({
-      method: "get",
-      url:
-        "/v1/browse/featured-playlists?" +
-        querystring.stringify({
-          country: "IN",
-          limit: 8,
-        }),
-      extraParams: { aToken: tokens.access_token },
-      withCredentials: true,
+    const GetFeaturedPlaylists = await getSpotifyFeaturedPlaylist({
+      tokens: tokens.access_token,
+      cook: cookieInst,
+      limit: 9,
     });
+
     return {
       props: {
-        Playlists: getFeaturedPlaylist.data.playlists,
-        Albums: getNewRelease.data.albums,
+        Playlists: GetFeaturedPlaylists.data.playlists,
+        Albums: GetNewReleaseAlbums.data.albums,
         navigate: false,
       },
     };
   }
+
   // const getMee = () =>
   //   //@ts-ignore
   //   axiosClient({
@@ -141,82 +123,57 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   //     extraParams: { reqq: context.req, ress: context.res },
   //     withCredentials: true,
   //   });
-  //@ts-ignore
-  const getNewRelease = await axiosClient({
-    method: "get",
-    url:
-      "/v1/browse/new-releases?" +
-      querystring.stringify({
-        country: "IN",
-        limit: 8,
-      }),
-    extraParams: {
-      reqq: context.req,
-      ress: context.res,
-      aToken: cookieInst.get("access_tkn"),
-    },
-    withCredentials: true,
-  });
-  //@ts-ignore
-  cookieInst.set("access_tkn", getNewRelease.config.extraParams.aToken);
 
-  // console.log("data in ssr", getNewRelease);
+  const cookAccessToken = cookieInst.get("access_tkn");
 
-  //@ts-ignore
-  let getFeaturedPlaylist = await axiosClient({
-    method: "get",
-    url:
-      "/v1/browse/featured-playlists?" +
-      querystring.stringify({
-        country: "IN",
-        limit: 8,
-      }),
-    extraParams: {
-      reqq: context.req,
-      ress: context.res,
-      aToken: cookieInst.get("access_tkn"),
-    },
-    withCredentials: true,
+  const GetNewReleaseAlbums = await getSpotifyNewRelease({
+    tokens: cookAccessToken,
+    cook: cookieInst,
+    limit: 9,
   });
 
-  //@ts-ignore
-  // let getCatogaries = await axiosClient({
-  //   method: "get",
-  //   url:
-  //     "/v1/browse/categories?" +
-  //     querystring.stringify({
-  //       country: "IN",
-  //       limit: 3,
-  //     }),
-  //   extraParams: { reqq: context.req, ress: context.res },
-  //   withCredentials: true,
-  // }).then(async (resp) => {
-  //   let CId = resp.data.categories.items[0].id;
-  //   //@ts-ignore
-  //   const CPlaylist = await axiosClient({
-  //     method: "get",
-  //     url:
-  //       `/v1/browse/categories/${CId}/playlists?` +
-  //       querystring.stringify({
-  //         country: "IN",
-  //         limit: 8,
-  //       }),
-  //     extraParams: { reqq: context.req, ress: context.res },
-  //     withCredentials: true,
-  //   });
+  cookieInst.set(
+    "access_tkn", //@ts-ignore
+    GetNewReleaseAlbums.config.extraParams.aToken
+  );
 
-  //   return CPlaylist;
-  // });
+  const GetFeaturedPlaylists = await getSpotifyFeaturedPlaylist({
+    tokens: cookAccessToken,
+    cook: cookieInst,
+    limit: 9,
+  });
 
-  // console.log("data chk", getCatogaries);
-  // Playlists: getFeaturedPlaylist.data.playlists,
-  //     Albums: getNewRelease.data.albums,
+  const CIDs = ["toplists", "0JQ5DAqbMKFGvOw3O4nLAf", "0JQ5DAqbMKFy78wprEpAjl"];
+
+  const GetTopCategoriesPlaylist = await getSpotifyCategoryPlaylist({
+    tokens: cookAccessToken,
+    cook: cookieInst,
+    limit: 9,
+    Cid: CIDs[0],
+  });
+
+  const GetKpopCategoriesPlaylist = await getSpotifyCategoryPlaylist({
+    tokens: cookAccessToken,
+    cook: cookieInst,
+    limit: 9,
+    Cid: CIDs[1],
+  });
+
+  const GetAcousticCategoriesPlaylist = await getSpotifyCategoryPlaylist({
+    tokens: cookAccessToken,
+    cook: cookieInst,
+    limit: 9,
+    Cid: CIDs[2],
+  });
 
   return {
     props: {
-      Playlists: getFeaturedPlaylist.data.playlists,
-      Albums: getNewRelease.data.albums,
+      Playlists: GetFeaturedPlaylists.data.playlists,
+      Albums: GetNewReleaseAlbums.data.albums,
       navigate: false,
+      TopList: GetTopCategoriesPlaylist.data.playlists,
+      KPop: GetKpopCategoriesPlaylist.data.playlists,
+      Folk: GetAcousticCategoriesPlaylist.data.playlists,
     },
   };
 };

@@ -53,8 +53,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         limit: 50,
       }),
     extraParams: {
-      reqq: context.req,
-      ress: context.res,
+      cook: cookieInst,
       aToken: cookieInst.get("access_tkn"),
     },
     withCredentials: true,

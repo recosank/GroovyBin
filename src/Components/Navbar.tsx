@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import usePreviousRoute from "../customHook/usePreviousRoute";
 
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
@@ -11,6 +13,11 @@ type props = {
 };
 
 const Navbar = ({ source }: props) => {
+  const router = useRouter();
+  const prevRoute = usePreviousRoute();
+  const [toggleProfile, setToggleProfille] = useState(false);
+  console.log(prevRoute);
+
   return (
     <div
       className="2xl:w-5/6 xl:w-4/5 lg:w-9/12 md:w-2/3 sm:w-3/5 hidden sm:block"
@@ -124,10 +131,12 @@ const Navbar = ({ source }: props) => {
               Upgrade
             </button>
             <div
+              onClick={() => setToggleProfille((p) => !p)}
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+
                 backgroundColor: "black",
                 borderRadius: "20px",
               }}
@@ -157,6 +166,68 @@ const Navbar = ({ source }: props) => {
 
               <RiArrowDownSFill style={{ color: "white", fontSize: "24px" }} />
             </div>
+            {toggleProfile && (
+              <div
+                className="bg-zinc-700"
+                style={{
+                  position: "absolute",
+                  top: "114%",
+                  right: "10px",
+                  borderRadius: "10px",
+                  width: "13.5%",
+
+                  // transition: "2s all",
+                }}
+              >
+                <p
+                  className="hover:bg-slate-800 text-white py-3.5 px-4 cursor-pointer font-medium"
+                  style={{
+                    fontSize: "15px",
+                  }}
+                >
+                  Account
+                </p>
+                <p
+                  className="hover:bg-slate-800 text-white py-3.5 px-4 cursor-pointer font-medium"
+                  style={{
+                    fontSize: "15px",
+                  }}
+                >
+                  Profile
+                </p>
+                <p
+                  className="hover:bg-slate-800 text-white py-3.5 px-4 cursor-pointer font-medium"
+                  style={{
+                    fontSize: "15px",
+                  }}
+                >
+                  Upgrade to Premium
+                </p>
+                <p
+                  className="hover:bg-slate-800 text-white py-3.5 px-4 cursor-pointer font-medium"
+                  style={{
+                    fontSize: "15px",
+                  }}
+                >
+                  Settings
+                </p>
+                <p
+                  style={{
+                    backgroundColor: "black",
+                    width: "100%",
+                    height: "1px",
+                  }}
+                ></p>
+                <p
+                  className="hover:bg-slate-800 text-white py-3.5 px-4 cursor-pointer font-medium"
+                  style={{
+                    fontSize: "15px",
+                  }}
+                >
+                  Logout
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>

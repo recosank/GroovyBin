@@ -9,8 +9,9 @@ import CenterSectionItems from "../../src/Components/CenterSectionItems";
 import CenterSectionCard from "../../src/Components/CenterSectionCard";
 import axiosClient from "../../src/axiosInterceptor";
 
-const genreSelection = ({ PlaylistIN }: any) => {
+const genreSelection = ({ PlaylistIN, PlaylistDescription }: any) => {
   console.log(PlaylistIN);
+  console.log(PlaylistDescription);
   return (
     <GroovyLayout source="/">
       <div
@@ -20,7 +21,7 @@ const genreSelection = ({ PlaylistIN }: any) => {
         }}
       >
         <h1 style={{ color: "white", fontSize: "95px", fontWeight: "900" }}>
-          Punk
+          {PlaylistDescription.name}
         </h1>
         <div>
           {/* <CenterSectionItems title="Popular Punk playlists" /> */}
@@ -51,6 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookieInst = Cookies(context.req, context.res);
 
   let CId = context.params?.id;
+
   //@ts-ignore
   const CPlaylistIN = await axiosClient({
     method: "get",
@@ -61,29 +63,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         limit: 50,
       }),
     extraParams: {
-      reqq: context.req,
-      ress: context.res,
+      cook: cookieInst,
       aToken: cookieInst.get("access_tkn"),
     },
     withCredentials: true,
   });
 
   //@ts-ignore
-  // const CPlaylistKR = await axiosClient({
-  //   method: "get",
-  //   url:
-  //     `/v1/browse/categories/${CId}/playlists?` +
-  //     querystring.stringify({
-  //       country: "KR",
-  //       limit: 8,
-  //     }),
-  //   extraParams: { reqq: context.req, ress: context.res },
-  //   withCredentials: true,
-  // });
-  // console.log(CPlaylistKR);
+  const CPlaylistDescription = await axiosClient({
+    method: "get",
+    url:
+      `/v1/browse/categories/${CId}?` +
+      querystring.stringify({
+        country: "IN",
+        limit: 8,
+      }),
+    extraParams: { cook: cookieInst, aToken: cookieInst.get("access_tkn") },
+    withCredentials: true,
+  });
+
   return {
     props: {
       PlaylistIN: CPlaylistIN.data.playlists,
+      PlaylistDescription: CPlaylistDescription.data,
     },
   };
 };

@@ -105,8 +105,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     method: "get",
     url: `/v1/playlists/${context.params?.id}/tracks`,
     extraParams: {
-      reqq: context.req,
-      ress: context.res,
+      cook: cookieInst,
       aToken: cookieInst.get("access_tkn"),
     },
     withCredentials: true,
@@ -117,8 +116,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     method: "get",
     url: `/v1/playlists/${context.params?.id}/images`,
     extraParams: {
-      reqq: context.req,
-      ress: context.res,
+      cook: cookieInst,
       aToken: cookieInst.get("access_tkn"),
     },
     withCredentials: true,
@@ -133,8 +131,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         fields: "description%2Cname",
       }),
     extraParams: {
-      reqq: context.req,
-      ress: context.res,
+      cook: cookieInst,
       aToken: cookieInst.get("access_tkn"),
     },
   });

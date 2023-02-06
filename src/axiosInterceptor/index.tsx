@@ -27,11 +27,7 @@ axiosClient.interceptors.request.use(
   (config) => {
     //@ts-ignore
 
-    const cookieInst = Cookies(
-      //@ts-ignore
-      config.extraParams.reqq, //@ts-ignore
-      config.extraParams.ress //@ts-ignore
-    );
+    const cookieInst = config.extraParams.cook;
 
     const token =
       //@ts-ignore
@@ -65,15 +61,12 @@ axiosClient.interceptors.response.use(
         originalConfig._retry = true;
 
         try {
-          let cookieInst = Cookies(
-            originalConfig.extraParams.reqq,
-            originalConfig.extraParams.ress
-          );
+          const cookieInst = originalConfig.extraParams.cook;
 
           const rf_tkn = await axios.post(
             "https://accounts.spotify.com/api/token",
             {
-              redirect_uri: "https://groovy-bin.vercel.app/",
+              redirect_uri: "http://localhost:3000",
               grant_type: "refresh_token",
               //@ts-ignore
               refresh_token: cookieInst.get("refresh_tkn"),

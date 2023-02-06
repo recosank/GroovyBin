@@ -1,21 +1,20 @@
 import React from "react";
+import { useRouter } from "next/router";
 import LeftSectionItems from "./LeftSectionItems";
+import styles from "../../styles/Home.module.css";
 
 import { SiSpotify } from "react-icons/si";
-import { GrHomeRounded } from "react-icons/gr";
 import { FiSearch } from "react-icons/fi";
 import { VscLibrary } from "react-icons/vsc";
 import { GrFormAdd } from "react-icons/gr";
 import { FaHeart } from "react-icons/fa";
-
-let iconStyle = {
-  fill: "lightgray",
-  borderRadius: "00px",
-  fontSize: "26px",
-  marginRight: "12px",
-};
+import { GrHomeRounded } from "react-icons/gr";
+import { SlHome } from "react-icons/sl";
 
 const LeftSection = () => {
+  const router = useRouter();
+  console.log(router);
+
   return (
     <div
       className="pl-7 pt-7 2xl:w-1/6 xl:w-1/5 lg:w-3/12 md:w-4/12 sm:w-2/5 hidden sm:block"
@@ -23,12 +22,11 @@ const LeftSection = () => {
         height: "100vh",
         color: "white",
         border: "0px solid white",
-
         backgroundColor: "black",
       }}
     >
       <div
-        className="mb-7"
+        className="mb-9"
         style={{
           display: "flex",
           justifyContent: "start",
@@ -53,15 +51,44 @@ const LeftSection = () => {
           Spotify
         </p>
       </div>
-      <LeftSectionItems title="Home" link="/">
-        <GrHomeRounded style={iconStyle} />
+      <LeftSectionItems
+        title="Home"
+        link="/"
+        isActive={router.pathname == "/" && true}
+      >
+        {router.pathname == "/" ? (
+          <GrHomeRounded
+            className={`${styles.leftSection__icon}`}
+            style={{
+              borderRadius: "00px",
+              // fontSize: "24px",
+              fill: "white",
+              color: "blue",
+              marginRight: "12px",
+            }}
+          />
+        ) : (
+          <SlHome
+            className={`${styles.leftSection__icon}`}
+            style={{
+              borderRadius: "00px",
+              // fontSize: "24px",
+
+              marginRight: "12px",
+            }}
+          />
+        )}
       </LeftSectionItems>
-      <LeftSectionItems title="Search" link="/search">
+      <LeftSectionItems
+        title="Search"
+        link="/search"
+        isActive={router.pathname == "/search" && true}
+      >
         <FiSearch
+          className={`${router.pathname == "/search" && "fill-white"} `}
           style={{
             borderRadius: "00px",
             fontSize: "26px",
-            color: "lightgray",
             marginRight: "12px",
           }}
         />
@@ -69,7 +96,6 @@ const LeftSection = () => {
       <LeftSectionItems title="Your Library" link="/collection/playlists">
         <VscLibrary
           style={{
-            fill: "lightGray",
             borderRadius: "00px",
             fontSize: "26px",
             marginRight: "12px",
@@ -78,7 +104,7 @@ const LeftSection = () => {
       </LeftSectionItems>
       <div
         style={{
-          marginTop: "25px",
+          marginTop: "45px",
           paddingBottom: "12px",
           borderBottom: "0.5px solid #453e3e",
         }}

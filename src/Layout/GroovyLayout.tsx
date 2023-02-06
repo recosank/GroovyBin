@@ -20,7 +20,6 @@ const GroovyLayout = ({ children, source }: props) => {
           padding: "17px 19px 17px 25px",
           scrollBehavior: "smooth",
           overflow: "scroll",
-
           overflowX: "hidden",
         }}
       >
@@ -28,7 +27,7 @@ const GroovyLayout = ({ children, source }: props) => {
         <NavbarMob />
         <div
           style={{
-            marginTop: "50px",
+            marginTop: "90px",
             maxHeight: "89vh",
           }}
         >
