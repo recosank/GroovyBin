@@ -118,12 +118,41 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       cook: cookieInst,
       limit: 9,
     });
+    const CIDs = [
+      "toplists",
+      "0JQ5DAqbMKFGvOw3O4nLAf",
+      "0JQ5DAqbMKFy78wprEpAjl",
+    ];
+
+    const GetTopCategoriesPlaylist = await getSpotifyCategoryPlaylist({
+      tokens: tokens.access_token,
+      cook: cookieInst,
+      limit: 9,
+      Cid: CIDs[0],
+    });
+
+    const GetKpopCategoriesPlaylist = await getSpotifyCategoryPlaylist({
+      tokens: tokens.access_token,
+      cook: cookieInst,
+      limit: 9,
+      Cid: CIDs[1],
+    });
+
+    const GetAcousticCategoriesPlaylist = await getSpotifyCategoryPlaylist({
+      tokens: tokens.access_token,
+      cook: cookieInst,
+      limit: 9,
+      Cid: CIDs[2],
+    });
 
     return {
       props: {
         Playlists: GetFeaturedPlaylists.data.playlists,
         Albums: GetNewReleaseAlbums.data.albums,
         navigate: false,
+        TopList: GetTopCategoriesPlaylist.data.playlists,
+        KPop: GetKpopCategoriesPlaylist.data.playlists,
+        Folk: GetAcousticCategoriesPlaylist.data.playlists,
       },
     };
   }
