@@ -42,7 +42,6 @@ const Home: NextPage = (props: any) => {
   }
 
   useEffect(() => {
-    dispatch(changeBackground());
     {
       props.navigate &&
         router.push(
@@ -53,12 +52,10 @@ const Home: NextPage = (props: any) => {
               scope:
                 "user-read-private user-read-email user-library-modify user-library-read",
               state: "asdfasdfa4asfsdvragadasdtasetatasadfasdfs",
-              redirect_uri: "https://groovy-bin-recosank.vercel.app/",
+              redirect_uri: "https://groovy-bin-recosank.vercel.app",
             })
         );
     }
-    //@ts-ignore
-    window.addEventListener("scroll", changeBackground);
   }, []);
 
   return (
