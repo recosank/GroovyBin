@@ -23,7 +23,8 @@ const Navbar = ({ source }: props) => {
     <div
       className="2xl:w-5/6 xl:w-4/5 lg:w-9/12 md:w-2/3 sm:w-3/5 hidden sm:block"
       style={{
-        position: "fixed",
+        width: "100%",
+        // position: "fixed",
         zIndex: "20",
       }}
     >

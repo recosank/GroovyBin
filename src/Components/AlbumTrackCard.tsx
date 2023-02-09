@@ -1,9 +1,7 @@
-//@ts-nocheck
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
 
-import tracks from "../../public/assests/images/tracks.jpg";
 import cookie from "js-cookie";
 
 import { FaPlay } from "react-icons/fa";
@@ -19,13 +17,10 @@ const millisToMinutesAndSeconds = (millis: number) => {
     : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 };
 
-const TrackCard = ({ trackData, ind, type }: any) => {
-  const data = type == "album" ? trackData : trackData.track;
+const AlbumTrackCard = ({ trackData, ind, type }: any) => {
   const [hover, setHover] = useState(false);
-  const nestedPlaylistData =
-    type === "album" ? trackData : trackData.track.album;
 
-  let timee = millisToMinutesAndSeconds(data.duration_ms);
+  let timee = millisToMinutesAndSeconds(trackData.duration_ms);
   const handleHeart = async () => {
     const data = await addSpotifyTracks({
       cook: cookie,
@@ -38,13 +33,13 @@ const TrackCard = ({ trackData, ind, type }: any) => {
     <div
       className="hover:bg-gray-800"
       style={{
-        border: "0px solid red",
         display: "grid",
         marginTop: "1%",
         width: "100%",
-        gridTemplateColumns: "2% 50% 35%  10%",
+        gridTemplateColumns: "2% 88% 10%",
         alignItems: "center",
         paddingLeft: "2%",
+        paddingRight: "2%",
         rowGap: "12px",
       }}
       onMouseEnter={(e) => {
@@ -70,34 +65,17 @@ const TrackCard = ({ trackData, ind, type }: any) => {
           paddingLeft: "1.5%",
         }}
       >
-        <div
-          style={{
-            position: "relative",
-            width: "7%",
-            height: "49px",
-            borderRadius: "9px",
-          }}
-        >
-          <Image
-            src={type == "album" ? tracks : nestedPlaylistData.images[0].url}
-            alt="korn album"
-            fill
-            style={{
-              borderRadius: "9px",
-            }}
-          />
-        </div>
-        <div style={{ marginLeft: "9px" }}>
+        <div>
           <p
             style={{
               margin: "0px",
               padding: "0px",
-              paddingBottom: "7px",
+              paddingBottom: "3px",
               color: "gray",
               fontSize: "14px",
             }}
           >
-            {data.name}
+            {trackData.name}
           </p>
           <p
             style={{
@@ -107,22 +85,11 @@ const TrackCard = ({ trackData, ind, type }: any) => {
               fontSize: "15px",
             }}
           >
-            {nestedPlaylistData.artists[0].name}
+            {trackData.artists[0].name}
           </p>
         </div>
       </div>
-      <p
-        style={{
-          textAlign: "left",
-          color: "lightgray",
 
-          paddingRight: "20px",
-          lineHeight: "25px",
-          fontSize: "14px",
-        }}
-      >
-        {nestedPlaylistData.name}
-      </p>
       <div
         style={{
           display: "flex",
@@ -162,7 +129,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
             style={{
               textAlign: "center",
               color: "lightgray",
-              textAlign: "center",
+
               fontSize: "16px",
             }}
           >
@@ -174,4 +141,4 @@ const TrackCard = ({ trackData, ind, type }: any) => {
   );
 };
 
-export default TrackCard;
+export default AlbumTrackCard;

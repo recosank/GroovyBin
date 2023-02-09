@@ -38,7 +38,7 @@ const PlaylistBanner = ({ data, descp }: any) => {
             margin: "0px",
             padding: "0px",
             lineHeight: "100px",
-            fontSize: "90px",
+            fontSize: "60px",
             marginBottom: "19px",
             fontWeight: "600",
           }}

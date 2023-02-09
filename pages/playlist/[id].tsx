@@ -33,85 +33,115 @@ const playlistSelection = ({ Tracks, Images, Description }: any) => {
     <GroovyLayout source="/">
       <div
         style={{
-          height: "100vh",
-          border: "0px solid red",
-          position: "absolute",
-          top: "0",
-          background:
-            "linear-gradient(180deg, rgba(56,89,196,1) 23%, rgba(51,60,171,0.01724439775910369) 56%)",
-          paddingTop: "5%",
-          right: "0",
-          left: "14.4%",
+          position: "relative",
         }}
       >
-        <PlaylistBanner data={Images[0].url} descp={Description} />
         <div
           style={{
-            display: "flex",
-            justifyContent: "start",
-            alignItems: "center",
-            marginTop: "3%",
-            paddingLeft: "2%",
+            height: "100vh",
+            border: "0px solid red",
+            position: "absolute",
+            top: "-106px",
+            background:
+              "linear-gradient(180deg, rgba(56,89,196,1) 23%, rgba(51,60,171,0.01724439775910369) 56%)",
+            paddingTop: "5%",
+            right: "-2%",
+            left: "-2%",
           }}
         >
+          <PlaylistBanner data={Images[0].url} descp={Description} />
           <div
             style={{
-              padding: "22px",
-              backgroundColor: "green",
-              borderRadius: "100px",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "start",
               alignItems: "center",
+              marginTop: "2%",
+              paddingLeft: "2%",
             }}
           >
-            <GrPlayFill style={{ fontSize: "20px" }} />
+            <div
+              style={{
+                padding: "20px",
+                backgroundColor: "green",
+                borderRadius: "100px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <GrPlayFill style={{ fontSize: "22px" }} />
+            </div>
+            <TfiHeart
+              style={{
+                color: "gray",
+                fontSize: "33px",
+                margin: "0px 30px",
+                fontWeight: "600",
+              }}
+              onClick={handleHeart}
+            />
+            <AiOutlineEllipsis style={{ color: "gray", fontSize: "37px" }} />
           </div>
-          <TfiHeart
-            style={{ color: "gray", fontSize: "33px", margin: "0px 40px" }}
-            onClick={handleHeart}
-          />
-          <AiOutlineEllipsis style={{ color: "gray", fontSize: "37px" }} />
-        </div>
-        <div
-          style={{
-            border: "0px solid red",
-            display: "grid",
-            marginTop: "3%",
-            gridTemplateColumns: "2% 50% 35%  10%",
-            alignItems: "center",
-            paddingLeft: "2%",
-            rowGap: "12px",
-          }}
-        >
-          <p
-            style={{ color: "whitesmoke", fontWeight: "300", fontSize: "16px" }}
+          <div
+            style={{
+              display: "grid",
+              marginTop: "3%",
+              gridTemplateColumns: "2% 50% 35%  10%",
+              alignItems: "center",
+              paddingLeft: "2%",
+              rowGap: "12px",
+            }}
           >
-            #
-          </p>
-          <p
-            style={{ color: "whitesmoke", fontWeight: "300", fontSize: "16px" }}
-          >
-            TITLE
-          </p>
-          <p
-            style={{ color: "whitesmoke", fontWeight: "300", fontSize: "16px" }}
-          >
-            ALBUM
-          </p>
+            <p
+              style={{
+                color: "whitesmoke",
+                fontWeight: "300",
+                textAlign: "right",
+                fontSize: "13px",
+              }}
+            >
+              #
+            </p>
+            <p
+              style={{
+                color: "whitesmoke",
+                fontWeight: "300",
+                fontSize: "12px",
+                paddingLeft: "1.5%",
+              }}
+            >
+              TITLE
+            </p>
+            <p
+              style={{
+                color: "whitesmoke",
+                fontWeight: "300",
+                fontSize: "12px",
+              }}
+            >
+              ALBUM
+            </p>
 
-          <p className="text-right" style={{ marginLeft: "91%" }}>
-            <BsClockHistory style={{ color: "white" }} />
-          </p>
+            <p className="text-right" style={{ paddingLeft: "50%" }}>
+              <BsClockHistory style={{ color: "white", fontSize: "13px" }} />
+            </p>
+          </div>
+          <div
+            className="mt-2"
+            style={{
+              width: "95%",
+              height: "2px",
+              backgroundColor: "lightgray",
+              marginLeft: "2%",
+              marginRight: "2%",
+            }}
+          ></div>
+          {Tracks.items.map((val: any, key: any) => {
+            return (
+              <TrackCard key={key} trackData={val} ind={key} type="playlist" />
+            );
+          })}
         </div>
-        <div
-          className="mt-2"
-          style={{ width: "100%", height: "2px", backgroundColor: "black" }}
-        ></div>
-        {Tracks.items.map((val: any, key: any) => {
-          return (
-            <TrackCard key={key} trackData={val} ind={key} type="playlist" />
-          );
-        })}
       </div>
     </GroovyLayout>
   );
