@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import LeftSection from "../Components/LeftSection";
 import Navbar from "../Components/Navbar";
@@ -8,6 +8,7 @@ import NavbarMob from "../Components/NavbarMob";
 type props = {
   children: React.ReactNode;
   source: string;
+  chgBg?: boolean;
 };
 
 const GroovyLayout = ({ children, source }: props) => {
@@ -19,6 +20,7 @@ const GroovyLayout = ({ children, source }: props) => {
           width: "100%",
           padding: "17px 19px 17px 25px",
           scrollBehavior: "smooth",
+          height: "100vh",
           overflow: "scroll",
           overflowX: "hidden",
         }}

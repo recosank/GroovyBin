@@ -5,9 +5,10 @@ import { useRouter } from "next/router";
 type props = {
   title: string;
   data?: any;
+  type?: string;
 };
 
-const CenterSectionItems = ({ title, data }: props) => {
+const CenterSectionItems = ({ title, data, type }: props) => {
   const router = useRouter();
   console.log(data);
   return (
@@ -26,7 +27,9 @@ const CenterSectionItems = ({ title, data }: props) => {
         </p>
         <p
           onClick={() =>
-            router.push(`http://localhost:3000/section/${data.href}`)
+            router.push(
+              `https://groovy-bin-recosank.vercel.app/section/${data.href}`
+            )
           }
           style={{
             color: "lightgray",
@@ -52,7 +55,7 @@ const CenterSectionItems = ({ title, data }: props) => {
           style={{
             width: "100%",
             height: "100%",
-            paddingBottom: "30px",
+            paddingBottom: "15px",
             overflowX: "scroll",
             boxSizing: "content-box",
             overflowY: "hidden",
@@ -60,7 +63,7 @@ const CenterSectionItems = ({ title, data }: props) => {
           }}
         >
           {data.items.map((val: any, ind: number) => {
-            return <CenterSectionCard key={ind} val={val} />;
+            return <CenterSectionCard key={ind} val={val} type={type} />;
           })}
         </div>
       </div>

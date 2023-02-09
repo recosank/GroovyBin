@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 
 import Cookies from "cookies";
 import querystring from "querystring";
-import axios from "axios";
 
 import {
   getSpotifyFeaturedPlaylist,
@@ -20,9 +19,9 @@ import {
 } from "../src/routes/apiFunctions";
 import CenterSectionItems from "../src/Components/CenterSectionItems";
 import GroovyLayout from "../src/Layout/GroovyLayout";
-import axiosClient from "../src/axiosInterceptor";
 import styles from "../styles/Home.module.css";
-
+import { changeBackground, selectAuthState } from "../src/redux/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "../src/utility/helper";
 
 const clientId: string = "d6d53426faf846c6abd5ee373086a7d9";
@@ -30,14 +29,20 @@ const clientSecret: string = "0cf34294b189487aa01d0665841697d2";
 let scopes = "user-read-private user-read-email";
 
 const Home: NextPage = (props: any) => {
+  const { chgBg } = useSelector(selectAuthState);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   if (!props.navigate) {
     props.Albums.href = "new-releases";
-    props.Playlists.href = "featured - playlists";
+    props.Playlists.href = "featured-playlists";
+    props.TopList.href = "trending-now";
+    props.KPop.href = "K-Pop";
+    props.Folk.href = "Folk-&-Acoustic";
   }
 
   useEffect(() => {
+    dispatch(changeBackground());
     {
       props.navigate &&
         router.push(
@@ -45,11 +50,15 @@ const Home: NextPage = (props: any) => {
             querystring.stringify({
               response_type: "code",
               client_id: clientId,
+              scope:
+                "user-read-private user-read-email user-library-modify user-library-read",
               state: "asdfasdfa4asfsdvragadasdtasetatasadfasdfs",
-              redirect_uri: "http://localhost:3000",
+              redirect_uri: "https://groovy-bin-recosank.vercel.app/",
             })
         );
     }
+    //@ts-ignore
+    window.addEventListener("scroll", changeBackground);
   }, []);
 
   return (
@@ -61,7 +70,11 @@ const Home: NextPage = (props: any) => {
       </Head>
       {!props.navigate && (
         <GroovyLayout source="/">
-          <CenterSectionItems title="Try something else" data={props.Albums} />
+          <CenterSectionItems
+            title="Try something else"
+            data={props.Albums}
+            type="album"
+          />
           <CenterSectionItems
             title="Featured Playlists"
             data={props.Playlists}
@@ -91,8 +104,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (acs_tkn == undefined && context.query.code) {
     const tokens = await getToken(context.query?.code);
-    cookieInst.set("access_tkn", tokens.access_token);
-    cookieInst.set("refresh_tkn", tokens.refresh_token);
+    cookieInst.set("access_tkn", tokens.access_token, { httpOnly: false });
+    cookieInst.set("refresh_tkn", tokens.refresh_token, { httpOnly: false });
 
     const GetNewReleaseAlbums = await getSpotifyNewRelease({
       tokens: tokens.access_token,
@@ -134,7 +147,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   cookieInst.set(
     "access_tkn", //@ts-ignore
-    GetNewReleaseAlbums.config.extraParams.aToken
+    GetNewReleaseAlbums.config.extraParams.aToken,
+    { httpOnly: false }
   );
 
   const GetFeaturedPlaylists = await getSpotifyFeaturedPlaylist({

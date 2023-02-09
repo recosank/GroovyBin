@@ -4,14 +4,12 @@ import { HYDRATE } from "next-redux-wrapper";
 
 // Type for our state
 export interface AuthState {
-  authState: boolean;
-  a_tkn: string;
+  chgBg: boolean;
 }
 
 // Initial state
 const initialState: AuthState = {
-  authState: false,
-  a_tkn: "",
+  chgBg: false,
 };
 
 // Actual Slice
@@ -20,11 +18,12 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     // Action to set the authentication status
-    setAuthState(state, action) {
-      state.authState = action.payload;
-    },
-    setATkn(state, action) {
-      state.a_tkn = action.payload;
+    changeBackground(state) {
+      if (window.scrollY >= 66) {
+        state.chgBg = true;
+      } else {
+        state.chgBg = false;
+      }
     },
     // extraReducers: {
     //   [HYDRATE]: (state, action) => {
@@ -37,7 +36,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setAuthState, setATkn } = authSlice.actions;
+export const { changeBackground } = authSlice.actions;
 
 export const selectAuthState = (state: AppState) => state.auth;
 export default authSlice.reducer;

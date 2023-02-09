@@ -66,7 +66,7 @@ axiosClient.interceptors.response.use(
           const rf_tkn = await axios.post(
             "https://accounts.spotify.com/api/token",
             {
-              redirect_uri: "http://localhost:3000",
+              redirect_uri: "https://groovy-bin-recosank.vercel.app",
               grant_type: "refresh_token",
               //@ts-ignore
               refresh_token: cookieInst.get("refresh_tkn"),

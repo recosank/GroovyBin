@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import { useEffect } from "react";
-import { selectAuthState, setAuthState, setATkn } from "../src/redux/authSlice";
+// import { selectAuthState, setAuthState, setATkn } from "../src/redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 const Home: NextPage = () => {
-  const { authState, a_tkn } = useSelector(selectAuthState);
-  console.log("state", authState, a_tkn);
+  // const { authState, a_tkn } = useSelector(selectAuthState);
+  // console.log("state", authState, a_tkn);
   const dispatch = useDispatch();
 
   const reqq = () =>
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <div>{authState ? "Logged in" : "Not Logged In"}</div>
+      {/* <div>{authState ? "Logged in" : "Not Logged In"}</div>
       <button
         onClick={() => {
           dispatch(setATkn("asdf"));
@@ -34,7 +34,7 @@ const Home: NextPage = () => {
         }}
       >
         {authState ? "Logout" : "LogIn"}
-      </button>
+      </button> */}
     </div>
   );
 };

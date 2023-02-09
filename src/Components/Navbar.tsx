@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import usePreviousRoute from "../customHook/usePreviousRoute";
 
@@ -10,6 +10,7 @@ import { FiSearch } from "react-icons/fi";
 
 type props = {
   source: string;
+  chgBg?: boolean;
 };
 
 const Navbar = ({ source }: props) => {
@@ -23,7 +24,6 @@ const Navbar = ({ source }: props) => {
       className="2xl:w-5/6 xl:w-4/5 lg:w-9/12 md:w-2/3 sm:w-3/5 hidden sm:block"
       style={{
         position: "fixed",
-        border: "0px solid white",
         zIndex: "20",
       }}
     >
@@ -32,7 +32,6 @@ const Navbar = ({ source }: props) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          border: "0px solid white",
         }}
       >
         <div
@@ -43,7 +42,6 @@ const Navbar = ({ source }: props) => {
           } `}
           style={{
             display: "flex",
-            border: "0px solid white",
           }}
         >
           <div

@@ -1,9 +1,9 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../styles/Home.module.css";
 
-const CenterSectionCard = ({ val, type }: any) => {
+const SectionCard = ({ val, type }: any) => {
   const routeer = useRouter();
   let handleClick: (e: any) => void = (e) => {
     e.preventDefault();
@@ -15,12 +15,12 @@ const CenterSectionCard = ({ val, type }: any) => {
   };
 
   return (
-    <div className={styles.song__Card} onClick={handleClick}>
+    <div className={styles.section__song__Card} onClick={handleClick}>
       <div
         style={{
           position: "relative",
-          width: "150px",
-          height: "57%",
+          width: "100%",
+          height: "67%",
           borderRadius: "9px",
         }}
       >
@@ -43,7 +43,7 @@ const CenterSectionCard = ({ val, type }: any) => {
           letterSpacing: "0.5px",
         }}
       >
-        {val.name.slice(0, 18)}
+        {val.name.length <= 17 ? val.name : `${val.name.slice(0, 16)}...`}
       </p>
       <p
         style={{
@@ -67,4 +67,4 @@ const CenterSectionCard = ({ val, type }: any) => {
   );
 };
 
-export default CenterSectionCard;
+export default SectionCard;

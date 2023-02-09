@@ -1,6 +1,7 @@
 .main {
   display: flex;
-  height: "100vh";
+  /* height: "100vh"; */
+  overflow: hidden;
 }
 .song__Card {
   background: linear-gradient(
@@ -18,7 +19,22 @@
   border-radius: 9px;
   margin-bottom: 12px;
 }
-
+.section__song__Card {
+  background: linear-gradient(
+    145deg,
+    rgba(20, 14, 14, 1) 81%,
+    rgba(28, 28, 28, 1) 100%,
+    rgba(28, 28, 28, 0.9108018207282913) 100%,
+    rgba(46, 48, 48, 1) 100%,
+    rgba(255, 255, 255, 0.9836309523809523) 100%
+  );
+  padding: 17px;
+  width: 100%;
+  margin-right: 20px;
+  height: 250px;
+  border-radius: 9px;
+  margin-bottom: 12px;
+}
 .leftSection__item {
   display: flex;
   color: var(--left-text-color);

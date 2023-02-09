@@ -2,15 +2,12 @@ import React from "react";
 import type { GetServerSideProps } from "next";
 
 import Cookies from "cookies";
-import querystring from "querystring";
 
 import SearchSectionCard from "../src/Components/SearchSectionCard";
 import GroovyLayout from "../src/Layout/GroovyLayout";
-import axiosClient from "../src/axiosInterceptor";
+import { getSpotifyCategories } from "../src/routes/apiFunctions";
 
 const search = ({ Catogaries }: any) => {
-  // console.log(Catogaries);
-
   return (
     <GroovyLayout source="search">
       <div
@@ -42,28 +39,18 @@ export default search;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookieInst = Cookies(context.req, context.res);
+  const cookAccessToken = cookieInst.get("access_tkn");
 
   //@ts-ignore
-  let getCatogaries = await axiosClient({
-    method: "get",
-    url:
-      "/v1/browse/categories?" +
-      querystring.stringify({
-        country: "IN",
-        limit: 50,
-      }),
-    extraParams: {
-      cook: cookieInst,
-      aToken: cookieInst.get("access_tkn"),
-    },
-    withCredentials: true,
+  const GetCategories = await getSpotifyCategories({
+    tokens: cookAccessToken,
+    cook: cookieInst,
+    limit: 50,
   });
-
-  console.log("data chk", getCatogaries);
 
   return {
     props: {
-      Catogaries: getCatogaries.data.categories,
+      Catogaries: GetCategories.data.categories,
     },
   };
 };

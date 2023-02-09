@@ -6,11 +6,16 @@ import { SiSpotify } from "react-icons/si";
 const PlaylistBanner = ({ data, descp }: any) => {
   return (
     <div
+      className="drop-shadow-2xl"
       style={{
-        height: "27vh",
+        height: "30vh",
+        boxShadow: "50px 7px 80px 10px rgb(56,89,196)",
+        paddingLeft: "2%",
         display: "flex",
         justifyContent: "start",
         alignItems: "center",
+        paddingBottom: "1.8%",
+        borderBottom: "0px solid white",
       }}
     >
       <div style={{ position: "relative", width: "15%", height: "100%" }}>
@@ -21,38 +26,86 @@ const PlaylistBanner = ({ data, descp }: any) => {
           marginLeft: "20px",
         }}
       >
-        <p style={{ margin: "0px", padding: "0px" }}>PLAYLIST</p>
-        <h1 style={{ margin: "0px", padding: "0px" }}>{descp.name}</h1>
-        <p style={{ margin: "0px", padding: "0px" }}>{descp.description}</p>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <p
+          className="text-white"
+          style={{ margin: "0px", padding: "0px", fontSize: "13px" }}
+        >
+          PLAYLIST
+        </p>
+        <p
+          className="text-white"
+          style={{
+            margin: "0px",
+            padding: "0px",
+            lineHeight: "100px",
+            fontSize: "90px",
+            marginBottom: "19px",
+            fontWeight: "600",
+          }}
+        >
+          {descp.name}
+        </p>
+        <p
+          style={{
+            margin: "0px",
+            padding: "0px",
+            color: "lightgray",
+            fontSize: "17px",
+            marginBottom: "8px",
+          }}
+        >
+          {descp.description}
+        </p>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <SiSpotify
             style={{
               color: "green",
               fill: "green",
-              fontSize: "19px",
+              fontSize: "27px",
               marginRight: "5px",
             }}
           />
-          <p>Spotify</p>
-          <span
+          <p
+            className="text-white font-bold"
             style={{
-              height: "7px",
-              width: "7px",
+              fontSize: "15px",
+            }}
+          >
+            Spotify
+          </p>
+          <span
+            className="mx-2"
+            style={{
+              height: "4px",
+              width: "4px",
               borderRadius: "100px",
               backgroundColor: "white",
             }}
           ></span>
-          <p>13,698 likes</p>
-          <span
+
+          <p
+            className="text-white p-0 m-0"
             style={{
-              height: "7px",
-              width: "7px",
-              borderRadius: "100px",
-              backgroundColor: "white",
+              fontSize: "15.5px",
             }}
-          ></span>
-          <p>50 songs,</p>
-          <p>about 2 hr 15 min</p>
+          >
+            50 songs,
+          </p>
+          <p
+            style={{
+              fontSize: "15.5px",
+              padding: "0px",
+              margin: "0px",
+              color: "lightgray",
+            }}
+          >
+            &nbsp;about 2 hr 15 min
+          </p>
         </div>
       </div>
     </div>
