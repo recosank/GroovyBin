@@ -13,7 +13,7 @@ import {
   getSpotifyAlbums,
 } from "../../src/routes/apiFunctions";
 
-const playlists = ({ Tracks, Albums }: any) => {
+const Playlists = ({ Tracks, Albums }: any) => {
   const router = useRouter();
   const [savedPlaylist, setsavedPlaylist] = useState([]);
 
@@ -128,7 +128,7 @@ const playlists = ({ Tracks, Albums }: any) => {
   );
 };
 
-export default playlists;
+export default Playlists;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookieInst = Cookies(context.req, context.res);

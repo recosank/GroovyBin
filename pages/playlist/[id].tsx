@@ -13,7 +13,7 @@ import { AiOutlineEllipsis } from "react-icons/ai";
 import { GrPlayFill } from "react-icons/gr";
 import { BsClockHistory } from "react-icons/bs";
 
-const playlistSelection = ({ Tracks, Images, Description }: any) => {
+const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
   const [savedPlaylist, setsavedPlaylist] = useState<string[] | null>([]);
   const [savedInd, setsavedInd] = useState<number>(-1);
 
@@ -183,7 +183,7 @@ const playlistSelection = ({ Tracks, Images, Description }: any) => {
   );
 };
 
-export default playlistSelection;
+export default PlaylistSelection;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   console.log(context.params?.id);

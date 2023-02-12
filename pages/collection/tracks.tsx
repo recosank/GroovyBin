@@ -10,7 +10,7 @@ import TrackCard from "../../src/Components/TrackCard.d";
 import { GrPlayFill } from "react-icons/gr";
 import { BsClockHistory } from "react-icons/bs";
 
-const tracks = ({ Tracks }: any) => {
+const Tracks = ({ Tracks }: any) => {
   return (
     <GroovyLayout source="/">
       <div
@@ -123,7 +123,7 @@ const tracks = ({ Tracks }: any) => {
   );
 };
 
-export default tracks;
+export default Tracks;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookieInst = Cookies(context.req, context.res);

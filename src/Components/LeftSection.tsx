@@ -181,6 +181,7 @@ const LeftSection = () => {
         {savedPlaylist.map((val: any, key: any) => {
           return (
             <p
+              key={key}
               className="mt-2"
               style={{ fontSize: "13px", color: "lightgray" }}
             >
