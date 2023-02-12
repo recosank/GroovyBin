@@ -3,29 +3,23 @@ import Image from "next/image";
 import styles from "../../styles/Home.module.css";
 
 import cookie from "js-cookie";
+import { millisToMinutesAndSeconds } from "../utility/helper";
 
 import { FaPlay } from "react-icons/fa";
 import { TfiHeart } from "react-icons/tfi";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { addSpotifyTracks } from "../routes/apiFunctions";
 
-const millisToMinutesAndSeconds = (millis: number) => {
-  let minutes = Math.floor(millis / 60000);
-  let seconds: number = parseInt(((millis % 60000) / 1000).toFixed(0));
-  return seconds == 60
-    ? minutes + 1 + ":00"
-    : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-};
-
 const AlbumTrackCard = ({ trackData, ind, type }: any) => {
   const [hover, setHover] = useState(false);
 
   let timee = millisToMinutesAndSeconds(trackData.duration_ms);
+
   const handleHeart = async () => {
     const data = await addSpotifyTracks({
       cook: cookie,
       tokens: cookie.get("access_tkn"),
-      ids: trackData.track.id,
+      ids: trackData.id,
     });
   };
 

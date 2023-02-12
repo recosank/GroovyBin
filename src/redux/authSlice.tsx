@@ -4,12 +4,12 @@ import { HYDRATE } from "next-redux-wrapper";
 
 // Type for our state
 export interface AuthState {
-  chgBg: boolean;
+  LikedTracks: any;
 }
 
 // Initial state
 const initialState: AuthState = {
-  chgBg: false,
+  LikedTracks: [],
 };
 
 // Actual Slice
@@ -17,13 +17,11 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // Action to set the authentication status
-    changeBackground(state) {
-      if (window.scrollY >= 66) {
-        state.chgBg = true;
-      } else {
-        state.chgBg = false;
-      }
+    fetchLikedTracks(state, payload) {
+      state.LikedTracks = payload.payload;
+    },
+    addLikedTrack(state, payload) {
+      state.LikedTracks = [...state.LikedTracks, payload.payload];
     },
     // extraReducers: {
     //   [HYDRATE]: (state, action) => {
@@ -36,7 +34,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { changeBackground } = authSlice.actions;
+export const { fetchLikedTracks, addLikedTrack } = authSlice.actions;
 
 export const selectAuthState = (state: AppState) => state.auth;
 export default authSlice.reducer;

@@ -9,6 +9,9 @@ import {
   getTracksUrl,
   addAlbumUrl,
   getAlbumsUrl,
+  checkSavedTrackUrl,
+  deleteSavedTrackUrl,
+  getPlaylistFeildsUrl,
 } from "./urls";
 import axiosClient from "../axiosInterceptor";
 
@@ -22,6 +25,12 @@ type librarytype = {
   tokens?: string | undefined;
   cook?: any | undefined;
   ids: string;
+};
+type fieldPlaylist = {
+  tokens?: string | undefined;
+  cook?: any | undefined;
+  ids: string;
+  fields: string;
 };
 type categoryPlaylistData = {
   tokens?: string | undefined;
@@ -118,5 +127,27 @@ export const getSpotifyAlbums = async (argu: categoryPlaylistData) =>
   await axiosClient({
     method: "get",
     url: getAlbumsUrl(),
+    extraParams: { cook: argu.cook, aToken: argu.tokens },
+  });
+
+export const checkUserSavedTracks = async (argu: librarytype) =>
+  //@ts-ignore
+  await axiosClient({
+    method: "get",
+    url: checkSavedTrackUrl(argu.ids),
+    extraParams: { cook: argu.cook, aToken: argu.tokens },
+  });
+export const deleteUserSavedTracks = async (argu: librarytype) =>
+  //@ts-ignore
+  await axiosClient({
+    method: "delete",
+    url: deleteSavedTrackUrl(argu.ids),
+    extraParams: { cook: argu.cook, aToken: argu.tokens },
+  });
+export const getSpotifyPlaylistFields = async (argu: fieldPlaylist) =>
+  //@ts-ignore
+  await axiosClient({
+    method: "get",
+    url: getPlaylistFeildsUrl(argu.ids, argu.fields),
     extraParams: { cook: argu.cook, aToken: argu.tokens },
   });

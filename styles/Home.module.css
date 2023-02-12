@@ -13,7 +13,7 @@
     rgba(255, 255, 255, 0.9836309523809523) 100%
   );
   padding: 17px;
-  width: 100%;
+  min-width: 180px;
   margin-right: 20px;
   height: 300px;
   border-radius: 9px;

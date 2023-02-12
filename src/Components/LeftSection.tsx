@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LeftSectionItems from "./LeftSectionItems";
 import styles from "../../styles/Home.module.css";
+import { getSpotifyPlaylistFields } from "../routes/apiFunctions";
+import cookie from "js-cookie";
 
 import { SiSpotify } from "react-icons/si";
 import { FiSearch } from "react-icons/fi";
@@ -13,7 +15,33 @@ import { SlHome } from "react-icons/sl";
 
 const LeftSection = () => {
   const router = useRouter();
-  console.log(router);
+  const [savedPlaylist, setsavedPlaylist] = useState([]);
+
+  const handleHeart = async (id: string) => {
+    const data = await getSpotifyPlaylistFields({
+      cook: cookie,
+      tokens: cookie.get("access_tkn"),
+      ids: id,
+      fields: "id,name",
+    });
+    return data.data;
+  };
+  console.log("useeffect data", savedPlaylist);
+  useEffect(() => {
+    const savedPlaylistData: string[] | null | string =
+      localStorage.getItem("playlists");
+    if (savedPlaylistData) {
+      const playData = JSON.parse(savedPlaylistData);
+      const fetchData = async () => {
+        const data = playData.map(async (val: string) => {
+          const playlistData = await handleHeart(val);
+          //@ts-ignore
+          setsavedPlaylist((p) => [...p, playlistData]);
+        });
+      };
+      fetchData();
+    }
+  }, []);
 
   return (
     <div
@@ -109,7 +137,7 @@ const LeftSection = () => {
           borderBottom: "0.5px solid #453e3e",
         }}
       >
-        <LeftSectionItems title="Create Playlist" link="collection/playlists">
+        <LeftSectionItems title="Create Playlist" link="/collection/playlists">
           <div
             style={{
               backgroundColor: "lightgray",
@@ -127,7 +155,7 @@ const LeftSection = () => {
             />
           </div>
         </LeftSectionItems>
-        <LeftSectionItems title="Liked Songs" link="collection/playlists">
+        <LeftSectionItems title="Liked Songs" link="/collection/playlists">
           <div
             style={{
               background: `linear-gradient(145deg, rgba(95,73,218,1) 28%, rgba(133,120,194,1) 49%, rgba(154,142,180,1) 55%, rgba(121,149,181,0.9108018207282913) 73%, rgba(182,166,215,1) 84%, rgba(118,44,209,1) 100%, rgba(46,48,48,1) 100%, rgba(255,255,255,0.9836309523809523) 100%)`,
@@ -148,6 +176,18 @@ const LeftSection = () => {
             />
           </div>
         </LeftSectionItems>
+      </div>
+      <div className="mt-3">
+        {savedPlaylist.map((val: any, key: any) => {
+          return (
+            <p
+              className="mt-2"
+              style={{ fontSize: "13px", color: "lightgray" }}
+            >
+              {val.name}
+            </p>
+          );
+        })}
       </div>
     </div>
   );

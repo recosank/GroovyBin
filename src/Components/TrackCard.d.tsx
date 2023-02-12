@@ -1,38 +1,65 @@
 //@ts-nocheck
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
 
 import tracks from "../../public/assests/images/tracks.jpg";
 import cookie from "js-cookie";
+import { millisToMinutesAndSeconds } from "../utility/helper";
+import {
+  addSpotifyTracks,
+  checkUserSavedTracks,
+  deleteUserSavedTracks,
+} from "../routes/apiFunctions";
 
 import { FaPlay } from "react-icons/fa";
 import { TfiHeart } from "react-icons/tfi";
+import { IoMdHeart } from "react-icons/io";
 import { AiOutlineEllipsis } from "react-icons/ai";
-import { addSpotifyTracks } from "../routes/apiFunctions";
-
-const millisToMinutesAndSeconds = (millis: number) => {
-  let minutes = Math.floor(millis / 60000);
-  let seconds: number = parseInt(((millis % 60000) / 1000).toFixed(0));
-  return seconds == 60
-    ? minutes + 1 + ":00"
-    : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-};
 
 const TrackCard = ({ trackData, ind, type }: any) => {
-  const data = type == "album" ? trackData : trackData.track;
   const [hover, setHover] = useState(false);
+  const [isLiked, setisLiked] = useState(false);
+
+  const data = type == "album" ? trackData : trackData.track;
+
   const nestedPlaylistData =
     type === "album" ? trackData : trackData.track.album;
 
   let timee = millisToMinutesAndSeconds(data.duration_ms);
+
   const handleHeart = async () => {
-    const data = await addSpotifyTracks({
+    if (isLiked) {
+      const data = await deleteUserSavedTracks({
+        cook: cookie,
+        tokens: cookie.get("access_tkn"),
+        ids: trackData.track.id,
+      });
+    } else {
+      const data = await addSpotifyTracks({
+        cook: cookie,
+        tokens: cookie.get("access_tkn"),
+        ids: trackData.track.id,
+      });
+    }
+    const data2 = await checkUserSavedTracks({
       cook: cookie,
       tokens: cookie.get("access_tkn"),
       ids: trackData.track.id,
     });
+    setisLiked(data2.data[0]);
   };
+  useEffect(() => {
+    async function fetchData() {
+      const data = await checkUserSavedTracks({
+        cook: cookie,
+        tokens: cookie.get("access_tkn"),
+        ids: trackData.track.id,
+      });
+      setisLiked(data.data[0]);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div
@@ -132,11 +159,27 @@ const TrackCard = ({ trackData, ind, type }: any) => {
       >
         {hover ? (
           <>
-            <TfiHeart
-              className={styles.heart}
-              style={{ marginRight: "0px", color: "white", fontSize: "17px" }}
-              onClick={handleHeart}
-            />
+            {isLiked ? (
+              <IoMdHeart
+                className={styles.heart}
+                style={{
+                  marginRight: "0px",
+                  color: "green",
+                  fontSize: "19px",
+                }}
+                onClick={handleHeart}
+              />
+            ) : (
+              <TfiHeart
+                className={styles.heart}
+                style={{
+                  marginRight: "0px",
+                  color: "white",
+                  fontSize: "16px",
+                }}
+                onClick={handleHeart}
+              />
+            )}
 
             <p
               className="pr-2.5 pl-10"

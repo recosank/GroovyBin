@@ -2,7 +2,6 @@ import React from "react";
 import type { GetServerSideProps } from "next";
 
 import Cookies from "cookies";
-
 import SearchSectionCard from "../src/Components/SearchSectionCard";
 import GroovyLayout from "../src/Layout/GroovyLayout";
 import { getSpotifyCategories } from "../src/routes/apiFunctions";
@@ -41,7 +40,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookieInst = Cookies(context.req, context.res);
   const cookAccessToken = cookieInst.get("access_tkn");
 
-  //@ts-ignore
   const GetCategories = await getSpotifyCategories({
     tokens: cookAccessToken,
     cook: cookieInst,

@@ -1,6 +1,5 @@
 import type { GetServerSideProps } from "next";
-import React from "react";
-import cookie from "js-cookie";
+import React, { useState, useEffect } from "react";
 import Cookies from "cookies";
 import querystring from "querystring";
 
@@ -8,27 +7,49 @@ import axiosClient from "../../src/axiosInterceptor";
 import GroovyLayout from "../../src/Layout/GroovyLayout";
 import PlaylistBanner from "../../src/Components/PlaylistBanner";
 import TrackCard from "../../src/Components/TrackCard.d";
-import { addSpotifyAlbums } from "../../src/routes/apiFunctions";
-import { TfiHeart } from "react-icons/tfi";
+
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { GrPlayFill } from "react-icons/gr";
 import { BsClockHistory } from "react-icons/bs";
 
 const playlistSelection = ({ Tracks, Images, Description }: any) => {
+  const [savedPlaylist, setsavedPlaylist] = useState<string[] | null>([]);
+  const [savedInd, setsavedInd] = useState<number>(-1);
+
   const handleHeart = async () => {
     let data = localStorage.getItem("playlists");
     if (data) {
       const parsedDta = JSON.parse(data);
-      const plData = [...parsedDta, Description.id];
+      const ind: number = parsedDta.indexOf(Description.id);
+      let plData: string[];
+      if (ind >= 0) {
+        setsavedInd(-1);
+        plData = [
+          ...parsedDta.slice(0, ind),
+          ...parsedDta.slice(ind + 1, parsedDta.length),
+        ];
+      } else {
+        setsavedInd(2);
+        plData = [...parsedDta, Description.id];
+      }
       localStorage.setItem("playlists", JSON.stringify(plData));
     } else {
+      setsavedInd(0);
       const plData: any = [];
       plData.push(Description.id);
       localStorage.setItem("playlists", JSON.stringify(plData));
     }
   };
 
-  console.log(Description.id);
+  useEffect(() => {
+    const savedPlaylistData: string[] | null | string =
+      localStorage.getItem("playlists");
+    if (savedPlaylistData) {
+      setsavedInd(JSON.parse(savedPlaylistData).indexOf(Description.id));
+    }
+  }, []);
+
   return (
     <GroovyLayout source="/">
       <div
@@ -41,7 +62,7 @@ const playlistSelection = ({ Tracks, Images, Description }: any) => {
             height: "100vh",
             border: "0px solid red",
             position: "absolute",
-            top: "-106px",
+            top: "-142px",
             background:
               "linear-gradient(180deg, rgba(56,89,196,1) 23%, rgba(51,60,171,0.01724439775910369) 56%)",
             paddingTop: "5%",
@@ -71,15 +92,30 @@ const playlistSelection = ({ Tracks, Images, Description }: any) => {
             >
               <GrPlayFill style={{ fontSize: "22px" }} />
             </div>
-            <TfiHeart
-              style={{
-                color: "gray",
-                fontSize: "33px",
-                margin: "0px 30px",
-                fontWeight: "600",
-              }}
-              onClick={handleHeart}
-            />
+            {savedInd >= 0 ? (
+              <FaHeart
+                style={{
+                  fontSize: "33px",
+                  margin: "0px 30px",
+                  color: "gray",
+                  fontWeight: "600",
+                  fill: "green",
+                }}
+                onClick={handleHeart}
+              />
+            ) : (
+              <FaRegHeart
+                style={{
+                  fontSize: "33px",
+                  margin: "0px 30px",
+                  color: "gray",
+                  fontWeight: "600",
+                  fill: "gray",
+                }}
+                onClick={handleHeart}
+              />
+            )}
+
             <AiOutlineEllipsis style={{ color: "gray", fontSize: "37px" }} />
           </div>
           <div

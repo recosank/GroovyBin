@@ -1,24 +1,16 @@
 import type { GetServerSideProps } from "next";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import Cookies from "cookies";
+import { getSpotifyTracks } from "../../src/routes/apiFunctions";
 import GroovyLayout from "../../src/Layout/GroovyLayout";
 import PlaylistBanner from "../../src/Components/PlaylistBanner";
-import AlbumTrackCard from "../../src/Components/AlbumTrackCard";
-import {
-  getSpotifyAlbumDescription,
-  getSpotifyAlbumTracks,
-} from "../../src/routes/apiFunctions";
+import TrackCard from "../../src/Components/TrackCard.d";
 
-import { TfiHeart } from "react-icons/tfi";
-import { AiOutlineEllipsis } from "react-icons/ai";
 import { GrPlayFill } from "react-icons/gr";
 import { BsClockHistory } from "react-icons/bs";
 
-const albumSelection = ({ Description, Tracks }: any) => {
-  const handleHeart = async () => {};
-
-  console.log(Description.id);
+const tracks = ({ Tracks }: any) => {
   return (
     <GroovyLayout source="/">
       <div
@@ -40,8 +32,8 @@ const albumSelection = ({ Description, Tracks }: any) => {
           }}
         >
           <PlaylistBanner
-            data={Description.images[0].url}
-            descp={Description}
+            data={""}
+            descp={{ name: "Liked Songs", description: "" }}
           />
           <div
             style={{
@@ -53,37 +45,26 @@ const albumSelection = ({ Description, Tracks }: any) => {
             }}
           >
             <div
+              className="bg-green-400"
               style={{
                 padding: "20px",
-                backgroundColor: "green",
+
                 borderRadius: "100px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <GrPlayFill style={{ fontSize: "22px" }} />
+              <GrPlayFill style={{ fontSize: "20px" }} />
             </div>
-            <TfiHeart
-              style={{
-                color: "gray",
-                fontSize: "33px",
-                margin: "0px 30px",
-                fontWeight: "600",
-              }}
-              onClick={handleHeart}
-            />
-            <AiOutlineEllipsis style={{ color: "gray", fontSize: "37px" }} />
           </div>
           <div
             style={{
               display: "grid",
               marginTop: "3%",
-              gridTemplateColumns: "2% 88% 10%",
+              gridTemplateColumns: "2% 50% 35%  10%",
               alignItems: "center",
               paddingLeft: "2%",
-              paddingRight: "2%",
-
               rowGap: "12px",
             }}
           >
@@ -107,8 +88,17 @@ const albumSelection = ({ Description, Tracks }: any) => {
             >
               TITLE
             </p>
+            <p
+              style={{
+                color: "whitesmoke",
+                fontWeight: "300",
+                fontSize: "12px",
+              }}
+            >
+              ALBUM
+            </p>
 
-            <p className="" style={{ paddingLeft: "40%" }}>
+            <p className="text-right" style={{ paddingLeft: "50%" }}>
               <BsClockHistory style={{ color: "white", fontSize: "13px" }} />
             </p>
           </div>
@@ -124,12 +114,7 @@ const albumSelection = ({ Description, Tracks }: any) => {
           ></div>
           {Tracks.items.map((val: any, key: any) => {
             return (
-              <AlbumTrackCard
-                key={key}
-                trackData={val}
-                ind={key}
-                type="playlist"
-              />
+              <TrackCard key={key} trackData={val} ind={key} type="playlist" />
             );
           })}
         </div>
@@ -138,29 +123,20 @@ const albumSelection = ({ Description, Tracks }: any) => {
   );
 };
 
-export default albumSelection;
+export default tracks;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookieInst = Cookies(context.req, context.res);
-  const cookAccessToken = cookieInst.get("access_tkn");
+  const acs_tkn = cookieInst.get("access_tkn");
 
-  const GetAlbumTracks = await getSpotifyAlbumTracks({
-    tokens: cookAccessToken,
+  const GetLibraryTracks = await getSpotifyTracks({
+    tokens: acs_tkn,
     cook: cookieInst,
-    Cid: context.params?.str,
-    limit: 50,
-  });
-
-  const GetAlbumsDescription = await getSpotifyAlbumDescription({
-    tokens: cookAccessToken,
-    cook: cookieInst,
-    Cid: context.params?.str,
   });
 
   return {
     props: {
-      Description: GetAlbumsDescription.data,
-      Tracks: GetAlbumTracks.data,
+      Tracks: GetLibraryTracks.data,
     },
   };
 };

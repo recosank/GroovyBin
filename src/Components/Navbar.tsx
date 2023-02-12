@@ -13,7 +13,7 @@ type props = {
   chgBg?: boolean;
 };
 
-const Navbar = ({ source }: props) => {
+const Navbar = ({ source, chgBg }: props) => {
   const router = useRouter();
   const prevRoute = usePreviousRoute();
   const [toggleProfile, setToggleProfille] = useState(false);
@@ -25,7 +25,7 @@ const Navbar = ({ source }: props) => {
       style={{
         width: "100%",
         // position: "fixed",
-        zIndex: "20",
+        zIndex: "200",
       }}
     >
       <div
@@ -33,6 +33,7 @@ const Navbar = ({ source }: props) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          zIndex: "200",
         }}
       >
         <div
@@ -170,11 +171,11 @@ const Navbar = ({ source }: props) => {
                 className="bg-zinc-700"
                 style={{
                   position: "absolute",
-                  top: "114%",
-                  right: "10px",
+                  top: "7%",
+                  right: "37px",
                   borderRadius: "10px",
                   width: "13.5%",
-
+                  zIndex: "20",
                   // transition: "2s all",
                 }}
               >

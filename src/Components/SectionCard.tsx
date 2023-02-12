@@ -8,10 +8,8 @@ const SectionCard = ({ val, type }: any) => {
   let handleClick: (e: any) => void = (e) => {
     e.preventDefault();
     type == "album"
-      ? routeer.push(`https://groovy-bin-recosank.vercel.app/album/${val.id}`)
-      : routeer.push(
-          `https://groovy-bin-recosank.vercel.app/playlist/${val.id}`
-        );
+      ? routeer.push(`/album/${val.id}`)
+      : routeer.push(`/playlist/${val.id}`);
   };
 
   return (

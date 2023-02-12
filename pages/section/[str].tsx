@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from "next";
 import React from "react";
-import Cookies from "cookies";
 
+import Cookies from "cookies";
 import SectionCard from "../../src/Components/SectionCard";
 import CenterSectionCard from "../../src/Components/CenterSectionCard";
 import GroovyLayout from "../../src/Layout/GroovyLayout";
@@ -25,7 +25,13 @@ const sectionSelection = ({ Albums }: any) => {
         }}
       >
         {data.items.map((val: any, ind: number) => {
-          return <SectionCard key={ind} val={val} />;
+          return (
+            <SectionCard
+              key={ind}
+              val={val}
+              type={Albums.albums ? "album" : "playlist"}
+            />
+          );
         })}
       </div>
     </GroovyLayout>

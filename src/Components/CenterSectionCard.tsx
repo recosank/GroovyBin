@@ -8,10 +8,8 @@ const CenterSectionCard = ({ val, type }: any) => {
   let handleClick: (e: any) => void = (e) => {
     e.preventDefault();
     type == "album"
-      ? routeer.push(`https://groovy-bin-recosank.vercel.app/album/${val.id}`)
-      : routeer.push(
-          `https://groovy-bin-recosank.vercel.app/playlist/${val.id}`
-        );
+      ? routeer.push(`/album/${val.id}`)
+      : routeer.push(`/playlist/${val.id}`);
   };
 
   return (
@@ -19,7 +17,7 @@ const CenterSectionCard = ({ val, type }: any) => {
       <div
         style={{
           position: "relative",
-          width: "150px",
+          width: "100%",
           height: "57%",
           borderRadius: "9px",
         }}

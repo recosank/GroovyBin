@@ -26,11 +26,7 @@ const CenterSectionItems = ({ title, data, type }: props) => {
           {title}
         </p>
         <p
-          onClick={() =>
-            router.push(
-              `https://groovy-bin-recosank.vercel.app/section/${data.href}`
-            )
-          }
+          onClick={() => router.push(`/section/${data.href}`)}
           style={{
             color: "lightgray",
             fontSize: "13px",

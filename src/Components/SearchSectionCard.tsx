@@ -13,9 +13,7 @@ const SearchSectionCard = ({ data }: any) => {
         height: "20vh",
         borderRadius: "9px",
       }}
-      onClick={() =>
-        router.push(`https://groovy-bin-recosank.vercel.app/genre/${data.id}`)
-      }
+      onClick={() => router.push(`/genre/${data.id}`)}
     >
       <div
         style={{
