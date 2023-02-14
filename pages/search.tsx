@@ -10,7 +10,7 @@ const search = ({ Catogaries }: any) => {
   return (
     <GroovyLayout source="search">
       <div
-        className="sm:mt-20"
+        className="sm:mt-10"
         style={{
           height: "80vh",
         }}

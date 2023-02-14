@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import usePreviousRoute from "../customHook/usePreviousRoute";
+import Cookies from "js-cookie";
 
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
@@ -17,14 +18,35 @@ const Navbar = ({ source, chgBg }: props) => {
   const router = useRouter();
   const prevRoute = usePreviousRoute();
   const [toggleProfile, setToggleProfille] = useState(false);
-  console.log(prevRoute);
+  const profileRef = useRef(null);
 
+  const handleLogout = (e: any) => {
+    e.preventDefault();
+    Cookies.remove("access_tkn");
+  };
+
+  useEffect(() => {
+    const handleProfileToggle = (e: any) => {
+      e.preventDefault();
+      if (
+        profileRef.current !== null &&
+        //@ts-ignore
+        !profileRef.current.contains(e.target)
+      ) {
+        setToggleProfille(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleProfileToggle);
+    return () => {
+      document.removeEventListener("mousedown", handleProfileToggle);
+    };
+  }, []);
   return (
     <div
       className="2xl:w-5/6 xl:w-4/5 lg:w-9/12 md:w-2/3 sm:w-3/5 hidden sm:block"
       style={{
         width: "100%",
-        // position: "fixed",
         zIndex: "200",
       }}
     >
@@ -131,12 +153,15 @@ const Navbar = ({ source, chgBg }: props) => {
               Upgrade
             </button>
             <div
-              onClick={() => setToggleProfille((p) => !p)}
+              onClick={(e) => {
+                e.preventDefault();
+                setToggleProfille(true);
+              }}
+              ref={profileRef}
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-
                 backgroundColor: "black",
                 borderRadius: "20px",
               }}
@@ -150,6 +175,7 @@ const Navbar = ({ source, chgBg }: props) => {
                   borderRadius: "100px",
                   padding: "6px",
                 }}
+                ref={profileRef}
               >
                 <TfiUser style={{ color: "white" }} />
               </div>
@@ -160,27 +186,40 @@ const Navbar = ({ source, chgBg }: props) => {
                   fontSize: "13px",
                   fontWeight: "600",
                 }}
+                ref={profileRef}
               >
                 Reco
               </p>
 
-              <RiArrowDownSFill style={{ color: "white", fontSize: "24px" }} />
+              <RiArrowDownSFill
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggleProfille(true);
+                }}
+                style={{ color: "white", fontSize: "24px" }}
+              />
             </div>
             {toggleProfile && (
               <div
-                className="bg-zinc-700"
+                className="bg-zinc-700 xl:w-60"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setToggleProfille(true);
+                }}
+                ref={profileRef}
                 style={{
                   position: "absolute",
                   top: "7%",
                   right: "37px",
                   borderRadius: "10px",
-                  width: "13.5%",
+
                   zIndex: "20",
                   // transition: "2s all",
                 }}
               >
                 <p
-                  className="hover:bg-slate-800 text-white py-3.5 px-4 cursor-pointer font-medium"
+                  className="hover:bg-slate-800 text-white py-3.5 px-4  font-medium cursor-not-allowed"
+                  onClick={() => router.push("/collection/playlists")}
                   style={{
                     fontSize: "15px",
                   }}
@@ -196,7 +235,7 @@ const Navbar = ({ source, chgBg }: props) => {
                   Profile
                 </p>
                 <p
-                  className="hover:bg-slate-800 text-white py-3.5 px-4 cursor-pointer font-medium"
+                  className="hover:bg-slate-800 text-white py-3.5 px-4  font-medium cursor-not-allowed"
                   style={{
                     fontSize: "15px",
                   }}
@@ -204,7 +243,7 @@ const Navbar = ({ source, chgBg }: props) => {
                   Upgrade to Premium
                 </p>
                 <p
-                  className="hover:bg-slate-800 text-white py-3.5 px-4 cursor-pointer font-medium"
+                  className="hover:bg-slate-800 text-white py-3.5 px-4  font-medium cursor-not-allowed"
                   style={{
                     fontSize: "15px",
                   }}
@@ -223,6 +262,7 @@ const Navbar = ({ source, chgBg }: props) => {
                   style={{
                     fontSize: "15px",
                   }}
+                  onClick={(e) => handleLogout(e)}
                 >
                   Logout
                 </p>

@@ -4,6 +4,7 @@ import LeftSectionItems from "./LeftSectionItems";
 import styles from "../../styles/Home.module.css";
 import { getSpotifyPlaylistFields } from "../routes/apiFunctions";
 import cookie from "js-cookie";
+import useSWR from "swr";
 
 import { SiSpotify } from "react-icons/si";
 import { FiSearch } from "react-icons/fi";
@@ -12,6 +13,7 @@ import { GrFormAdd } from "react-icons/gr";
 import { FaHeart } from "react-icons/fa";
 import { GrHomeRounded } from "react-icons/gr";
 import { SlHome } from "react-icons/sl";
+import { BiLibrary } from "react-icons/bi";
 
 const LeftSection = () => {
   const router = useRouter();
@@ -26,7 +28,7 @@ const LeftSection = () => {
     });
     return data.data;
   };
-  console.log("useeffect data", savedPlaylist);
+
   useEffect(() => {
     const savedPlaylistData: string[] | null | string =
       localStorage.getItem("playlists");
@@ -49,7 +51,6 @@ const LeftSection = () => {
       style={{
         height: "100vh",
         color: "white",
-        border: "0px solid white",
         backgroundColor: "black",
       }}
     >
@@ -89,7 +90,6 @@ const LeftSection = () => {
             className={`${styles.leftSection__icon}`}
             style={{
               borderRadius: "00px",
-              // fontSize: "24px",
               fill: "white",
               color: "blue",
               marginRight: "12px",
@@ -100,8 +100,6 @@ const LeftSection = () => {
             className={`${styles.leftSection__icon}`}
             style={{
               borderRadius: "00px",
-              // fontSize: "24px",
-
               marginRight: "12px",
             }}
           />
@@ -121,14 +119,29 @@ const LeftSection = () => {
           }}
         />
       </LeftSectionItems>
-      <LeftSectionItems title="Your Library" link="/collection/playlists">
-        <VscLibrary
-          style={{
-            borderRadius: "00px",
-            fontSize: "26px",
-            marginRight: "12px",
-          }}
-        />
+      <LeftSectionItems
+        title="Your Library"
+        link="/collection/playlists"
+        isActive={router.pathname == "/collection/playlists" && true}
+      >
+        {router.pathname == "/collection/playlists" ? (
+          <BiLibrary
+            style={{
+              borderRadius: "00px",
+              fontSize: "28px",
+              color: "white",
+              marginRight: "12px",
+            }}
+          />
+        ) : (
+          <VscLibrary
+            style={{
+              borderRadius: "00px",
+              fontSize: "26px",
+              marginRight: "12px",
+            }}
+          />
+        )}
       </LeftSectionItems>
       <div
         style={{
@@ -137,7 +150,7 @@ const LeftSection = () => {
           borderBottom: "0.5px solid #453e3e",
         }}
       >
-        <LeftSectionItems title="Create Playlist" link="/collection/playlists">
+        <LeftSectionItems title="Create Playlist" link="" disabled={true}>
           <div
             style={{
               backgroundColor: "lightgray",
@@ -155,7 +168,7 @@ const LeftSection = () => {
             />
           </div>
         </LeftSectionItems>
-        <LeftSectionItems title="Liked Songs" link="/collection/playlists">
+        <LeftSectionItems title="Liked Songs" link="/collection/tracks">
           <div
             style={{
               background: `linear-gradient(145deg, rgba(95,73,218,1) 28%, rgba(133,120,194,1) 49%, rgba(154,142,180,1) 55%, rgba(121,149,181,0.9108018207282913) 73%, rgba(182,166,215,1) 84%, rgba(118,44,209,1) 100%, rgba(46,48,48,1) 100%, rgba(255,255,255,0.9836309523809523) 100%)`,

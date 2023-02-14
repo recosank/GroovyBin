@@ -25,16 +25,13 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
 
   return (
     <div
-      className="hover:bg-gray-800"
+      className="grid mb-4 hover:bg-gray-800 sm:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_80%_18%]"
       style={{
-        display: "grid",
         marginTop: "1%",
         width: "100%",
-        gridTemplateColumns: "2% 88% 10%",
         alignItems: "center",
         paddingLeft: "2%",
         paddingRight: "2%",
-        rowGap: "12px",
       }}
       onMouseEnter={(e) => {
         setHover(true);
@@ -46,7 +43,10 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
       {hover ? (
         <FaPlay style={{ fill: "white", color: "white", fontSize: "12px" }} />
       ) : (
-        <p style={{ color: "white", fontSize: "14px", textAlign: "right" }}>
+        <p
+          className="text-center lg:text-right"
+          style={{ color: "white", fontSize: "14px" }}
+        >
           {ind + 1}
         </p>
       )}

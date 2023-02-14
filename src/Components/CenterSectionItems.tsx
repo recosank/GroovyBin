@@ -22,14 +22,18 @@ const CenterSectionItems = ({ title, data, type }: props) => {
           marginBottom: "10px",
         }}
       >
-        <p style={{ color: "white", fontSize: "24px", fontWeight: "900" }}>
+        <p
+          className="sm:text-xl lg:text-2xl"
+          style={{ color: "white", fontWeight: "900" }}
+        >
           {title}
         </p>
         <p
+          className="text-xs"
           onClick={() => router.push(`/section/${data.href}`)}
           style={{
             color: "lightgray",
-            fontSize: "13px",
+
             fontWeight: "700",
             letterSpacing: "1px",
           }}

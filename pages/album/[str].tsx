@@ -27,16 +27,14 @@ const albumSelection = ({ Description, Tracks }: any) => {
         }}
       >
         <div
+          className="-inset-x-6"
           style={{
             height: "100vh",
-            border: "0px solid red",
             position: "absolute",
             top: "-142px",
             background:
               "linear-gradient(180deg, rgba(56,89,196,1) 23%, rgba(51,60,171,0.01724439775910369) 56%)",
             paddingTop: "5%",
-            right: "-2%",
-            left: "-2%",
           }}
         >
           <PlaylistBanner
@@ -53,8 +51,8 @@ const albumSelection = ({ Description, Tracks }: any) => {
             }}
           >
             <div
+              className="lg:p-5 sm:p-4 lg:m-0 sm:my-2"
               style={{
-                padding: "20px",
                 backgroundColor: "green",
                 borderRadius: "100px",
                 display: "flex",
@@ -62,36 +60,35 @@ const albumSelection = ({ Description, Tracks }: any) => {
                 alignItems: "center",
               }}
             >
-              <GrPlayFill style={{ fontSize: "22px" }} />
+              <GrPlayFill className="lg:text-xl md:text-base" />
             </div>
             <TfiHeart
+              className="text-2xl sm:mx-3 lg:text-3xl lg:mx-5 xl:mx-6"
               style={{
                 color: "gray",
-                fontSize: "33px",
-                margin: "0px 30px",
                 fontWeight: "600",
               }}
               onClick={handleHeart}
             />
-            <AiOutlineEllipsis style={{ color: "gray", fontSize: "37px" }} />
+            <AiOutlineEllipsis
+              className="text-2xl lg:text-3xl"
+              style={{ color: "gray" }}
+            />
           </div>
           <div
+            className="grid mb-3 sm:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_80%_18%]"
             style={{
-              display: "grid",
               marginTop: "3%",
-              gridTemplateColumns: "2% 88% 10%",
               alignItems: "center",
               paddingLeft: "2%",
               paddingRight: "2%",
-
-              rowGap: "12px",
             }}
           >
             <p
+              className="text-center lg:text-right"
               style={{
                 color: "whitesmoke",
                 fontWeight: "300",
-                textAlign: "right",
                 fontSize: "13px",
               }}
             >
@@ -108,7 +105,10 @@ const albumSelection = ({ Description, Tracks }: any) => {
               TITLE
             </p>
 
-            <p className="" style={{ paddingLeft: "40%" }}>
+            <p
+              className=""
+              style={{ paddingLeft: "50%", border: "0px solid white" }}
+            >
               <BsClockHistory style={{ color: "white", fontSize: "13px" }} />
             </p>
           </div>

@@ -29,7 +29,7 @@ const GroovyLayout = ({ children, source }: props) => {
         <NavbarMob />
         <div
           style={{
-            marginTop: "90px",
+            marginTop: "50px",
             maxHeight: "89vh",
           }}
         >

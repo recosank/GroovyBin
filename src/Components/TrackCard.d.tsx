@@ -63,13 +63,10 @@ const TrackCard = ({ trackData, ind, type }: any) => {
 
   return (
     <div
-      className="hover:bg-gray-800"
+      className="grid mb-4 hover:bg-gray-800 sm:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_50%_30%_15%]"
       style={{
-        border: "0px solid red",
-        display: "grid",
         marginTop: "1%",
         width: "100%",
-        gridTemplateColumns: "2% 50% 35%  10%",
         alignItems: "center",
         paddingLeft: "2%",
         rowGap: "12px",
@@ -82,9 +79,18 @@ const TrackCard = ({ trackData, ind, type }: any) => {
       }}
     >
       {hover ? (
-        <FaPlay style={{ fill: "white", color: "white", fontSize: "12px" }} />
+        <FaPlay
+          style={{
+            fill: "white",
+            color: "white",
+            fontSize: "12px",
+          }}
+        />
       ) : (
-        <p style={{ color: "white", fontSize: "14px", textAlign: "right" }}>
+        <p
+          className="text-center lg:text-right"
+          style={{ color: "white", fontSize: "14px" }}
+        >
           {ind + 1}
         </p>
       )}
@@ -98,9 +104,9 @@ const TrackCard = ({ trackData, ind, type }: any) => {
         }}
       >
         <div
+          className="sm:w-10"
           style={{
             position: "relative",
-            width: "7%",
             height: "49px",
             borderRadius: "9px",
           }}
@@ -116,22 +122,22 @@ const TrackCard = ({ trackData, ind, type }: any) => {
         </div>
         <div style={{ marginLeft: "9px" }}>
           <p
+            className="lg:text-base sm:text-xs"
             style={{
               margin: "0px",
               padding: "0px",
               paddingBottom: "7px",
               color: "gray",
-              fontSize: "14px",
             }}
           >
             {data.name}
           </p>
           <p
+            className="lg:text-base sm:text-sm"
             style={{
               margin: "0px",
               padding: "0px",
               color: "gray",
-              fontSize: "15px",
             }}
           >
             {nestedPlaylistData.artists[0].name}
@@ -139,13 +145,12 @@ const TrackCard = ({ trackData, ind, type }: any) => {
         </div>
       </div>
       <p
+        className="lg:text-base sm:text-xs sm:hidden lg:block"
         style={{
           textAlign: "left",
           color: "lightgray",
-
           paddingRight: "20px",
           lineHeight: "25px",
-          fontSize: "14px",
         }}
       >
         {nestedPlaylistData.name}
@@ -155,13 +160,14 @@ const TrackCard = ({ trackData, ind, type }: any) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          border: "0px solid red",
         }}
       >
         {hover ? (
           <>
             {isLiked ? (
               <IoMdHeart
-                className={styles.heart}
+                className=""
                 style={{
                   marginRight: "0px",
                   color: "green",
@@ -171,7 +177,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
               />
             ) : (
               <TfiHeart
-                className={styles.heart}
+                className=""
                 style={{
                   marginRight: "0px",
                   color: "white",
@@ -182,11 +188,10 @@ const TrackCard = ({ trackData, ind, type }: any) => {
             )}
 
             <p
-              className="pr-2.5 pl-10"
+              className="lg:text-base sm:text-sm pr-2.5 pl-10"
               style={{
                 textAlign: "center",
                 color: "lightgray",
-                fontSize: "16px",
               }}
             >
               {timee}

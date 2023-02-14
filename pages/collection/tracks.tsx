@@ -19,6 +19,7 @@ const Tracks = ({ Tracks }: any) => {
         }}
       >
         <div
+          className="-inset-x-6"
           style={{
             height: "100vh",
             border: "0px solid red",
@@ -27,8 +28,6 @@ const Tracks = ({ Tracks }: any) => {
             background:
               "linear-gradient(180deg, rgba(56,89,196,1) 23%, rgba(51,60,171,0.01724439775910369) 56%)",
             paddingTop: "5%",
-            right: "-2%",
-            left: "-2%",
           }}
         >
           <PlaylistBanner
@@ -45,34 +44,30 @@ const Tracks = ({ Tracks }: any) => {
             }}
           >
             <div
-              className="bg-green-400"
+              className="lg:p-5 sm:p-4 lg:m-0 sm:my-2 bg-green-400"
               style={{
-                padding: "20px",
-
                 borderRadius: "100px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <GrPlayFill style={{ fontSize: "20px" }} />
+              <GrPlayFill className="lg:text-xl md:text-base" />
             </div>
           </div>
           <div
+            className="grid mb-3 sm:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_50%_30%_15%]"
             style={{
-              display: "grid",
               marginTop: "3%",
-              gridTemplateColumns: "2% 50% 35%  10%",
               alignItems: "center",
               paddingLeft: "2%",
-              rowGap: "12px",
             }}
           >
             <p
+              className="text-center lg:text-right"
               style={{
                 color: "whitesmoke",
                 fontWeight: "300",
-                textAlign: "right",
                 fontSize: "13px",
               }}
             >
@@ -89,6 +84,7 @@ const Tracks = ({ Tracks }: any) => {
               TITLE
             </p>
             <p
+              className="sm:hidden lg:block"
               style={{
                 color: "whitesmoke",
                 fontWeight: "300",

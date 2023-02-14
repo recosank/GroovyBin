@@ -17,10 +17,11 @@ const sectionSelection = ({ Albums }: any) => {
   return (
     <GroovyLayout source="/">
       <div
-        className="grid gap-y-6 gap-x-3 auto-rows-min lg:gap-y-8 2xl:grid-cols-8 md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 xl:grid-cols-6 grid-cols-4"
+        className="grid grid-rows-[repeat(50,_minmax(300px,_1fr))] gap-y-6 gap-x-3 auto-rows-min lg:gap-y-8 2xl:grid-cols-8 md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 xl:grid-cols-6 grid-cols-4"
         style={{
           marginTop: "8%",
           height: "80vh",
+
           border: "0px solid red",
         }}
       >

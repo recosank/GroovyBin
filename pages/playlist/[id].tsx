@@ -58,16 +58,15 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
         }}
       >
         <div
+          className="-inset-x-6"
           style={{
             height: "100vh",
-            border: "0px solid red",
+
             position: "absolute",
             top: "-142px",
             background:
               "linear-gradient(180deg, rgba(56,89,196,1) 23%, rgba(51,60,171,0.01724439775910369) 56%)",
             paddingTop: "5%",
-            right: "-2%",
-            left: "-2%",
           }}
         >
           <PlaylistBanner data={Images[0].url} descp={Description} />
@@ -81,8 +80,8 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
             }}
           >
             <div
+              className="lg:p-5 sm:p-4 lg:m-0 sm:my-2"
               style={{
-                padding: "20px",
                 backgroundColor: "green",
                 borderRadius: "100px",
                 display: "flex",
@@ -90,13 +89,12 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
                 alignItems: "center",
               }}
             >
-              <GrPlayFill style={{ fontSize: "22px" }} />
+              <GrPlayFill className="lg:text-xl md:text-base" />
             </div>
             {savedInd >= 0 ? (
               <FaHeart
+                className="text-2xl sm:mx-3 lg:text-3xl lg:mx-5 xl:mx-6"
                 style={{
-                  fontSize: "33px",
-                  margin: "0px 30px",
                   color: "gray",
                   fontWeight: "600",
                   fill: "green",
@@ -105,9 +103,8 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
               />
             ) : (
               <FaRegHeart
+                className="text-2xl sm:mx-3 lg:text-3xl lg:mx-5 xl:mx-6"
                 style={{
-                  fontSize: "33px",
-                  margin: "0px 30px",
                   color: "gray",
                   fontWeight: "600",
                   fill: "gray",
@@ -116,23 +113,24 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
               />
             )}
 
-            <AiOutlineEllipsis style={{ color: "gray", fontSize: "37px" }} />
+            <AiOutlineEllipsis
+              className="text-2xl lg:text-3xl"
+              style={{ color: "gray" }}
+            />
           </div>
           <div
+            className="grid mb-3 sm:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_50%_30%_15%]"
             style={{
-              display: "grid",
               marginTop: "3%",
-              gridTemplateColumns: "2% 50% 35%  10%",
               alignItems: "center",
               paddingLeft: "2%",
-              rowGap: "12px",
             }}
           >
             <p
+              className="text-center lg:text-right"
               style={{
                 color: "whitesmoke",
                 fontWeight: "300",
-                textAlign: "right",
                 fontSize: "13px",
               }}
             >
@@ -149,6 +147,7 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
               TITLE
             </p>
             <p
+              className="sm:hidden lg:block"
               style={{
                 color: "whitesmoke",
                 fontWeight: "300",

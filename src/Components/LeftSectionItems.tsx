@@ -7,11 +7,22 @@ type props = {
   children: React.ReactNode;
   link: string;
   isActive?: boolean;
+  disabled?: boolean;
 };
 
-const LeftSectionItems = ({ title, children, link, isActive }: props) => {
+const LeftSectionItems = ({
+  title,
+  children,
+  link,
+  isActive,
+  disabled,
+}: props) => {
   return (
-    <div className={`mb-6 ${styles.leftSection__item}`}>
+    <div
+      className={`mb-6 ${styles.leftSection__item} ${
+        disabled ? "cursor-not-allowed" : "cursor-pointer"
+      }`}
+    >
       {children}
       <p
         className={` ${
@@ -20,10 +31,14 @@ const LeftSectionItems = ({ title, children, link, isActive }: props) => {
         style={{
           letterSpacing: "0.3px",
           fontWeight: "600",
-          cursor: "pointer",
         }}
       >
-        <Link href={link}>{title}</Link>
+        <Link
+          className={`${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
+          href={link}
+        >
+          {title}
+        </Link>
       </p>
     </div>
   );

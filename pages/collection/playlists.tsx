@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 
 import CenterSectionCard from "../../src/Components/CenterSectionCard";
+import SectionCard from "../../src/Components/SectionCard";
 import Cookies from "cookies";
 import GroovyLayout from "../../src/Layout/GroovyLayout";
 import { getSpotifyPlaylistFields } from "../../src/routes/apiFunctions";
@@ -56,17 +57,17 @@ const Playlists = ({ Tracks, Albums }: any) => {
         Playlists
       </p>
       <div
-        style={{ display: "flex" }}
+        className="grid  2xl:grid-cols-7 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-3 gap-x-4 gap-y-5 grid-rows-[repeat(25,_minmax(300px,_1fr))]"
+        // style={{ display: "flex" }}
         onClick={() => router.push("/collection/tracks")}
       >
         <div
+          className="col-span-2"
           style={{
-            width: "35%",
             display: "flex",
             justifyContent: "flex-end",
             flexDirection: "column",
             borderRadius: "10px",
-            height: "35vh",
             background: `linear-gradient(145deg, rgba(95,73,218,1) 28%, rgba(133,120,194,1) 49%, rgba(154,142,180,1) 55%, rgba(121,149,181,0.9108018207282913) 73%, rgba(182,166,215,1) 84%, rgba(118,44,209,1) 100%, rgba(46,48,48,1) 100%, rgba(255,255,255,0.9836309523809523) 100%)`,
           }}
         >
@@ -110,12 +111,12 @@ const Playlists = ({ Tracks, Albums }: any) => {
             {Tracks.items.length} liked songs
           </p>
         </div>
-        <div className="grid grid-cols-5 gap-x-6 ml-9 ">
-          {savedPlaylist.map((val: any, ind: number) => {
-            return <CenterSectionCard key={ind} val={val} />;
-          })}
-        </div>
+        {/* <div className=""> */}
+        {savedPlaylist.map((val: any, ind: number) => {
+          return <SectionCard key={ind} val={val} />;
+        })}
       </div>
+      {/* </div> */}
       <div
         style={{
           backgroundColor: "gray",
