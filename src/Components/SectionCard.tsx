@@ -13,12 +13,15 @@ const SectionCard = ({ val, type }: any) => {
   };
 
   return (
-    <div className={styles.section__song__Card} onClick={handleClick}>
+    <div
+      className={`${styles.section__song__Card} h-4/5 sm:h-full`}
+      onClick={handleClick}
+    >
       <div
+        className="h-2/3"
         style={{
           position: "relative",
           width: "100%",
-          height: "67%",
           borderRadius: "9px",
         }}
       >
@@ -32,9 +35,9 @@ const SectionCard = ({ val, type }: any) => {
         />
       </div>
       <p
+        className="sm:text-sm xxs:text-xs"
         style={{
           color: "white",
-          fontSize: "14px",
           padding: "0px",
           fontWeight: "800",
           margin: "20px 0px 7px 0px",

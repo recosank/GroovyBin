@@ -25,7 +25,7 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
 
   return (
     <div
-      className="grid mb-4 hover:bg-gray-800 sm:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_80%_18%]"
+      className="grid mb-4 hover:bg-gray-800 xxs:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_80%_18%]"
       style={{
         marginTop: "1%",
         width: "100%",
@@ -100,11 +100,10 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
             />
 
             <p
-              className="pr-2.5 pl-10"
+              className="lg:text-base sm:text-sm xxs:pr-2 xxs:pl-4 sm:pr-2.5 sm:pl-10"
               style={{
                 textAlign: "center",
                 color: "lightgray",
-                fontSize: "16px",
               }}
             >
               {timee}

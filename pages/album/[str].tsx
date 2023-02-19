@@ -18,7 +18,6 @@ import { BsClockHistory } from "react-icons/bs";
 const albumSelection = ({ Description, Tracks }: any) => {
   const handleHeart = async () => {};
 
-  console.log(Description.id);
   return (
     <GroovyLayout source="/">
       <div
@@ -27,11 +26,10 @@ const albumSelection = ({ Description, Tracks }: any) => {
         }}
       >
         <div
-          className="-inset-x-6"
+          className="-inset-x-6 sm:-top-36 xxs:-top-16 "
           style={{
             height: "100vh",
             position: "absolute",
-            top: "-142px",
             background:
               "linear-gradient(180deg, rgba(56,89,196,1) 23%, rgba(51,60,171,0.01724439775910369) 56%)",
             paddingTop: "5%",
@@ -51,7 +49,7 @@ const albumSelection = ({ Description, Tracks }: any) => {
             }}
           >
             <div
-              className="lg:p-5 sm:p-4 lg:m-0 sm:my-2"
+              className="lg:p-5 xxs:p-3 sm:p-4 lg:m-0 xxs:my-2"
               style={{
                 backgroundColor: "green",
                 borderRadius: "100px",
@@ -60,10 +58,10 @@ const albumSelection = ({ Description, Tracks }: any) => {
                 alignItems: "center",
               }}
             >
-              <GrPlayFill className="lg:text-xl md:text-base" />
+              <GrPlayFill className="lg:text-xl sm:text-base xxs:text-sm" />
             </div>
             <TfiHeart
-              className="text-2xl sm:mx-3 lg:text-3xl lg:mx-5 xl:mx-6"
+              className="text-2xl xxs:mx-3 lg:text-3xl lg:mx-5 xl:mx-6"
               style={{
                 color: "gray",
                 fontWeight: "600",
@@ -76,7 +74,7 @@ const albumSelection = ({ Description, Tracks }: any) => {
             />
           </div>
           <div
-            className="grid mb-3 sm:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_80%_18%]"
+            className="grid mb-3 xxs:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_80%_18%]"
             style={{
               marginTop: "3%",
               alignItems: "center",

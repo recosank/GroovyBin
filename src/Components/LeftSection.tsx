@@ -197,6 +197,7 @@ const LeftSection = () => {
               key={key}
               className="mt-2"
               style={{ fontSize: "13px", color: "lightgray" }}
+              onClick={() => router.push(`/playlist/${val.id}`)}
             >
               {val.name}
             </p>

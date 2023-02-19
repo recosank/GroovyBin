@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import LeftSectionItems from "./LeftSectionItems";
 
 import { SiSpotify } from "react-icons/si";
@@ -8,6 +8,7 @@ import { FiSearch } from "react-icons/fi";
 import { VscLibrary } from "react-icons/vsc";
 import { GrFormAdd } from "react-icons/gr";
 import { FaHeart } from "react-icons/fa";
+import { RxCross1 } from "react-icons/rx";
 
 let iconStyle = {
   fill: "lightgray",
@@ -15,14 +16,35 @@ let iconStyle = {
   fontSize: "26px",
   marginRight: "12px",
 };
-
-const NavbarMob = () => {
+type props = {
+  source: string;
+};
+const NavbarMob = ({ source }: props) => {
+  const searchRef = useRef(null);
   const [toggleHam, setToggleHam] = useState(false);
+  const [openInput, setopenInput] = useState(false);
 
+  useEffect(() => {
+    const handleSearchToggle = (e: any) => {
+      e.preventDefault();
+      if (
+        searchRef.current !== null &&
+        //@ts-ignore
+        !searchRef.current.contains(e.target)
+      ) {
+        setopenInput(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleSearchToggle);
+    return () => {
+      document.removeEventListener("mousedown", handleSearchToggle);
+    };
+  }, []);
   return (
-    <div className="flex sm:hidden justify-between items-center bg-black">
+    <div className="flex p-3 sm:hidden justify-end items-center bg-black">
       <div
-        className=""
+        className={`flex-1 ${openInput ? "hidden" : "block"}`}
         style={{
           display: "flex",
           justifyContent: "start",
@@ -30,6 +52,7 @@ const NavbarMob = () => {
         }}
       >
         <SiSpotify
+          className={`${openInput ? "hidden" : "block"}`}
           style={{
             color: "black",
             fill: "white",
@@ -38,7 +61,7 @@ const NavbarMob = () => {
           }}
         />
         <p
-          className="lg:text-2xl sm:text-xl"
+          className={`${openInput ? "hidden" : "block"} lg:text-2xl sm:text-xl`}
           style={{
             letterSpacing: "0.3px",
             fontWeight: "600",
@@ -48,7 +71,59 @@ const NavbarMob = () => {
           Spotify
         </p>
       </div>
-      <div>
+      {source === "search" &&
+        (openInput ? (
+          <div
+            ref={searchRef}
+            className="flex-none"
+            style={{
+              width: "90%",
+              backgroundColor: "white",
+              borderRadius: "20px",
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "center",
+              padding: "5px",
+              marginLeft: "20px",
+              marginRight: "15px",
+            }}
+          >
+            <FiSearch
+              onClick={() => setopenInput(false)}
+              style={{
+                fontSize: "29px",
+                fontWeight: "900",
+                color: "black",
+                marginLeft: "4px",
+                marginRight: "18px",
+              }}
+            />
+            <input
+              placeholder="What do you want to listen to?"
+              type="text"
+              style={{
+                border: "none",
+                width: "100%",
+                outline: "none",
+                textTransform: "none",
+                textDecoration: "none",
+              }}
+            />
+          </div>
+        ) : (
+          <div className="flex-none" onClick={() => setopenInput(true)}>
+            <FiSearch
+              style={{
+                fontSize: "29px",
+                fontWeight: "900",
+                color: "lightgray",
+                marginLeft: "4px",
+                marginRight: "18px",
+              }}
+            />
+          </div>
+        ))}
+      <div className={`${openInput ? "hidden" : "block"} flex-none`}>
         <RxHamburgerMenu
           style={{ color: "white", fontSize: "30px" }}
           onClick={(e) => setToggleHam((p) => !p)}
@@ -56,7 +131,7 @@ const NavbarMob = () => {
       </div>
       {toggleHam && (
         <div
-          className="w-1/3"
+          className="w-full"
           style={{
             position: "absolute",
             height: "100vh",
@@ -67,7 +142,7 @@ const NavbarMob = () => {
           }}
         >
           <div
-            className="pl-5 pt-7"
+            className=" flex flex-col justify-items-center pl-5 pt-7"
             style={{
               height: "100vh",
               color: "white",
@@ -174,6 +249,12 @@ const NavbarMob = () => {
               </LeftSectionItems>
             </div>
           </div>
+          <p
+            className="text-white absolute top-0 right-0 p-7 pt-7"
+            onClick={() => setToggleHam(false)}
+          >
+            <RxCross1 className="text-xl color-white" />
+          </p>
         </div>
       )}
     </div>

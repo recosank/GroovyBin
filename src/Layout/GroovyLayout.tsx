@@ -13,8 +13,9 @@ type props = {
 
 const GroovyLayout = ({ children, source }: props) => {
   return (
-    <div className={styles.main}>
+    <div className="flex overflow-hidden flex-col sm:flex-row">
       <LeftSection />
+      {source !== "/hidden" && <NavbarMob source={source} />}
       <div
         style={{
           width: "100%",
@@ -26,7 +27,7 @@ const GroovyLayout = ({ children, source }: props) => {
         }}
       >
         <Navbar source={source} />
-        <NavbarMob />
+
         <div
           style={{
             marginTop: "50px",

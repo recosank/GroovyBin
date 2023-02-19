@@ -24,7 +24,7 @@ const search = ({ Catogaries }: any) => {
         >
           Browse all
         </p>
-        <div className="grid gap-y-6 lg:gap-y-8 2xl:grid-cols-8 md:grid-cols-5 lg:grid-cols-6 sm:grid-cols-3 xl:grid-cols-7 grid-cols-4">
+        <div className="grid gap-y-6 lg:gap-y-8 2xl:grid-cols-8 md:grid-cols-5 lg:grid-cols-6 sm:grid-cols-3 xl:grid-cols-7 xs:grid-cols-3 xxs:grid-cols-2">
           {Catogaries.items.map((val: any, key: any) => (
             <SearchSectionCard key={key} data={val} />
           ))}

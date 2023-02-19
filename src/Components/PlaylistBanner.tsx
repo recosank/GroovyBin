@@ -7,23 +7,20 @@ import { SiSpotify } from "react-icons/si";
 const PlaylistBanner = ({ data, descp }: any) => {
   return (
     <div
-      className="drop-shadow-2xl  xl:mt-0 sm:mt-9"
+      className="xs:flex xxs:block drop-shadow-2xl xxs:h-80 sm:h-80 xl:mt-0 sm:mt-9"
       style={{
         boxShadow: "50px 7px 80px 10px rgb(56,89,196)",
         paddingLeft: "2%",
-        display: "flex",
         justifyContent: "start",
-        height: "290px",
         alignItems: "center",
         paddingBottom: "1.8%",
         borderBottom: "0px solid white",
       }}
     >
       <div
-        className="sm:h-4/5"
+        className="xxs:h-3/5 xxs:mr-3 xs:mr-0 xs:w-48 sm:h-3/4 xxs:mb-3 xs:mb-0"
         style={{
           position: "relative",
-          width: "200px",
           background:
             data == ""
               ? `linear-gradient(145deg, rgba(95,73,218,1) 28%, rgba(133,120,194,1) 49%, rgba(154,142,180,1) 55%, rgba(121,149,181,0.9108018207282913) 73%, rgba(182,166,215,1) 84%, rgba(118,44,209,1) 100%, rgba(46,48,48,1) 100%, rgba(255,255,255,0.9836309523809523) 100%)`
@@ -56,7 +53,7 @@ const PlaylistBanner = ({ data, descp }: any) => {
         }}
       >
         <p
-          className="text-white sm:text-xs md:text-sm"
+          className="text-white xxs:text-xs md:text-sm"
           style={{ marginBottom: "10px", padding: "0px" }}
         >
           PLAYLIST
@@ -72,7 +69,7 @@ const PlaylistBanner = ({ data, descp }: any) => {
           {descp.name}
         </p>
         <p
-          className="2xl:text-lg lg:text-lg md:text-base sm:text-sm"
+          className="2xl:text-lg lg:text-lg md:text-base xxs:text-sm"
           style={{
             margin: "0px",
             padding: "0px",
@@ -83,8 +80,8 @@ const PlaylistBanner = ({ data, descp }: any) => {
           {descp.description}
         </p>
         <div
+          className="sm:flex xxs:hidden"
           style={{
-            display: "flex",
             alignItems: "center",
           }}
         >

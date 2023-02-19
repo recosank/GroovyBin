@@ -111,12 +111,10 @@ const Playlists = ({ Tracks, Albums }: any) => {
             {Tracks.items.length} liked songs
           </p>
         </div>
-        {/* <div className=""> */}
         {savedPlaylist.map((val: any, ind: number) => {
           return <SectionCard key={ind} val={val} />;
         })}
       </div>
-      {/* </div> */}
       <div
         style={{
           backgroundColor: "gray",
