@@ -8,9 +8,6 @@ import GroovyLayout from "../src/Layout/GroovyLayout";
 import { getSpotifyCategories } from "../src/routes/apiFunctions";
 
 const search = ({ Catogaries }: any) => {
-  const { data, error } = useSWR("api/searchGenre");
-  console.log(data);
-
   return (
     <GroovyLayout source="search">
       <div
