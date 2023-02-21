@@ -144,10 +144,16 @@ export const deleteUserSavedTracks = async (argu: librarytype) =>
     url: deleteSavedTrackUrl(argu.ids),
     extraParams: { cook: argu.cook, aToken: argu.tokens },
   });
-export const getSpotifyPlaylistFields = async (argu: fieldPlaylist) =>
-  //@ts-ignore
-  await axiosClient({
-    method: "get",
-    url: getPlaylistFeildsUrl(argu.ids, argu.fields),
-    extraParams: { cook: argu.cook, aToken: argu.tokens },
-  });
+export const getSpotifyPlaylistFields = async (argu: fieldPlaylist) => {
+  try {
+    //@ts-ignore
+    const data = await axiosClient({
+      method: "get",
+      url: getPlaylistFeildsUrl(argu.ids, argu.fields),
+      extraParams: { cook: argu.cook, aToken: argu.tokens },
+    });
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

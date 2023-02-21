@@ -16,11 +16,12 @@ import { FaPlay } from "react-icons/fa";
 import { TfiHeart } from "react-icons/tfi";
 import { IoMdHeart } from "react-icons/io";
 import { AiOutlineEllipsis } from "react-icons/ai";
+import { useSWRConfig } from "swr";
 
 const TrackCard = ({ trackData, ind, type }: any) => {
   const [hover, setHover] = useState(false);
   const [isLiked, setisLiked] = useState(false);
-
+  const { mutate } = useSWRConfig();
   const data = type == "album" ? trackData : trackData.track;
 
   const nestedPlaylistData =
@@ -48,6 +49,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
       ids: trackData.track.id,
     });
     setisLiked(data2.data[0]);
+    mutate("api/localTracks");
   };
   useEffect(() => {
     async function fetchData() {

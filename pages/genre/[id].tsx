@@ -16,25 +16,18 @@ const genreSelection = ({ PlaylistIN, PlaylistDescription }: any) => {
     <GroovyLayout source="/">
       <div
         style={{
-          marginTop: "8%",
+          marginTop: "5%",
           height: "80vh",
         }}
       >
-        <h1 style={{ color: "white", fontSize: "95px", fontWeight: "900" }}>
+        <h1
+          className="lg:text-6xl md:text-5xl sm:text-4xl xs:text-4xl text-3xl mb-3"
+          style={{ color: "white", fontWeight: "900" }}
+        >
           {PlaylistDescription.name}
         </h1>
         <div>
-          <div
-            className="grid grid-rows-[repeat(10,_minmax(300px,_1fr))] gap-y-0 sm:gap-y-6 gap-x-3 auto-rows-min lg:gap-y-8 2xl:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 xl:grid-cols-6 xs:grid-cols-3 xxs:grid-cols-2"
-            style={
-              {
-                // display: "grid",
-                // rowGap: "20px",
-                // columnGap: "20px",
-                // grid: "auto / 11% 11% 11% 11% 11% 11% 11% 11% ",
-              }
-            }
-          >
+          <div className="grid grid-rows-[repeat(10,_minmax(300px,_1fr))] gap-y-0 sm:gap-y-6 gap-x-3 auto-rows-min lg:gap-y-8 2xl:grid-cols-7 md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 xl:grid-cols-6 xs:grid-cols-3 xxs:grid-cols-2">
             {PlaylistIN.items.map((val: any, key: any) => {
               return val && <SectionCard val={val} key={key} type="playlist" />;
             })}

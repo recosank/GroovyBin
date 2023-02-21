@@ -12,11 +12,12 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { GrPlayFill } from "react-icons/gr";
 import { BsClockHistory } from "react-icons/bs";
+import { useSWRConfig } from "swr";
 
 const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
   const [savedPlaylist, setsavedPlaylist] = useState<string[] | null>([]);
   const [savedInd, setsavedInd] = useState<number>(-1);
-
+  const { mutate } = useSWRConfig();
   const handleHeart = async () => {
     let data = localStorage.getItem("playlists");
     if (data) {
@@ -34,11 +35,13 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
         plData = [...parsedDta, Description.id];
       }
       localStorage.setItem("playlists", JSON.stringify(plData));
+      mutate(`api/localPlaylist`);
     } else {
       setsavedInd(0);
       const plData: any = [];
       plData.push(Description.id);
       localStorage.setItem("playlists", JSON.stringify(plData));
+      mutate(`api/localPlaylist`);
     }
   };
 

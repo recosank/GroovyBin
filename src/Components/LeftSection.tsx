@@ -17,33 +17,27 @@ import { BiLibrary } from "react-icons/bi";
 
 const LeftSection = () => {
   const router = useRouter();
-  const [savedPlaylist, setsavedPlaylist] = useState([]);
 
-  const handleHeart = async (id: string) => {
-    const data = await getSpotifyPlaylistFields({
-      cook: cookie,
-      tokens: cookie.get("access_tkn"),
-      ids: id,
-      fields: "id,name",
-    });
-    return data.data;
-  };
+  const fetcher = async () => {
+    const savedPlaylistData: any = localStorage.getItem("playlists");
+    const playData = JSON.parse(savedPlaylistData);
+    if (playData.length >= 1) {
+      const mapData = async () =>
+        Promise.all(
+          playData.map((val: any) => {
+            return getSpotifyPlaylistFields({
+              cook: cookie,
+              tokens: cookie.get("access_tkn"),
+              ids: val,
+              fields: "id,name",
+            }).then((res) => res);
+          })
+        );
 
-  useEffect(() => {
-    const savedPlaylistData: string[] | null | string =
-      localStorage.getItem("playlists");
-    if (savedPlaylistData) {
-      const playData = JSON.parse(savedPlaylistData);
-      const fetchData = async () => {
-        const data = playData.map(async (val: string) => {
-          const playlistData = await handleHeart(val);
-          //@ts-ignore
-          setsavedPlaylist((p) => [...p, playlistData]);
-        });
-      };
-      fetchData();
+      return await mapData();
     }
-  }, []);
+  };
+  const { data, error } = useSWR(`api/localPlaylist`, fetcher);
 
   return (
     <div
@@ -191,7 +185,7 @@ const LeftSection = () => {
         </LeftSectionItems>
       </div>
       <div className="mt-3">
-        {savedPlaylist.map((val: any, key: any) => {
+        {data?.map((val: any, key: any) => {
           return (
             <p
               key={key}

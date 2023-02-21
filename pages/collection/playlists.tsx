@@ -2,47 +2,68 @@ import React, { useEffect, useState } from "react";
 import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
+import useSWR from "swr";
+import cookie from "js-cookie";
 
-import CenterSectionCard from "../../src/Components/CenterSectionCard";
 import SectionCard from "../../src/Components/SectionCard";
-import Cookies from "cookies";
 import GroovyLayout from "../../src/Layout/GroovyLayout";
 import { getSpotifyPlaylistFields } from "../../src/routes/apiFunctions";
-import cookie from "js-cookie";
 import {
   getSpotifyTracks,
   getSpotifyAlbums,
 } from "../../src/routes/apiFunctions";
 
-const Playlists = ({ Tracks, Albums }: any) => {
+const Playlists = () => {
   const router = useRouter();
-  const [savedPlaylist, setsavedPlaylist] = useState([]);
 
-  const handleHeart = async (id: string) => {
-    const data = await getSpotifyPlaylistFields({
-      cook: cookie,
-      tokens: cookie.get("access_tkn"),
-      ids: id,
-      fields: "images,name,id,description",
-    });
-    return data.data;
+  const playlistFetcher = async () => {
+    const savedPlaylistData: any = localStorage.getItem("playlists");
+    const playData = JSON.parse(savedPlaylistData);
+    if (playData.length >= 1) {
+      const mapData = async () =>
+        Promise.all(
+          playData.map((val: any) => {
+            return getSpotifyPlaylistFields({
+              cook: cookie,
+              tokens: cookie.get("access_tkn"),
+              ids: val,
+              fields: "images,name,id,description",
+            }).then((res) => res);
+          })
+        );
+
+      return await mapData();
+    }
   };
 
-  useEffect(() => {
-    const savedPlaylistData: string[] | null | string =
-      localStorage.getItem("playlists");
-    if (savedPlaylistData) {
-      const playData = JSON.parse(savedPlaylistData);
-      const fetchData = async () => {
-        const data = playData.map(async (val: string) => {
-          const playlistData = await handleHeart(val);
-          //@ts-ignore
-          setsavedPlaylist((p) => [...p, playlistData]);
-        });
-      };
-      fetchData();
-    }
-  }, []);
+  const tracksFetcher = async () => {
+    return getSpotifyTracks({
+      cook: cookie,
+      tokens: cookie.get("access_tkn"),
+    }).then((res) => res.data);
+  };
+
+  const albumsFetcher = async () => {
+    return getSpotifyAlbums({
+      cook: cookie,
+      tokens: cookie.get("access_tkn"),
+    }).then((res) => res.data);
+  };
+
+  const { data: albumsData, error: albumsError } = useSWR(
+    `api/localAlbums`,
+    albumsFetcher
+  );
+
+  const { data: tracksData, error: tracksError } = useSWR(
+    `api/localNameTracks`,
+    tracksFetcher
+  );
+
+  const { data: playlistData, error: playlistError } = useSWR(
+    `api/localPlaylists`,
+    playlistFetcher
+  );
 
   return (
     <GroovyLayout source="/">
@@ -77,13 +98,13 @@ const Playlists = ({ Tracks, Albums }: any) => {
               width: "100%",
             }}
           >
-            {Tracks.items.slice(0, 5).map((val: any, key: any) => {
-              let n = val.track.artists[0].name;
+            {tracksData?.items.slice(0, 5).map((val: any, key: any) => {
+              let artistName = val.track.artists[0].name;
 
               return (
                 <React.Fragment key={key}>
                   <span //@ts-ignore
-                    before={`${n}`}
+                    before={`${artistName}`}
                     className={`before:content-[attr(before)]`}
                     style={{ margin: "0px", padding: "0px", fontSize: "16px" }}
                   ></span>
@@ -108,10 +129,10 @@ const Playlists = ({ Tracks, Albums }: any) => {
             Liked Songs
           </p>
           <p className="text-white pl-7 my-5">
-            {Tracks.items.length} liked songs
+            {tracksData?.items.length} liked songs
           </p>
         </div>
-        {savedPlaylist.map((val: any, ind: number) => {
+        {playlistData?.map((val: any, ind: number) => {
           return <SectionCard key={ind} val={val} />;
         })}
       </div>
@@ -128,24 +149,3 @@ const Playlists = ({ Tracks, Albums }: any) => {
 };
 
 export default Playlists;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookieInst = Cookies(context.req, context.res);
-  const acs_tkn = cookieInst.get("access_tkn");
-
-  const GetLibraryTracks = await getSpotifyTracks({
-    tokens: acs_tkn,
-    cook: cookieInst,
-  });
-  const GetLibraryAlbums = await getSpotifyAlbums({
-    tokens: acs_tkn,
-    cook: cookieInst,
-  });
-
-  return {
-    props: {
-      Tracks: GetLibraryTracks.data,
-      Albums: GetLibraryAlbums.data,
-    },
-  };
-};

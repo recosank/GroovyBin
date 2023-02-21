@@ -51,7 +51,12 @@ export const addTrackUrl = (ids: string) =>
     ids: ids,
   });
 
-export const getTracksUrl = () => "/v1/me/tracks";
+export const getTracksUrl = () =>
+  "/v1/me/tracks?" +
+  querystring.stringify({
+    limit: 50,
+  });
+
 export const deleteSavedTrackUrl = (ids: string) =>
   "/v1/me/tracks?" +
   querystring.stringify({

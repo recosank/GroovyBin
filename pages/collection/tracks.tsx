@@ -1,7 +1,8 @@
 import type { GetServerSideProps } from "next";
 import React, { useState, useEffect } from "react";
+import useSWR from "swr";
+import cookie from "js-cookie";
 
-import Cookies from "cookies";
 import { getSpotifyTracks } from "../../src/routes/apiFunctions";
 import GroovyLayout from "../../src/Layout/GroovyLayout";
 import PlaylistBanner from "../../src/Components/PlaylistBanner";
@@ -10,7 +11,16 @@ import TrackCard from "../../src/Components/TrackCard.d";
 import { GrPlayFill } from "react-icons/gr";
 import { BsClockHistory } from "react-icons/bs";
 
-const Tracks = ({ Tracks }: any) => {
+const Tracks = () => {
+  const fetcher = async () => {
+    return getSpotifyTracks({
+      cook: cookie,
+      tokens: cookie.get("access_tkn"),
+    }).then((res) => res.data);
+  };
+
+  const { data, error } = useSWR(`api/localTracks`, fetcher);
+
   return (
     <GroovyLayout source="/">
       <div
@@ -106,7 +116,7 @@ const Tracks = ({ Tracks }: any) => {
               marginRight: "2%",
             }}
           ></div>
-          {Tracks.items.map((val: any, key: any) => {
+          {data?.items.map((val: any, key: any) => {
             return (
               <TrackCard key={key} trackData={val} ind={key} type="playlist" />
             );
@@ -118,19 +128,3 @@ const Tracks = ({ Tracks }: any) => {
 };
 
 export default Tracks;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookieInst = Cookies(context.req, context.res);
-  const acs_tkn = cookieInst.get("access_tkn");
-
-  const GetLibraryTracks = await getSpotifyTracks({
-    tokens: acs_tkn,
-    cook: cookieInst,
-  });
-
-  return {
-    props: {
-      Tracks: GetLibraryTracks.data,
-    },
-  };
-};

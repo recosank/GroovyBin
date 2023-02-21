@@ -1,12 +1,16 @@
 import React from "react";
 import type { GetServerSideProps } from "next";
-
 import Cookies from "cookies";
+import useSWR from "swr";
+
 import SearchSectionCard from "../src/Components/SearchSectionCard";
 import GroovyLayout from "../src/Layout/GroovyLayout";
 import { getSpotifyCategories } from "../src/routes/apiFunctions";
 
-const search = ({ Catogaries }: any) => {
+const search = ({ fallback }: any) => {
+  const { data, error } = useSWR("api/searchGenre");
+  console.log(data);
+
   return (
     <GroovyLayout source="search">
       <div
@@ -25,9 +29,9 @@ const search = ({ Catogaries }: any) => {
           Browse all
         </p>
         <div className="grid gap-y-6 lg:gap-y-8 2xl:grid-cols-8 md:grid-cols-5 lg:grid-cols-6 sm:grid-cols-3 xl:grid-cols-7 xs:grid-cols-3 xxs:grid-cols-2">
-          {Catogaries.items.map((val: any, key: any) => (
+          {/* {Catogaries.items.map((val: any, key: any) => (
             <SearchSectionCard key={key} data={val} />
-          ))}
+          ))} */}
         </div>
       </div>
     </GroovyLayout>
@@ -48,7 +52,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      Catogaries: GetCategories.data.categories,
+      fallback: {
+        "api/searchGenre": GetCategories.data.categories,
+      },
+      // Catogaries: GetCategories.data.categories,
     },
   };
 };
