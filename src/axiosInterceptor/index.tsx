@@ -1,7 +1,4 @@
-import axios, { HeadersDefaults } from "axios";
-import Cookies from "cookies";
-import cookie from "cookie";
-import { BsCheckLg } from "react-icons/bs";
+import axios from "axios";
 
 const axiosClient = axios.create();
 const clientId: string = "d6d53426faf846c6abd5ee373086a7d9";
@@ -80,12 +77,10 @@ axiosClient.interceptors.response.use(
               },
             }
           );
-          console.log("retry data");
           originalConfig.extraParams.aToken = rf_tkn.data.access_token;
           return axiosClient(originalConfig);
         } catch (_error) {
           // console.log("eror time out >>>>>>>>>>>>>>>>>>>>>>>>>>>>", _error);
-
           //window.location.href = window.location.origin;
           return Promise.reject(_error);
         }

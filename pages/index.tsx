@@ -23,13 +23,11 @@ import styles from "../styles/Home.module.css";
 import { getToken } from "../src/utility/helper";
 
 const clientId: string = "d6d53426faf846c6abd5ee373086a7d9";
-const clientSecret: string = "0cf34294b189487aa01d0665841697d2";
-let scopes = "user-read-private user-read-email";
 
 const Home: NextPage = (props: any) => {
   const router = useRouter();
 
-  if (!props.navigate) {
+  if (!props.navigate && !props.navigateLocal) {
     props.Albums.href = "new-releases";
     props.Playlists.href = "featured-playlists";
     props.TopList.href = "trending-now";
@@ -38,20 +36,23 @@ const Home: NextPage = (props: any) => {
   }
 
   useEffect(() => {
-    {
-      props.navigate &&
-        router.push(
-          "https://accounts.spotify.com/authorize?" +
-            querystring.stringify({
-              response_type: "code",
-              client_id: clientId,
-              scope:
-                "user-read-private user-read-email user-library-modify user-library-read",
-              state: "asdfasdfa4asfsdvragadasdtasetatasadfasdfs",
-              redirect_uri: "https://groovy-bin-recosank.vercel.app",
-            })
-        );
-    }
+    props.navigate &&
+      !props.navigateLocal &&
+      router.push(
+        "https://accounts.spotify.com/authorize?" +
+          querystring.stringify({
+            response_type: "code",
+            client_id: clientId,
+            scope:
+              "user-read-private user-read-email user-library-modify user-library-read",
+            state: "asdfasdfa4asfsdvragadasdtasetatasadfasdfs",
+            redirect_uri: "https://groovy-bin-recosank.vercel.app",
+          })
+      );
+
+    !props.navigate &&
+      props.navigateLocal &&
+      router.push("https://groovy-bin-recosank.vercel.app");
   }, []);
 
   return (
@@ -62,7 +63,7 @@ const Home: NextPage = (props: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {!props.navigate && (
+      {!props.navigate && !props.navigateLocal && (
         <GroovyLayout source="/">
           <CenterSectionItems
             title="Try something else"
@@ -92,61 +93,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       props: {
         navigate: true,
+        navigateLocal: false,
       },
     };
   }
 
   if (acs_tkn == undefined && context.query.code) {
     const tokens = await getToken(context.query?.code);
+    console.log(context.query.code);
     cookieInst.set("access_tkn", tokens.access_token, { httpOnly: false });
     cookieInst.set("refresh_tkn", tokens.refresh_token, { httpOnly: false });
 
-    const GetNewReleaseAlbums = await getSpotifyNewRelease({
-      tokens: tokens.access_token,
-      cook: cookieInst,
-      limit: 8,
-    });
-
-    const GetFeaturedPlaylists = await getSpotifyFeaturedPlaylist({
-      tokens: tokens.access_token,
-      cook: cookieInst,
-      limit: 8,
-    });
-    const CIDs = [
-      "toplists",
-      "0JQ5DAqbMKFGvOw3O4nLAf",
-      "0JQ5DAqbMKFy78wprEpAjl",
-    ];
-
-    const GetTopCategoriesPlaylist = await getSpotifyCategoryPlaylist({
-      tokens: tokens.access_token,
-      cook: cookieInst,
-      limit: 8,
-      Cid: CIDs[0],
-    });
-
-    const GetKpopCategoriesPlaylist = await getSpotifyCategoryPlaylist({
-      tokens: tokens.access_token,
-      cook: cookieInst,
-      limit: 8,
-      Cid: CIDs[1],
-    });
-
-    const GetAcousticCategoriesPlaylist = await getSpotifyCategoryPlaylist({
-      tokens: tokens.access_token,
-      cook: cookieInst,
-      limit: 8,
-      Cid: CIDs[2],
-    });
-
     return {
       props: {
-        Playlists: GetFeaturedPlaylists.data.playlists,
-        Albums: GetNewReleaseAlbums.data.albums,
         navigate: false,
-        TopList: GetTopCategoriesPlaylist.data.playlists,
-        KPop: GetKpopCategoriesPlaylist.data.playlists,
-        Folk: GetAcousticCategoriesPlaylist.data.playlists,
+        navigateLocal: true,
       },
     };
   }
@@ -174,13 +135,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     { httpOnly: false }
   );
 
+  const CIDs = ["toplists", "0JQ5DAqbMKFGvOw3O4nLAf", "0JQ5DAqbMKFy78wprEpAjl"];
   const GetFeaturedPlaylists = await getSpotifyFeaturedPlaylist({
     tokens: cookAccessToken,
     cook: cookieInst,
     limit: 8,
   });
-
-  const CIDs = ["toplists", "0JQ5DAqbMKFGvOw3O4nLAf", "0JQ5DAqbMKFy78wprEpAjl"];
 
   const GetTopCategoriesPlaylist = await getSpotifyCategoryPlaylist({
     tokens: cookAccessToken,
@@ -203,11 +163,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     Cid: CIDs[2],
   });
 
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
+
   return {
     props: {
       Playlists: GetFeaturedPlaylists.data.playlists,
       Albums: GetNewReleaseAlbums.data.albums,
       navigate: false,
+      navigateLocal: false,
       TopList: GetTopCategoriesPlaylist.data.playlists,
       KPop: GetKpopCategoriesPlaylist.data.playlists,
       Folk: GetAcousticCategoriesPlaylist.data.playlists,

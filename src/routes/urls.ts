@@ -62,6 +62,7 @@ export const deleteSavedTrackUrl = (ids: string) =>
   querystring.stringify({
     ids: ids,
   });
+
 export const addAlbumUrl = (ids: string) =>
   "/v1/me/albums?" +
   querystring.stringify({
@@ -69,13 +70,17 @@ export const addAlbumUrl = (ids: string) =>
   });
 
 export const getAlbumsUrl = () => "/v1/me/albums";
+
 export const checkSavedTrackUrl = (ids: string) =>
   "/v1/me/tracks/contains?" +
   querystring.stringify({
     ids: ids,
   });
+
 export const getPlaylistFeildsUrl = (id: string, fields: string) =>
   `/v1/playlists/${id}?` +
   querystring.stringify({
     fields: fields,
   });
+
+export const getMeUrl = () => "/v1/me";

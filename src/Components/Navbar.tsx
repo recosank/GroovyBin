@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import usePreviousRoute from "../customHook/usePreviousRoute";
-import Cookies from "js-cookie";
+import cookie from "js-cookie";
+import useSWR from "swr";
+import querystring from "querystring";
+
+import { getSpotifyMe } from "../routes/apiFunctions";
 
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
@@ -14,15 +18,37 @@ type props = {
   chgBg?: boolean;
 };
 
+const clientId: string = "d6d53426faf846c6abd5ee373086a7d9";
+
 const Navbar = ({ source, chgBg }: props) => {
   const router = useRouter();
   const prevRoute = usePreviousRoute();
   const [toggleProfile, setToggleProfille] = useState(false);
   const profileRef = useRef(null);
 
+  const fetcher = async () => {
+    return getSpotifyMe({
+      cook: cookie,
+      tokens: cookie.get("access_tkn"),
+    }).then((res) => res.data);
+  };
+
+  const { data, error } = useSWR(`api/me`, fetcher);
+
   const handleLogout = (e: any) => {
     e.preventDefault();
-    Cookies.remove("access_tkn");
+    cookie.remove("access_tkn");
+    router.push(
+      "https://accounts.spotify.com/authorize?" +
+        querystring.stringify({
+          response_type: "code",
+          client_id: clientId,
+          scope:
+            "user-read-private user-read-email user-library-modify user-library-read",
+          state: "asdfasdfa4asfsdvragadasdtasetatasadfasdfs",
+          redirect_uri: "http://localhost:3000",
+        })
+    );
   };
 
   useEffect(() => {
@@ -188,7 +214,7 @@ const Navbar = ({ source, chgBg }: props) => {
                 }}
                 ref={profileRef}
               >
-                Reco
+                {data?.display_name.slice(0, 4).toUpperCase()}
               </p>
 
               <RiArrowDownSFill

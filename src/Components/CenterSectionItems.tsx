@@ -10,7 +10,6 @@ type props = {
 
 const CenterSectionItems = ({ title, data, type }: props) => {
   const router = useRouter();
-  console.log(data);
   return (
     <div>
       <div

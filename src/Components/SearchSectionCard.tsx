@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 
 const SearchSectionCard = ({ data }: any) => {
   let router = useRouter();
-  console.log(data);
 
   return (
     <div

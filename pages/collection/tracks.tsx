@@ -40,6 +40,7 @@ const Tracks = () => {
         >
           <PlaylistBanner
             data={""}
+            len={data?.items.length}
             descp={{ name: "Liked Songs", description: "" }}
           />
           <div

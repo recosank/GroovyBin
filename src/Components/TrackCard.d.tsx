@@ -43,6 +43,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
         ids: trackData.track.id,
       });
     }
+
     const data2 = await checkUserSavedTracks({
       cook: cookie,
       tokens: cookie.get("access_tkn"),
@@ -51,6 +52,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
     setisLiked(data2.data[0]);
     mutate("api/localTracks");
   };
+
   useEffect(() => {
     async function fetchData() {
       const data = await checkUserSavedTracks({
@@ -61,7 +63,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
       setisLiked(data.data[0]);
     }
     fetchData();
-  }, []);
+  }, [trackData]);
 
   return (
     <div

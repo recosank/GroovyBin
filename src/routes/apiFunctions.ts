@@ -12,6 +12,7 @@ import {
   checkSavedTrackUrl,
   deleteSavedTrackUrl,
   getPlaylistFeildsUrl,
+  getMeUrl,
 } from "./urls";
 import axiosClient from "../axiosInterceptor";
 
@@ -38,6 +39,17 @@ type categoryPlaylistData = {
   limit?: number;
   Cid?: string | undefined | string[];
 };
+
+export const getSpotifyMe = async (argu: categoryPlaylistData) =>
+  //@ts-ignore
+  await axiosClient({
+    method: "get",
+    url: getMeUrl(),
+    extraParams: {
+      cook: argu.cook,
+      aToken: argu.tokens,
+    },
+  });
 
 export const getSpotifyNewRelease = async (argu: afterAuthData) =>
   //@ts-ignore
@@ -122,6 +134,7 @@ export const addSpotifyAlbums = async (argu: librarytype) =>
     url: addAlbumUrl(argu.ids),
     extraParams: { cook: argu.cook, aToken: argu.tokens },
   });
+
 export const getSpotifyAlbums = async (argu: categoryPlaylistData) =>
   //@ts-ignore
   await axiosClient({
@@ -137,6 +150,7 @@ export const checkUserSavedTracks = async (argu: librarytype) =>
     url: checkSavedTrackUrl(argu.ids),
     extraParams: { cook: argu.cook, aToken: argu.tokens },
   });
+
 export const deleteUserSavedTracks = async (argu: librarytype) =>
   //@ts-ignore
   await axiosClient({
@@ -144,6 +158,7 @@ export const deleteUserSavedTracks = async (argu: librarytype) =>
     url: deleteSavedTrackUrl(argu.ids),
     extraParams: { cook: argu.cook, aToken: argu.tokens },
   });
+
 export const getSpotifyPlaylistFields = async (argu: fieldPlaylist) => {
   try {
     //@ts-ignore

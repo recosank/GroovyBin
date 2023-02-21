@@ -18,12 +18,15 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
   const [savedPlaylist, setsavedPlaylist] = useState<string[] | null>([]);
   const [savedInd, setsavedInd] = useState<number>(-1);
   const { mutate } = useSWRConfig();
+
   const handleHeart = async () => {
     let data = localStorage.getItem("playlists");
+
     if (data) {
       const parsedDta = JSON.parse(data);
       const ind: number = parsedDta.indexOf(Description.id);
       let plData: string[];
+
       if (ind >= 0) {
         setsavedInd(-1);
         plData = [
@@ -34,6 +37,7 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
         setsavedInd(2);
         plData = [...parsedDta, Description.id];
       }
+
       localStorage.setItem("playlists", JSON.stringify(plData));
       mutate(`api/localPlaylist`);
     } else {
@@ -70,7 +74,11 @@ const PlaylistSelection = ({ Tracks, Images, Description }: any) => {
             paddingTop: "5%",
           }}
         >
-          <PlaylistBanner data={Images[0].url} descp={Description} />
+          <PlaylistBanner
+            data={Images[0].url}
+            len={Tracks.items.length}
+            descp={Description}
+          />
           <div
             style={{
               display: "flex",

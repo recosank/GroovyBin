@@ -4,7 +4,7 @@ import Image from "next/image";
 import { RiHeartFill } from "react-icons/ri";
 import { SiSpotify } from "react-icons/si";
 
-const PlaylistBanner = ({ data, descp }: any) => {
+const PlaylistBanner = ({ data, descp, len }: any) => {
   return (
     <div
       className="xs:flex xxs:block drop-shadow-2xl xxs:h-80 sm:h-80 xl:mt-0 sm:mt-9"
@@ -110,7 +110,9 @@ const PlaylistBanner = ({ data, descp }: any) => {
             }}
           ></span>
 
-          <p className="text-white p-0 m-0 sm:text-xs md:text-sm">50 songs</p>
+          <p className="text-white p-0 m-0 sm:text-xs md:text-sm">
+            {len} songs
+          </p>
           <p
             className="md:text-sm sm:text-xs sm:hidden md:block"
             style={{

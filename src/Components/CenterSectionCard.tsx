@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import styles from "../../styles/Home.module.css";
 
 const CenterSectionCard = ({ val, type }: any) => {
-  // console.log(val);
   const routeer = useRouter();
   let handleClick: (e: any) => void = (e) => {
     e.preventDefault();
