@@ -69,6 +69,12 @@ export const addAlbumUrl = (ids: string) =>
     ids: ids,
   });
 
+export const checkAlbumUrl = (ids: string) =>
+  "/v1/me/albums/contains?" +
+  querystring.stringify({
+    ids: ids,
+  });
+
 export const getAlbumsUrl = () => "/v1/me/albums";
 
 export const checkSavedTrackUrl = (ids: string) =>

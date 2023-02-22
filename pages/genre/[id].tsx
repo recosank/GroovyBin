@@ -75,6 +75,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     withCredentials: true,
   });
 
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
+
   return {
     props: {
       PlaylistIN: CPlaylistIN.data.playlists,

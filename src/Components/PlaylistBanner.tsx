@@ -98,7 +98,7 @@ const PlaylistBanner = ({ data, descp, len }: any) => {
             className="text-white font-bold sm:text-xs md:text-sm lg:text-base"
             style={{}}
           >
-            Spotify
+            GroovyBin
           </p>
           <span
             className="mx-2"

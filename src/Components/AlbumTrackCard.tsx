@@ -1,27 +1,62 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
-
 import cookie from "js-cookie";
+import { useSWRConfig } from "swr";
+
 import { millisToMinutesAndSeconds } from "../utility/helper";
+import {
+  addSpotifyTracks,
+  checkUserSavedTracks,
+  deleteUserSavedTracks,
+} from "../routes/apiFunctions";
 
 import { FaPlay } from "react-icons/fa";
 import { TfiHeart } from "react-icons/tfi";
 import { AiOutlineEllipsis } from "react-icons/ai";
-import { addSpotifyTracks } from "../routes/apiFunctions";
+import { IoMdHeart } from "react-icons/io";
 
 const AlbumTrackCard = ({ trackData, ind, type }: any) => {
   const [hover, setHover] = useState(false);
+  const [isLiked, setisLiked] = useState(false);
+  const { mutate } = useSWRConfig();
 
   let timee = millisToMinutesAndSeconds(trackData.duration_ms);
 
   const handleHeart = async () => {
-    const data = await addSpotifyTracks({
+    if (isLiked) {
+      const data = await deleteUserSavedTracks({
+        cook: cookie,
+        tokens: cookie.get("access_tkn"),
+        ids: trackData.id,
+      });
+    } else {
+      const data = await addSpotifyTracks({
+        cook: cookie,
+        tokens: cookie.get("access_tkn"),
+        ids: trackData.id,
+      });
+    }
+
+    const data2 = await checkUserSavedTracks({
       cook: cookie,
       tokens: cookie.get("access_tkn"),
       ids: trackData.id,
     });
+    setisLiked(data2.data[0]);
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await checkUserSavedTracks({
+        cook: cookie,
+        tokens: cookie.get("access_tkn"),
+        ids: trackData.id,
+      });
+      setisLiked(data.data[0]);
+    }
+    fetchData();
+  }, [trackData]);
 
   return (
     <div
@@ -93,12 +128,27 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
       >
         {hover ? (
           <>
-            <TfiHeart
-              className={styles.heart}
-              style={{ marginRight: "0px", color: "white", fontSize: "17px" }}
-              onClick={handleHeart}
-            />
-
+            {isLiked ? (
+              <IoMdHeart
+                className=""
+                style={{
+                  marginRight: "0px",
+                  color: "green",
+                  fontSize: "19px",
+                }}
+                onClick={handleHeart}
+              />
+            ) : (
+              <TfiHeart
+                className=""
+                style={{
+                  marginRight: "0px",
+                  color: "white",
+                  fontSize: "16px",
+                }}
+                onClick={handleHeart}
+              />
+            )}
             <p
               className="lg:text-base sm:text-sm xxs:pr-2 xxs:pl-4 sm:pr-2.5 sm:pl-10"
               style={{

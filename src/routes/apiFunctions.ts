@@ -13,6 +13,7 @@ import {
   deleteSavedTrackUrl,
   getPlaylistFeildsUrl,
   getMeUrl,
+  checkAlbumUrl,
 } from "./urls";
 import axiosClient from "../axiosInterceptor";
 
@@ -132,6 +133,22 @@ export const addSpotifyAlbums = async (argu: librarytype) =>
   await axiosClient({
     method: "put",
     url: addAlbumUrl(argu.ids),
+    extraParams: { cook: argu.cook, aToken: argu.tokens },
+  });
+
+export const deleteSpotifyAlbums = async (argu: librarytype) =>
+  //@ts-ignore
+  await axiosClient({
+    method: "delete",
+    url: addAlbumUrl(argu.ids),
+    extraParams: { cook: argu.cook, aToken: argu.tokens },
+  });
+
+export const checkSpotifyAlbums = async (argu: librarytype) =>
+  //@ts-ignore
+  await axiosClient({
+    method: "get",
+    url: checkAlbumUrl(argu.ids),
     extraParams: { cook: argu.cook, aToken: argu.tokens },
   });
 

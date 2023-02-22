@@ -112,15 +112,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  // const getMee = () =>
-  //   //@ts-ignore
-  //   axiosClient({
-  //     method: "get",
-  //     url: "/v1/me",
-  //     extraParams: { reqq: context.req, ress: context.res },
-  //     withCredentials: true,
-  //   });
-
   const cookAccessToken = cookieInst.get("access_tkn");
 
   const GetNewReleaseAlbums = await getSpotifyNewRelease({

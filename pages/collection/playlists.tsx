@@ -54,6 +54,7 @@ const Playlists = () => {
     `api/localAlbums`,
     albumsFetcher
   );
+  console.log(albumsData);
 
   const { data: tracksData, error: tracksError } = useSWR(
     `api/localNameTracks`,
@@ -80,7 +81,6 @@ const Playlists = () => {
       <div
         className="grid  2xl:grid-cols-7 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-3 gap-x-4 gap-y-5 grid-rows-[repeat(25,_minmax(300px,_1fr))]"
         // style={{ display: "flex" }}
-        onClick={() => router.push("/collection/tracks")}
       >
         <div
           className="col-span-2"
@@ -91,6 +91,7 @@ const Playlists = () => {
             borderRadius: "10px",
             background: `linear-gradient(145deg, rgba(95,73,218,1) 28%, rgba(133,120,194,1) 49%, rgba(154,142,180,1) 55%, rgba(121,149,181,0.9108018207282913) 73%, rgba(182,166,215,1) 84%, rgba(118,44,209,1) 100%, rgba(46,48,48,1) 100%, rgba(255,255,255,0.9836309523809523) 100%)`,
           }}
+          onClick={() => router.push("/collection/tracks")}
         >
           <div
             className="text-white pl-7 mb-7"
@@ -133,7 +134,10 @@ const Playlists = () => {
           </p>
         </div>
         {playlistData?.map((val: any, ind: number) => {
-          return <SectionCard key={ind} val={val} />;
+          return <SectionCard key={ind} val={val} type="playlist" />;
+        })}
+        {albumsData?.items.map((val: any, ind: number) => {
+          return <SectionCard key={ind} val={val} type="album" />;
         })}
       </div>
       <div

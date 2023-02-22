@@ -68,7 +68,7 @@ const NavbarMob = ({ source }: props) => {
             color: "gray",
           }}
         >
-          Spotify
+          GroovyBin
         </p>
       </div>
       {source === "search" &&
@@ -172,7 +172,7 @@ const NavbarMob = ({ source }: props) => {
                   fontWeight: "600",
                 }}
               >
-                Spotify
+                GroovyBin
               </p>
             </div>
             <LeftSectionItems title="Home" link="/">

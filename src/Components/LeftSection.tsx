@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LeftSectionItems from "./LeftSectionItems";
 import styles from "../../styles/Home.module.css";
-import { getSpotifyPlaylistFields } from "../routes/apiFunctions";
+import {
+  getSpotifyPlaylistFields,
+  getSpotifyAlbums,
+} from "../routes/apiFunctions";
 import cookie from "js-cookie";
 import useSWR from "swr";
 
@@ -37,8 +40,19 @@ const LeftSection = () => {
       return await mapData();
     }
   };
-  const { data, error } = useSWR(`api/localPlaylist`, fetcher);
 
+  const albumsFetcher = async () => {
+    return getSpotifyAlbums({
+      cook: cookie,
+      tokens: cookie.get("access_tkn"),
+    }).then((res) => res.data);
+  };
+
+  const { data: albumsData, error: albumsError } = useSWR(
+    `api/localAlbums`,
+    albumsFetcher
+  );
+  const { data, error } = useSWR(`api/localPlaylist`, fetcher);
   return (
     <div
       className="pl-7 pt-7 2xl:w-1/6 xl:w-1/5 lg:w-3/12 md:w-4/12 sm:w-2/5 hidden sm:block"
@@ -71,7 +85,7 @@ const LeftSection = () => {
             fontWeight: "600",
           }}
         >
-          Spotify
+          GroovyBin
         </p>
       </div>
       <LeftSectionItems
@@ -194,6 +208,18 @@ const LeftSection = () => {
               onClick={() => router.push(`/playlist/${val.id}`)}
             >
               {val.name}
+            </p>
+          );
+        })}
+        {albumsData?.items.map((val: any, key: any) => {
+          return (
+            <p
+              key={key}
+              className="mt-2"
+              style={{ fontSize: "13px", color: "lightgray" }}
+              onClick={() => router.push(`/album/${val.album.id}`)}
+            >
+              {val.album.name}
             </p>
           );
         })}

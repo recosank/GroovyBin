@@ -1,22 +1,58 @@
 import type { GetServerSideProps } from "next";
 import React from "react";
-
+import cookie from "js-cookie";
 import Cookies from "cookies";
+import useSWR, { useSWRConfig } from "swr";
+
 import GroovyLayout from "../../src/Layout/GroovyLayout";
 import PlaylistBanner from "../../src/Components/PlaylistBanner";
 import AlbumTrackCard from "../../src/Components/AlbumTrackCard";
 import {
   getSpotifyAlbumDescription,
   getSpotifyAlbumTracks,
+  addSpotifyAlbums,
+  deleteSpotifyAlbums,
+  checkSpotifyAlbums,
 } from "../../src/routes/apiFunctions";
 
-import { TfiHeart } from "react-icons/tfi";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { GrPlayFill } from "react-icons/gr";
 import { BsClockHistory } from "react-icons/bs";
 
 const albumSelection = ({ Description, Tracks }: any) => {
-  const handleHeart = async () => {};
+  const { mutate } = useSWRConfig();
+  const fetcher = async () => {
+    return checkSpotifyAlbums({
+      cook: cookie,
+      tokens: cookie.get("access_tkn"),
+      ids: Description.id,
+    }).then((res) => res.data);
+  };
+
+  const { data, error } = useSWR(`api/chkAlbums`, fetcher);
+
+  const handleHeart = async () => {
+    console.log(data[0]);
+    if (!data[0]) {
+      await addSpotifyAlbums({
+        cook: cookie,
+        tokens: cookie.get("access_tkn"),
+        ids: Description.id,
+      });
+    } else {
+      await deleteSpotifyAlbums({
+        cook: cookie,
+        tokens: cookie.get("access_tkn"),
+        ids: Description.id,
+      });
+    }
+    mutate(`api/chkAlbums`);
+    mutate(`api/localAlbums`);
+  };
+  if (!data) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <GroovyLayout source="/">
@@ -60,14 +96,28 @@ const albumSelection = ({ Description, Tracks }: any) => {
             >
               <GrPlayFill className="lg:text-xl sm:text-base xxs:text-sm" />
             </div>
-            <TfiHeart
-              className="text-2xl xxs:mx-3 lg:text-3xl lg:mx-5 xl:mx-6"
-              style={{
-                color: "gray",
-                fontWeight: "600",
-              }}
-              onClick={handleHeart}
-            />
+            {data[0] ? (
+              <FaHeart
+                className="text-2xl xxs:mx-3 lg:text-3xl lg:mx-5 xl:mx-6"
+                style={{
+                  color: "gray",
+                  fontWeight: "600",
+                  fill: "green",
+                }}
+                onClick={handleHeart}
+              />
+            ) : (
+              <FaRegHeart
+                className="text-2xl xxs:mx-3 lg:text-3xl lg:mx-5 xl:mx-6"
+                style={{
+                  color: "gray",
+                  fontWeight: "600",
+                  fill: "gray",
+                }}
+                onClick={handleHeart}
+              />
+            )}
+
             <AiOutlineEllipsis
               className="text-2xl lg:text-3xl"
               style={{ color: "gray" }}
@@ -154,6 +204,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     cook: cookieInst,
     Cid: context.params?.str,
   });
+
+  context.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
 
   return {
     props: {

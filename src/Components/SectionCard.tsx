@@ -5,11 +5,12 @@ import styles from "../../styles/Home.module.css";
 
 const SectionCard = ({ val, type }: any) => {
   const routeer = useRouter();
+  const Data = type == "album" ? val.album : val;
   let handleClick: (e: any) => void = (e) => {
     e.preventDefault();
     type == "album"
-      ? routeer.push(`/album/${val.id}`)
-      : routeer.push(`/playlist/${val.id}`);
+      ? routeer.push(`/album/${Data.id}`)
+      : routeer.push(`/playlist/${Data.id}`);
   };
 
   return (
@@ -26,7 +27,7 @@ const SectionCard = ({ val, type }: any) => {
         }}
       >
         <Image
-          src={val.images[0].url}
+          src={Data.images[0].url}
           alt="korn album"
           fill
           style={{
@@ -44,7 +45,7 @@ const SectionCard = ({ val, type }: any) => {
           letterSpacing: "0.5px",
         }}
       >
-        {val.name.length <= 17 ? val.name : `${val.name.slice(0, 16)}...`}
+        {Data.name.length <= 17 ? Data.name : `${Data.name.slice(0, 16)}...`}
       </p>
       <p
         style={{
@@ -56,13 +57,13 @@ const SectionCard = ({ val, type }: any) => {
           paddingBottom: "12px",
         }}
       >
-        {val.description
+        {Data.description
           ? `${
-              val.description.length <= 40
-                ? val.description
-                : `${val.description.slice(0, 40)}...`
+              Data.description.length <= 40
+                ? Data.description
+                : `${Data.description.slice(0, 40)}...`
             }`
-          : val.type.toUpperCase()}
+          : Data.type.toUpperCase()}
       </p>
     </div>
   );

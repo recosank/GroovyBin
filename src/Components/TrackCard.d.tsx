@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
+import cookie from "js-cookie";
+import { useSWRConfig } from "swr";
 
 import tracks from "../../public/assests/images/tracks.jpg";
-import cookie from "js-cookie";
 import { millisToMinutesAndSeconds } from "../utility/helper";
 import {
   addSpotifyTracks,
@@ -16,7 +17,6 @@ import { FaPlay } from "react-icons/fa";
 import { TfiHeart } from "react-icons/tfi";
 import { IoMdHeart } from "react-icons/io";
 import { AiOutlineEllipsis } from "react-icons/ai";
-import { useSWRConfig } from "swr";
 
 const TrackCard = ({ trackData, ind, type }: any) => {
   const [hover, setHover] = useState(false);
