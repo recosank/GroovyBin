@@ -20,7 +20,7 @@ import { AiOutlineEllipsis } from "react-icons/ai";
 import { GrPlayFill } from "react-icons/gr";
 import { BsClockHistory } from "react-icons/bs";
 
-const albumSelection = ({ Description, Tracks }: any) => {
+const AlbumSelection = ({ Description, Tracks }: any) => {
   const { mutate } = useSWRConfig();
   const fetcher = async () => {
     return checkSpotifyAlbums({
@@ -186,7 +186,7 @@ const albumSelection = ({ Description, Tracks }: any) => {
   );
 };
 
-export default albumSelection;
+export default AlbumSelection;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookieInst = Cookies(context.req, context.res);
