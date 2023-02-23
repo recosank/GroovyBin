@@ -137,7 +137,7 @@ const Playlists = () => {
           return <SectionCard key={ind} val={val} type="playlist" />;
         })}
         {albumsData?.items.map((val: any, ind: number) => {
-          return <SectionCard key={ind} val={val} type="album" />;
+          return <SectionCard key={ind} val={val.album} type="album" />;
         })}
       </div>
       <div

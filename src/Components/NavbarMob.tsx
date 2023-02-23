@@ -1,5 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import LeftSectionItems from "./LeftSectionItems";
+import {
+  getSpotifyPlaylistFields,
+  getSpotifyAlbums,
+} from "../routes/apiFunctions";
+import cookie from "js-cookie";
+import useSWR from "swr";
 
 import { SiSpotify } from "react-icons/si";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -21,8 +28,42 @@ type props = {
 };
 const NavbarMob = ({ source }: props) => {
   const searchRef = useRef(null);
+  const router = useRouter();
   const [toggleHam, setToggleHam] = useState(false);
   const [openInput, setopenInput] = useState(false);
+
+  const fetcher = async () => {
+    const savedPlaylistData: any = localStorage.getItem("playlists");
+    const playData = JSON.parse(savedPlaylistData);
+    if (playData.length >= 1) {
+      const mapData = async () =>
+        Promise.all(
+          playData.map((val: any) => {
+            return getSpotifyPlaylistFields({
+              cook: cookie,
+              tokens: cookie.get("access_tkn"),
+              ids: val,
+              fields: "id,name",
+            }).then((res) => res);
+          })
+        );
+
+      return await mapData();
+    }
+  };
+
+  const albumsFetcher = async () => {
+    return getSpotifyAlbums({
+      cook: cookie,
+      tokens: cookie.get("access_tkn"),
+    }).then((res) => res.data);
+  };
+
+  const { data: albumsData, error: albumsError } = useSWR(
+    `api/localAlbums`,
+    albumsFetcher
+  );
+  const { data, error } = useSWR(`api/localPlaylist`, fetcher);
 
   useEffect(() => {
     const handleSearchToggle = (e: any) => {
@@ -41,6 +82,7 @@ const NavbarMob = ({ source }: props) => {
       document.removeEventListener("mousedown", handleSearchToggle);
     };
   }, []);
+
   return (
     <div className="flex p-3 sm:hidden justify-end items-center bg-black">
       <div
@@ -247,6 +289,32 @@ const NavbarMob = ({ source }: props) => {
                   />
                 </div>
               </LeftSectionItems>
+              <div className="mt-5">
+                {data?.map((val: any, key: any) => {
+                  return (
+                    <p
+                      key={key}
+                      className="mt-2"
+                      style={{ fontSize: "13px", color: "lightgray" }}
+                      onClick={() => router.push(`/playlist/${val.id}`)}
+                    >
+                      {val.name}
+                    </p>
+                  );
+                })}
+                {albumsData?.items.map((val: any, key: any) => {
+                  return (
+                    <p
+                      key={key}
+                      className="mt-2"
+                      style={{ fontSize: "13px", color: "lightgray" }}
+                      onClick={() => router.push(`/album/${val.album.id}`)}
+                    >
+                      {val.album.name}
+                    </p>
+                  );
+                })}
+              </div>
             </div>
           </div>
           <p
