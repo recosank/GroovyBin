@@ -3,11 +3,13 @@ import React from "react";
 import { useRouter } from "next/router";
 import styles from "../../styles/Home.module.css";
 
-const CenterSectionCard = ({ val, type }: any) => {
+const CenterSectionCard = ({ val, type, layoutType }: any) => {
   const routeer = useRouter();
   let handleClick: (e: any) => void = (e) => {
     e.preventDefault();
-    type == "album"
+    type == "artist"
+      ? ""
+      : type == "album"
       ? routeer.push(`/album/${val.id}`)
       : routeer.push(`/playlist/${val.id}`);
   };
@@ -27,7 +29,7 @@ const CenterSectionCard = ({ val, type }: any) => {
           alt="korn album"
           fill
           style={{
-            borderRadius: "9px",
+            borderRadius: type == "artist" ? "100px" : "9px",
           }}
         />
       </div>

@@ -10,38 +10,34 @@ type props = {
   disabled?: boolean;
 };
 
-const LeftSectionItems = ({
-  title,
-  children,
-  link,
-  isActive,
-  disabled,
-}: props) => {
-  return (
-    <div
-      className={`mb-6 ${styles.leftSection__item} ${
-        disabled ? "cursor-not-allowed" : "cursor-pointer"
-      }`}
-    >
-      {children}
-      <p
-        className={` ${
-          isActive && "text-white"
-        } lg:text-sm sm:text-xs text-xs ${styles.leftSection__text}`}
-        style={{
-          letterSpacing: "0.3px",
-          fontWeight: "600",
-        }}
+const LeftSectionItems = React.memo(
+  ({ title, children, link, isActive, disabled }: props) => {
+    return (
+      <div
+        className={`mb-6 ${styles.leftSection__item} ${
+          disabled ? "cursor-not-allowed" : "cursor-pointer"
+        }`}
       >
-        <Link
-          className={`${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
-          href={link}
+        {children}
+        <p
+          className={` ${
+            isActive && "text-white"
+          } lg:text-sm sm:text-xs text-xs ${styles.leftSection__text}`}
+          style={{
+            letterSpacing: "0.3px",
+            fontWeight: "600",
+          }}
         >
-          {title}
-        </Link>
-      </p>
-    </div>
-  );
-};
+          <Link
+            className={`${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
+            href={link}
+          >
+            {title}
+          </Link>
+        </p>
+      </div>
+    );
+  }
+);
 
 export default LeftSectionItems;

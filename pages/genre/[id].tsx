@@ -6,12 +6,9 @@ import querystring from "querystring";
 
 import GroovyLayout from "../../src/Layout/GroovyLayout";
 import SectionCard from "../../src/Components/SectionCard";
-import CenterSectionCard from "../../src/Components/CenterSectionCard";
 import axiosClient from "../../src/axiosInterceptor";
 
 const genreSelection = ({ PlaylistIN, PlaylistDescription }: any) => {
-  console.log(PlaylistIN);
-  console.log(PlaylistDescription);
   return (
     <GroovyLayout source="/">
       <div

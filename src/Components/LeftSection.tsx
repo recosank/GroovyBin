@@ -18,7 +18,7 @@ import { GrHomeRounded } from "react-icons/gr";
 import { SlHome } from "react-icons/sl";
 import { BiLibrary } from "react-icons/bi";
 
-const LeftSection = () => {
+const LeftSection = React.memo(() => {
   const router = useRouter();
 
   const fetcher = async () => {
@@ -226,6 +226,6 @@ const LeftSection = () => {
       </div>
     </div>
   );
-};
+});
 
 export default LeftSection;

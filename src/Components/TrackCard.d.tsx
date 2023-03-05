@@ -22,12 +22,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
   const [hover, setHover] = useState(false);
   const [isLiked, setisLiked] = useState(false);
   const { mutate } = useSWRConfig();
-  const data = type == "album" ? trackData : trackData.track;
-
-  const nestedPlaylistData =
-    type === "album" ? trackData : trackData.track.album;
-
-  let timee = millisToMinutesAndSeconds(data.duration_ms);
+  let timee = millisToMinutesAndSeconds(trackData.track.duration_ms);
 
   const handleHeart = async () => {
     if (isLiked) {
@@ -116,7 +111,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
           }}
         >
           <Image
-            src={type == "album" ? tracks : nestedPlaylistData.images[0].url}
+            src={trackData.track.album.images[0].url}
             alt="korn album"
             fill
             style={{
@@ -134,7 +129,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
               color: "gray",
             }}
           >
-            {data.name}
+            {trackData.track.name}
           </p>
           <p
             className="lg:text-base xxs:text-sm"
@@ -144,7 +139,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
               color: "gray",
             }}
           >
-            {nestedPlaylistData.artists[0].name}
+            {trackData.track.album.artists[0].name}
           </p>
         </div>
       </div>
@@ -157,7 +152,7 @@ const TrackCard = ({ trackData, ind, type }: any) => {
           lineHeight: "25px",
         }}
       >
-        {nestedPlaylistData.name}
+        {trackData.track.album.name}
       </p>
       <div
         style={{

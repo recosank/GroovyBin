@@ -6,9 +6,10 @@ type props = {
   title: string;
   data?: any;
   type?: string;
+  layoutType?: string;
 };
 
-const CenterSectionItems = ({ title, data, type }: props) => {
+const CenterSectionItems = ({ title, data, type, layoutType }: props) => {
   const router = useRouter();
   return (
     <div>
@@ -27,18 +28,20 @@ const CenterSectionItems = ({ title, data, type }: props) => {
         >
           {title}
         </p>
-        <p
-          className="text-xs"
-          onClick={() => router.push(`/section/${data.href}`)}
-          style={{
-            color: "lightgray",
+        {layoutType !== "searchLayout" && (
+          <p
+            className="text-xs"
+            onClick={() => router.push(`/section/${data.href}`)}
+            style={{
+              color: "lightgray",
 
-            fontWeight: "700",
-            letterSpacing: "1px",
-          }}
-        >
-          SHOW ALL
-        </p>
+              fontWeight: "700",
+              letterSpacing: "1px",
+            }}
+          >
+            SHOW ALL
+          </p>
+        )}
       </div>
       <div
         style={{
@@ -62,7 +65,14 @@ const CenterSectionItems = ({ title, data, type }: props) => {
           }}
         >
           {data.items.map((val: any, ind: number) => {
-            return <CenterSectionCard key={ind} val={val} type={type} />;
+            return (
+              <CenterSectionCard
+                key={ind}
+                val={val}
+                type={type}
+                layoutType={layoutType}
+              />
+            );
           })}
         </div>
       </div>

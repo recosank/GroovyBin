@@ -1,5 +1,4 @@
 import React from "react";
-
 import LeftSection from "../Components/LeftSection";
 import Navbar from "../Components/Navbar";
 import styles from "../../styles/Home.module.css";
@@ -11,7 +10,7 @@ type props = {
   chgBg?: boolean;
 };
 
-const GroovyLayout = ({ children, source }: props) => {
+const GroovyLayout = React.memo(({ children, source }: props) => {
   return (
     <div className="flex overflow-hidden flex-col sm:flex-row">
       <LeftSection />
@@ -39,6 +38,6 @@ const GroovyLayout = ({ children, source }: props) => {
       </div>
     </div>
   );
-};
+});
 
 export default GroovyLayout;

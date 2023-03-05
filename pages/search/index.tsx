@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import type { GetServerSideProps } from "next";
 import Cookies from "cookies";
-import useSWR from "swr";
 
-import SearchSectionCard from "../src/Components/SearchSectionCard";
-import GroovyLayout from "../src/Layout/GroovyLayout";
-import { getSpotifyCategories } from "../src/routes/apiFunctions";
+import SearchSectionCard from "../../src/Components/SearchSectionCard";
+import GroovyLayout from "../../src/Layout/GroovyLayout";
+import { getSpotifyCategories } from "../../src/routes/apiFunctions";
 
 const search = ({ Catogaries }: any) => {
   return (

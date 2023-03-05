@@ -26,11 +26,18 @@ let iconStyle = {
 type props = {
   source: string;
 };
-const NavbarMob = ({ source }: props) => {
+const NavbarMob = React.memo(({ source }: props) => {
   const searchRef = useRef(null);
   const router = useRouter();
+  const [srQuery, setsrQuery] = useState(
+    router.route == "/search/[id]" ? router.query.id : ""
+  );
   const [toggleHam, setToggleHam] = useState(false);
   const [openInput, setopenInput] = useState(false);
+
+  const handleSrQuery = (e: any) => {
+    setsrQuery(e.target.value);
+  };
 
   const fetcher = async () => {
     const savedPlaylistData: any = localStorage.getItem("playlists");
@@ -64,10 +71,19 @@ const NavbarMob = ({ source }: props) => {
     albumsFetcher
   );
   const { data, error } = useSWR(`api/localPlaylist`, fetcher);
-
+  {
+    source == "search" &&
+      useEffect(() => {
+        const timeoutNavigate = setTimeout(() => {
+          router.push(`/search/${srQuery}`, undefined, { shallow: true });
+        }, 500);
+        return () => {
+          clearTimeout(timeoutNavigate);
+        };
+      }, [srQuery]);
+  }
   useEffect(() => {
     const handleSearchToggle = (e: any) => {
-      e.preventDefault();
       if (
         searchRef.current !== null &&
         //@ts-ignore
@@ -131,7 +147,6 @@ const NavbarMob = ({ source }: props) => {
             }}
           >
             <FiSearch
-              onClick={() => setopenInput(false)}
               style={{
                 fontSize: "29px",
                 fontWeight: "900",
@@ -143,6 +158,8 @@ const NavbarMob = ({ source }: props) => {
             <input
               placeholder="What do you want to listen to?"
               type="text"
+              value={srQuery}
+              onChange={(e) => handleSrQuery(e)}
               style={{
                 border: "none",
                 width: "100%",
@@ -249,7 +266,7 @@ const NavbarMob = ({ source }: props) => {
             >
               <LeftSectionItems
                 title="Create Playlist"
-                link="collection/playlists"
+                link="/collection/playlists"
               >
                 <div
                   style={{
@@ -268,7 +285,7 @@ const NavbarMob = ({ source }: props) => {
                   />
                 </div>
               </LeftSectionItems>
-              <LeftSectionItems title="Liked Songs" link="collection/playlists">
+              <LeftSectionItems title="Liked Songs" link="/collection/tracks">
                 <div
                   style={{
                     background: `linear-gradient(145deg, rgba(95,73,218,1) 28%, rgba(133,120,194,1) 49%, rgba(154,142,180,1) 55%, rgba(121,149,181,0.9108018207282913) 73%, rgba(182,166,215,1) 84%, rgba(118,44,209,1) 100%, rgba(46,48,48,1) 100%, rgba(255,255,255,0.9836309523809523) 100%)`,
@@ -327,6 +344,6 @@ const NavbarMob = ({ source }: props) => {
       )}
     </div>
   );
-};
+});
 
 export default NavbarMob;

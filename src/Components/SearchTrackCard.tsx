@@ -17,12 +17,10 @@ import { TfiHeart } from "react-icons/tfi";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { IoMdHeart } from "react-icons/io";
 
-const AlbumTrackCard = ({ trackData, ind, type }: any) => {
-  const router = useRouter();
+const SearchTrackCard = ({ trackData }: any) => {
   const [hover, setHover] = useState(false);
   const [isLiked, setisLiked] = useState(false);
   const { mutate } = useSWRConfig();
-  const searchCardLayout = router.route == "/search/[id]" ? true : false;
 
   let timee = millisToMinutesAndSeconds(trackData.duration_ms);
 
@@ -63,13 +61,13 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
 
   return (
     <div
-      className="grid mb-4 hover:bg-gray-800 xxs:grid-cols-[9%_55%_36%] lg:grid-cols-[2%_80%_18%]"
+      className="grid mb-4 hover:bg-gray-800 xxs:grid-cols-[65%_35%]"
       style={{
         marginTop: "1%",
         width: "100%",
         alignItems: "center",
-        paddingLeft: searchCardLayout ? "1%" : "2%",
-        paddingRight: searchCardLayout ? "0%" : "2%",
+        paddingLeft: "2%",
+        borderRadius: "8px",
       }}
       onMouseEnter={(e) => {
         setHover(true);
@@ -78,16 +76,6 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
         setHover(false);
       }}
     >
-      {hover ? (
-        <FaPlay style={{ fill: "white", color: "white", fontSize: "12px" }} />
-      ) : (
-        <p
-          className="text-center lg:text-right"
-          style={{ color: "white", fontSize: "14px" }}
-        >
-          {ind + 1}
-        </p>
-      )}
       <div
         style={{
           display: "flex",
@@ -97,26 +85,41 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
           paddingLeft: "1.5%",
         }}
       >
-        {searchCardLayout && (
-          <div
-            className="xs:w-10"
+        <div
+          className="xxs:w-10"
+          style={{
+            position: "relative",
+            height: "49px",
+            borderRadius: "9px",
+            marginRight: "9px",
+            backgroundColor: "black",
+          }}
+        >
+          <Image
+            src={trackData.album.images[0].url}
+            alt="korn album"
+            fill
             style={{
-              position: "relative",
-              height: "49px",
               borderRadius: "9px",
-              marginRight: "9px",
+              opacity: hover ? "0.5" : "1",
             }}
-          >
-            <Image
-              src={trackData.album.images[0].url}
-              alt="korn album"
-              fill
+          />
+          {hover && (
+            <FaPlay
               style={{
-                borderRadius: "9px",
+                fill: "white",
+                color: "white",
+                fontSize: "12px",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%,-50%)",
+                zIndex: "400",
+                position: "absolute",
               }}
             />
-          </div>
-        )}
+          )}
+        </div>
+
         <div>
           <p
             style={{
@@ -127,7 +130,9 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
               fontSize: "14px",
             }}
           >
-            {trackData.name}
+            {trackData.name.length > 30
+              ? `${trackData.name.slice(0, 30)}...`
+              : trackData.name}
           </p>
           <p
             style={{
@@ -155,7 +160,7 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
               <IoMdHeart
                 className=""
                 style={{
-                  marginRight: "0px",
+                  marginRight: "10px",
                   color: "green",
                   fontSize: "19px",
                 }}
@@ -186,7 +191,7 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
                 color: "white",
                 fontWeight: "800",
                 fontSize: "24px",
-                marginLeft: "0%",
+                marginLeft: "3%",
               }}
             />
           </>
@@ -207,4 +212,4 @@ const AlbumTrackCard = ({ trackData, ind, type }: any) => {
   );
 };
 
-export default AlbumTrackCard;
+export default SearchTrackCard;

@@ -28,7 +28,15 @@ const PlaylistBanner = ({ data, descp, len }: any) => {
         }}
       >
         {data !== "" ? (
-          <Image src={data} fill alt="korn album" />
+          <Image
+            src={data}
+            fill
+            alt="korn album"
+            style={{
+              objectFit: "cover",
+              objectPosition: "top",
+            }}
+          />
         ) : (
           <RiHeartFill
             style={{

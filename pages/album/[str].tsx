@@ -22,6 +22,7 @@ import { BsClockHistory } from "react-icons/bs";
 
 const AlbumSelection = ({ Description, Tracks }: any) => {
   const { mutate } = useSWRConfig();
+
   const fetcher = async () => {
     return checkSpotifyAlbums({
       cook: cookie,
@@ -170,6 +171,7 @@ const AlbumSelection = ({ Description, Tracks }: any) => {
               marginRight: "2%",
             }}
           ></div>
+
           {Tracks.items.map((val: any, key: any) => {
             return (
               <AlbumTrackCard

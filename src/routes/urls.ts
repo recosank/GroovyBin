@@ -90,3 +90,11 @@ export const getPlaylistFeildsUrl = (id: string, fields: string) =>
   });
 
 export const getMeUrl = () => "/v1/me";
+
+export const searchUrl = (type: string, userQuery: string) =>
+  "/v1/search?" +
+  querystring.stringify({
+    q: `remaster%20${userQuery}`,
+    type: type,
+    limit: 10,
+  });

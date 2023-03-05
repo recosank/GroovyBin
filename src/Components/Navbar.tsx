@@ -20,20 +20,14 @@ type props = {
 
 const clientId: string = "d6d53426faf846c6abd5ee373086a7d9";
 
-const Navbar = ({ source, chgBg }: props) => {
+const Navbar = React.memo(({ source }: props) => {
   const router = useRouter();
   const prevRoute = usePreviousRoute();
   const [toggleProfile, setToggleProfille] = useState(false);
+  const [srQuery, setsrQuery] = useState(
+    router.route == "/search/[id]" ? router.query.id : ""
+  );
   const profileRef = useRef(null);
-
-  const fetcher = async () => {
-    return getSpotifyMe({
-      cook: cookie,
-      tokens: cookie.get("access_tkn"),
-    }).then((res) => res.data);
-  };
-
-  const { data, error } = useSWR(`api/me`, fetcher);
 
   const handleLogout = (e: any) => {
     e.preventDefault();
@@ -51,9 +45,33 @@ const Navbar = ({ source, chgBg }: props) => {
     );
   };
 
+  const handleSrQuery = (e: any) => {
+    setsrQuery(e.target.value);
+  };
+
+  const fetcher = async () => {
+    return getSpotifyMe({
+      cook: cookie,
+      tokens: cookie.get("access_tkn"),
+    }).then((res) => res.data);
+  };
+
+  const { data, error } = useSWR(`api/me`, fetcher);
+
+  {
+    source == "search" &&
+      useEffect(() => {
+        const timeoutNavigate = setTimeout(() => {
+          router.push(`/search/${srQuery}`, undefined, { shallow: true });
+        }, 500);
+        return () => {
+          clearTimeout(timeoutNavigate);
+        };
+      }, [srQuery]);
+  }
+
   useEffect(() => {
     const handleProfileToggle = (e: any) => {
-      e.preventDefault();
       if (
         profileRef.current !== null &&
         //@ts-ignore
@@ -67,7 +85,8 @@ const Navbar = ({ source, chgBg }: props) => {
     return () => {
       document.removeEventListener("mousedown", handleProfileToggle);
     };
-  }, []);
+  }, [toggleProfile]);
+
   return (
     <div
       className="2xl:w-5/6 xl:w-4/5 lg:w-9/12 md:w-2/3 sm:w-3/5 hidden sm:block"
@@ -125,6 +144,7 @@ const Navbar = ({ source, chgBg }: props) => {
               style={{ color: "white", fontSize: "19px", fontWeight: "200" }}
             />
           </div>
+
           {source === "search" && (
             <div
               style={{
@@ -147,9 +167,13 @@ const Navbar = ({ source, chgBg }: props) => {
                   marginRight: "18px",
                 }}
               />
+
               <input
                 placeholder="What do you want to listen to?"
                 type="text"
+                name="srQuery"
+                value={srQuery}
+                onChange={(e) => handleSrQuery(e)}
                 style={{
                   border: "none",
                   width: "100%",
@@ -161,6 +185,7 @@ const Navbar = ({ source, chgBg }: props) => {
             </div>
           )}
         </div>
+
         {source !== "search" && (
           <div style={{ display: "flex" }}>
             <button
@@ -178,6 +203,7 @@ const Navbar = ({ source, chgBg }: props) => {
             >
               Upgrade
             </button>
+
             <div
               onClick={(e) => {
                 e.preventDefault();
@@ -299,6 +325,6 @@ const Navbar = ({ source, chgBg }: props) => {
       </div>
     </div>
   );
-};
+});
 
 export default Navbar;

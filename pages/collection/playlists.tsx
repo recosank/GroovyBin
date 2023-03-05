@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import styles from "../styles/Home.module.css";
 import useSWR from "swr";
 import cookie from "js-cookie";
 

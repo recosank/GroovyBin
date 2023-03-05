@@ -14,6 +14,7 @@ import {
   getPlaylistFeildsUrl,
   getMeUrl,
   checkAlbumUrl,
+  searchUrl,
 } from "./urls";
 import axiosClient from "../axiosInterceptor";
 
@@ -21,6 +22,12 @@ type afterAuthData = {
   tokens?: string | undefined;
   cook?: any | undefined;
   limit: number;
+};
+type searchqueryType = {
+  tokens?: string | undefined;
+  cook?: any | undefined;
+  type: string;
+  userQuery: string;
 };
 
 type librarytype = {
@@ -182,6 +189,20 @@ export const getSpotifyPlaylistFields = async (argu: fieldPlaylist) => {
     const data = await axiosClient({
       method: "get",
       url: getPlaylistFeildsUrl(argu.ids, argu.fields),
+      extraParams: { cook: argu.cook, aToken: argu.tokens },
+    });
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSpotifySearchQuery = async (argu: searchqueryType) => {
+  try {
+    //@ts-ignore
+    const data = await axiosClient({
+      method: "get",
+      url: searchUrl(argu.type, argu.userQuery),
       extraParams: { cook: argu.cook, aToken: argu.tokens },
     });
     return data.data;
