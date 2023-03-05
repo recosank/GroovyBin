@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  rules: {
+    "react/display-name": "off",
+  },
   images: {
     domains: [
       "i.scdn.co",
