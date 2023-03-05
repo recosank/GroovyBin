@@ -228,4 +228,5 @@ const LeftSection = React.memo(() => {
   );
 });
 
+LeftSection.displayName = "LeftSection";
 export default LeftSection;

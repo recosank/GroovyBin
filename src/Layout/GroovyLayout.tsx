@@ -40,4 +40,5 @@ const GroovyLayout = React.memo(({ children, source }: props) => {
   );
 });
 
+GroovyLayout.displayName = "GroovyLayout";
 export default GroovyLayout;

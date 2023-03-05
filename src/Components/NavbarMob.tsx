@@ -346,4 +346,6 @@ const NavbarMob = React.memo(({ source }: props) => {
   );
 });
 
+NavbarMob.displayName = "NavbarMob";
+
 export default NavbarMob;

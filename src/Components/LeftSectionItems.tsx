@@ -40,4 +40,5 @@ const LeftSectionItems = React.memo(
   }
 );
 
+LeftSectionItems.displayName = "LeftSectionItems";
 export default LeftSectionItems;
