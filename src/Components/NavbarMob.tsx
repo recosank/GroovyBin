@@ -71,17 +71,17 @@ const NavbarMob = React.memo(({ source }: props) => {
     albumsFetcher
   );
   const { data, error } = useSWR(`api/localPlaylist`, fetcher);
-  {
-    source == "search" &&
-      useEffect(() => {
-        const timeoutNavigate = setTimeout(() => {
-          router.push(`/search/${srQuery}`, undefined, { shallow: true });
-        }, 500);
-        return () => {
-          clearTimeout(timeoutNavigate);
-        };
-      }, [srQuery]);
-  }
+
+  useEffect(() => {
+    const timeoutNavigate = setTimeout(() => {
+      source == "search" &&
+        router.push(`/search/${srQuery}`, undefined, { shallow: true });
+    }, 500);
+    return () => {
+      clearTimeout(timeoutNavigate);
+    };
+  }, [srQuery]);
+
   useEffect(() => {
     const handleSearchToggle = (e: any) => {
       if (

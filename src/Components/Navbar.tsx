@@ -58,17 +58,15 @@ const Navbar = React.memo(({ source }: props) => {
 
   const { data, error } = useSWR(`api/me`, fetcher);
 
-  {
-    source == "search" &&
-      useEffect(() => {
-        const timeoutNavigate = setTimeout(() => {
-          router.push(`/search/${srQuery}`, undefined, { shallow: true });
-        }, 500);
-        return () => {
-          clearTimeout(timeoutNavigate);
-        };
-      }, [srQuery]);
-  }
+  useEffect(() => {
+    const timeoutNavigate = setTimeout(() => {
+      source == "search" &&
+        router.push(`/search/${srQuery}`, undefined, { shallow: true });
+    }, 500);
+    return () => {
+      clearTimeout(timeoutNavigate);
+    };
+  }, [srQuery]);
 
   useEffect(() => {
     const handleProfileToggle = (e: any) => {
